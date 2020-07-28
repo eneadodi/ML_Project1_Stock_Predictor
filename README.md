@@ -6,7 +6,7 @@ My first three years of College and majoring in Computer Science I had one goal 
 I have explored the fields of Scientific Computing, Android Application Development, Assembly and Computer System principles, Game Design and Visual Programming, web design, Encryption, etc.
 I have gained an (at least basic) intuitive understanding of each of these fields to develop myself as a well rounded Computer Scientist. For my senior year, I am focusing on further exploring depths of certain fields and make myself ready as a competent competitor for namely two categories : IOS/Android Application development and Artifical Intelligence. 
 
-For the Summer of 2020 I decided to keep myself very busy with my fields of interests. In the prior 2/3rds of the Summer, I explored fields such as Graph Theory and Finite Calculus, built my own [website](http://www.eneadodi.com) and completed a multidude of Computer Science Interview Preperation Questions.
+For the Summer of 2020 I decided to keep myself very busy with my fields of interests. In the prior 2/3rds of the Summer, I explored fields such as Graph Theory and Finite Calculus, built my own [website](http://www.eneadodi.com), and completed a multidude of Computer Science Interview Preperation Questions.
 
 **During the first 2/3rds of Summer 2020 I also:**
 
@@ -51,7 +51,7 @@ I have designed a 'course' to learn the fundamentals of Machine Learning:
 5. Aurélien Géron Hand's On Machine Learning edition 2
 6. Complete plenty of exercises in this book.
 
-This project is the second on the list: **A simply/fun ML project to have hands on experience**
+This project is the second on the list: *A simple/fun ML project to have hands on experience*
 
 The use of Artifical Intelligence for Stock Market Analysis/Prediction is a very big and competitive field. There are resources and websites which act as communities and API for developing your own algorithms and papers (such as [quandl](https://www.quandl.com/) and [quantopian](https://www.quantopian.com/)) however **my goal for this project is not to develop a industry standard algorithm, but rather have hands on experience with Machine Learning and the tools involved**
 
