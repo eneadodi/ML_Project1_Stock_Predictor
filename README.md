@@ -44,11 +44,11 @@ I have designed a 'course' to learn the fundamentals of Machine Learning:
 4. More sophisticated ML project
 
 **option 1**  
-5. Pedro Domingo college course for Machine Learning (found on Youtube)
+5. Pedro Domingo college course for Machine Learning (found on Youtube)  
 6. Finish all HW assignments of this course
 
-**option 2**
-5. Aurélien Géron Hand's On Machine Learning edition 2
+**option 2**  
+5. Aurélien Géron Hand's On Machine Learning edition 2  
 6. Complete plenty of exercises in this book.
 
 This project is the second on the list: *A simple/fun ML project to have hands on experience*
