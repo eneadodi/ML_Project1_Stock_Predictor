@@ -43,7 +43,7 @@ I have designed a 'course' to learn the fundamentals of Machine Learning:
 3. Andrew Trask's Grokking Deep Learning
 4. More sophisticated ML project
 
-**option 1**
+**option 1**  
 5. Pedro Domingo college course for Machine Learning (found on Youtube)
 6. Finish all HW assignments of this course
 
