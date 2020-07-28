@@ -11,16 +11,16 @@ For the Summer of 2020 I decided to keep myself very busy with my fields of inte
 **During the first 2/3rds of Summer 2020 I also:**
 
 * Impletemented various algorithms from scratch (in C++ or Java) such as:
- * Djikstra's algorithm
- * Kruskal's algorithm
- * BFS & DFS
- * Quicksort and Mergesort
+    * Djikstra's algorithm
+    * Kruskal's algorithm
+    * BFS & DFS
+    * Quicksort and Mergesort
  
 * Read the works of Great Philosophers such as:
- * Immanuel Kant
- * René Descartes
- * Aristotle
- * Confucius
+    * Immanuel Kant
+    * René Descartes
+    * Aristotle
+    * Confucius
  
 * Changed my morning routine to include Meditation and Cold Showers
 
