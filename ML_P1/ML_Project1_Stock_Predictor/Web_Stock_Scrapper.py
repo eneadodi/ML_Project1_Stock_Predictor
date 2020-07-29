@@ -114,10 +114,10 @@ class FinvizScraper(object):
         return stock_list
     
     
-    def write_list_to_file(self,filename,l):
+    def write_info_to_file(self,filename):
         abs_path =  'C:/Users/Enea Dodi/git/ML_P1/ML_Project1_Stock_Predictor/' + filename
         f = open(abs_path,'w')
-        for s in l: #write every stock dictionary in list to file
+        for s in self.scraped_info: #write every stock dictionary in list to file
             f.write(str(s) + '\n')
         f.close()
         return
@@ -155,7 +155,7 @@ class FinvizScraper(object):
         
         l = self.get_stock_table_information(soup, sector, industry, country, market_cap, minPrice, maxPrice, volume)
         
-        for i in range(20):
+        for i in range(2):
             next_url = url + url_extension + str(curr_tickers)
             print(next_url)
             next_soup = self.get_entire_HTML_page(next_url)
@@ -173,13 +173,40 @@ class FinvizScraper(object):
                     del i[k]
         
         
-        filename = 'stock_info.txt'
-        self.write_list_to_file(filename,l)
+        #filename = 'stock_info.txt'
+        #self.write_list_to_file(filename,l)
         self.scraped_info = l
         self.scraped_tickers = self.extract_tickers()
         return l
 
-    
+    '''
+    Finviz offers in depth analysis for each stock on their individual page. I will be scraping three additional features for the ML algorithm:
+    Reccomendation : the average analyst recommendation (1 best, 5 worst)
+    Income : income of company
+    Sales : Sales of company
+    '''
+    def add_RIS(self):
+        url = 'https://finviz.com/quote.ashx?t='
+        for i in range(len(self.scraped_tickers)):
+            t_r = self.get_entire_HTML_page(url+self.scraped_tickers[i]).find('table',{'class':'snapshot-table2'},recursive = True).find_all('tr',{'class':'table-dark-row'})
+
+            income_r = t_r[2].find_all('td')[1].text
+            sales_r = t_r[3].find_all('td')[1].text
+            recc_r = t_r[-1].find_all('td')[1].text
+            
+            income = self.nabbr_to_number(income_r) if income_r != '-' else np.nan
+            sales = self.nabbr_to_number(sales_r) if sales_r != '-' else np.nan
+            recc = self.nabbr_to_number(recc_r) if recc_r != '-' else np.nan
+            
+            print(income)
+            print(sales)
+            print(recc)
+            
+            self.scraped_info[i]['Income'] = income 
+            self.scraped_info[i]['Sales'] = sales 
+            self.scraped_info[i]['Recommendations'] = recc
+            
+            
     def extract_tickers(self):
         return list(map(lambda x: x['Ticker'], self.scraped_info))
     
@@ -195,4 +222,6 @@ soup = fs.get_entire_HTML_page(url)
 #l = fs.get_stock_table_information(soup)
 l = fs.get_all_stock_table_information(url)
 
-fs.print_tickers()
+#fs.print_tickers()
+fs.add_RIS()
+fs.write_info_to_file('stock_info.txt')
