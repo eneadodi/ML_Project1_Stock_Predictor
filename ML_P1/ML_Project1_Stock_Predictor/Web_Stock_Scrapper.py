@@ -65,12 +65,16 @@ class FinvizScraper(object):
             if x == '-':
                 x = np.nan
 
-    def row_to_dict(self,row):
+    def row_to_dict(self,row,minimal = True):
         del row[0]
         del row[1]
         del row[-4]
         self.remove_empty(row)
-        return {'Ticker':row[0],'Sector':row[1],'Industry':row[2],'Country':row[3],'Market Cap': self.nabbr_to_number(row[4]),
+        
+        if minimal:
+            return {'Ticker':row[0],'Sector':row[1],'Industry':row[2],'Country':row[3]}
+        else:     
+                return {'Ticker':row[0],'Sector':row[1],'Industry':row[2],'Country':row[3],'Market Cap': self.nabbr_to_number(row[4]),
                 'Price':float(row[5]),'Change':float(row[6].strip('%'))/100,'Volume': int(row[7].replace(',',''))}
 
         
@@ -88,7 +92,7 @@ class FinvizScraper(object):
         maxPrice - Filter for certain maximum Price. Default 1000
         volume - Filter for certain Volume. Default 200,000
     '''
-    def get_stock_table_information(self,soup,sector='all',industry='all',country='all',market_cap='all',minPrice=8,maxPrice=1000,volume=200000):
+    def get_stock_table_information(self,soup,sector='all',industry='all',country='all',market_cap='all',minPrice=8,maxPrice=1000,volume=200000,minimal = True):
         table_rows = soup.find_all('tr',{'class':'table-dark-row-cp'}) + soup.find_all('tr',{'class':'table-light-row-cp'}) 
         stock_list = []
         for r in table_rows:
@@ -96,26 +100,27 @@ class FinvizScraper(object):
             for child in r.descendants:
                 if child.name == 'a':
                     info.append(child.text)
-            r_dict = self.row_to_dict(info)
+            r_dict = self.row_to_dict(info,minimal)
             stock_list.append(r_dict)
-        
+
         if sector != 'all':
             stock_list = list(filter(lambda x: x['Sector'] == sector,stock_list))
         if industry != 'all':
             stock_list = list(filter(lambda x: x['Industry'] == industry,stock_list))
         if country != 'all':
             stock_list = list(filter(lambda x: x['Country'] == country,stock_list))
-        if market_cap != 'all':
-            stock_list = list(filter(lambda x: x['Market Cap']  > market_cap,stock_list))
-        stock_list = list(filter(lambda x: (x['Price'] > minPrice) & (x['Price'] < maxPrice),stock_list))
+        if minimal == False:
+            if market_cap != 'all':
+                stock_list = list(filter(lambda x: x['Market Cap']  > market_cap,stock_list))
+            stock_list = list(filter(lambda x: (x['Price'] > minPrice) & (x['Price'] < maxPrice),stock_list))
         return stock_list
     
     
     def write_list_to_file(self,filename,l):
-        abs_path =  'C:/Users/Enea Dodi/git/ML_P1_Stonks_Predictor/ML_P1_Stonks/Stock_predictor/' + filename
+        abs_path =  'C:/Users/Enea Dodi/git/ML_P1/ML_Project1_Stock_Predictor/' + filename
         f = open(abs_path,'w')
         for s in l: #write every stock dictionary in list to file
-            f.write(str(s))
+            f.write(str(s) + '\n')
         f.close()
         return
     
@@ -137,7 +142,7 @@ class FinvizScraper(object):
         maxPrice - Filter for certain maximum Price. Default 1000
         volume - Filter for certain Volume. Default 200,000
     '''
-    def get_all_stock_table_information(self,url,sector='all',industry='all',country='all',market_cap='all',minPrice=8,maxPrice=1000,volume=200000):
+    def get_all_stock_table_information(self,url,sector='all',industry='all',country='all',market_cap='all',minPrice=8,maxPrice=1000,volume=200000,minimal = True):
         '''
         First we get soup and find the td with class 'count-text'. This'll give us the total number of
         tickers.
@@ -150,18 +155,22 @@ class FinvizScraper(object):
         url_extension = 'r='
         curr_tickers = 21
         
-        l = self.get_stock_table_information(soup)
+        l = self.get_stock_table_information(soup, sector, industry, country, market_cap, minPrice, maxPrice, volume, minimal)
         
-        for i in range(iterations):
+        for i in range(20):
             next_url = url + url_extension + str(curr_tickers)
             print(next_url)
             next_soup = self.get_entire_HTML_page(next_url)
             curr_tickers += 20
-            l = l + self.get_stock_table_information(next_soup)
+            l = l + self.get_stock_table_information(next_soup, sector, industry, country, market_cap, minPrice, maxPrice, volume, minimal)
+        
         
         filename = 'stock_info.txt'
         self.write_list_to_file(filename,l)
         return l
+
+    
+    
 
 fs = FinvizScraper()
 url = 'https://finviz.com/screener.ashx?v=111&'
@@ -170,3 +179,9 @@ soup = fs.get_entire_HTML_page(url)
 #l = fs.get_stock_table_information(soup)
 l = fs.get_all_stock_table_information(url)
 #print(l)
+l2 = []
+for i in l:
+    l2.append(i['Ticker'])
+
+for i in l2:
+    print(i)
