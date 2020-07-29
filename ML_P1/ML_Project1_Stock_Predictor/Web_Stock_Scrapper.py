@@ -215,6 +215,7 @@ class FinvizScraper(object):
         for i in self.scraped_tickers:
             print(i)
 
+
 fs = FinvizScraper()
 url = 'https://finviz.com/screener.ashx?v=111&'
 soup = fs.get_entire_HTML_page(url)
