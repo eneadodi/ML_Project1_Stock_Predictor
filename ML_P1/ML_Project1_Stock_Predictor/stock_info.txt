@@ -2,30 +2,23 @@
 {'Ticker': 'AAAU', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'AACQU', 'Sector': 'Financial', 'Industry': 'Shell Companies', 'Country': 'USA'}
 {'Ticker': 'AAL', 'Sector': 'Industrials', 'Industry': 'Airlines', 'Country': 'USA'}
-{'Ticker': 'AAME', 'Sector': 'Financial', 'Industry': 'Insurance - Life', 'Country': 'USA'}
 {'Ticker': 'AAOI', 'Sector': 'Technology', 'Industry': 'Semiconductors', 'Country': 'USA'}
 {'Ticker': 'AAP', 'Sector': 'Consumer Cyclical', 'Industry': 'Specialty Retail', 'Country': 'USA'}
 {'Ticker': 'AAT', 'Sector': 'Real Estate', 'Industry': 'REIT - Diversified', 'Country': 'USA'}
 {'Ticker': 'AAWW', 'Sector': 'Industrials', 'Industry': 'Airports & Air Services', 'Country': 'USA'}
 {'Ticker': 'AAXN', 'Sector': 'Industrials', 'Industry': 'Aerospace & Defense', 'Country': 'USA'}
 {'Ticker': 'AA', 'Sector': 'Basic Materials', 'Industry': 'Aluminum', 'Country': 'USA'}
-{'Ticker': 'AACG', 'Sector': 'Consumer Defensive', 'Industry': 'Education & Training Services', 'Country': 'China'}
 {'Ticker': 'AADR', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'AAMC', 'Sector': 'Financial', 'Industry': 'Asset Management', 'Country': 'USA'}
 {'Ticker': 'AAN', 'Sector': 'Industrials', 'Industry': 'Rental & Leasing Services', 'Country': 'USA'}
 {'Ticker': 'AAON', 'Sector': 'Industrials', 'Industry': 'Building Products & Equipment', 'Country': 'USA'}
 {'Ticker': 'AAPL', 'Sector': 'Technology', 'Industry': 'Consumer Electronics', 'Country': 'USA'}
-{'Ticker': 'AAU', 'Sector': 'Basic Materials', 'Industry': 'Gold', 'Country': 'Canada'}
 {'Ticker': 'AAXJ', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'AB', 'Sector': 'Financial', 'Industry': 'Asset Management', 'Country': 'USA'}
 {'Ticker': 'ABB', 'Sector': 'Industrials', 'Industry': 'Specialty Industrial Machinery', 'Country': 'Switzerland'}
 {'Ticker': 'ABC', 'Sector': 'Healthcare', 'Industry': 'Medical Distribution', 'Country': 'USA'}
-{'Ticker': 'ABEO', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
-{'Ticker': 'ABEV', 'Sector': 'Consumer Defensive', 'Industry': 'Beverages - Brewers', 'Country': 'Brazil'}
-{'Ticker': 'ABIO', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'ABMD', 'Sector': 'Healthcare', 'Industry': 'Medical Devices', 'Country': 'USA'}
 {'Ticker': 'ABT', 'Sector': 'Healthcare', 'Industry': 'Medical Devices', 'Country': 'USA'}
-{'Ticker': 'ABUS', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'ACA', 'Sector': 'Industrials', 'Industry': 'Infrastructure Operations', 'Country': 'USA'}
 {'Ticker': 'ACAM', 'Sector': 'Industrials', 'Industry': 'Conglomerates', 'Country': 'USA'}
 {'Ticker': 'ABBV', 'Sector': 'Healthcare', 'Industry': 'Drug Manufacturers - General', 'Country': 'USA'}
@@ -42,15 +35,10 @@
 {'Ticker': 'ACCD', 'Sector': 'Healthcare', 'Industry': 'Health Information Services', 'Country': 'USA'}
 {'Ticker': 'ACEL', 'Sector': 'Consumer Cyclical', 'Industry': 'Gambling', 'Country': 'USA'}
 {'Ticker': 'ACES', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
-{'Ticker': 'ACH', 'Sector': 'Basic Materials', 'Industry': 'Aluminum', 'Country': 'China'}
-{'Ticker': 'ACHV', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'Canada'}
 {'Ticker': 'ACIA', 'Sector': 'Technology', 'Industry': 'Communication Equipment', 'Country': 'USA'}
-{'Ticker': 'ACIU', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'Switzerland'}
 {'Ticker': 'ACLS', 'Sector': 'Technology', 'Industry': 'Semiconductor Equipment & Materials', 'Country': 'USA'}
 {'Ticker': 'ACMR', 'Sector': 'Technology', 'Industry': 'Semiconductor Equipment & Materials', 'Country': 'USA'}
 {'Ticker': 'ACC', 'Sector': 'Real Estate', 'Industry': 'REIT - Residential', 'Country': 'USA'}
-{'Ticker': 'ACCO', 'Sector': 'Industrials', 'Industry': 'Business Equipment & Supplies', 'Country': 'USA'}
-{'Ticker': 'ACER', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'ACGL', 'Sector': 'Financial', 'Industry': 'Insurance - Diversified', 'Country': 'Bermuda'}
 {'Ticker': 'ACHC', 'Sector': 'Healthcare', 'Industry': 'Medical Care Facilities', 'Country': 'USA'}
 {'Ticker': 'ACI', 'Sector': 'Consumer Defensive', 'Industry': 'Grocery Stores', 'Country': 'USA'}
@@ -60,78 +48,52 @@
 {'Ticker': 'ACN', 'Sector': 'Technology', 'Industry': 'Information Technology Services', 'Country': 'Ireland'}
 {'Ticker': 'ACNB', 'Sector': 'Financial', 'Industry': 'Banks - Regional', 'Country': 'USA'}
 {'Ticker': 'ACP', 'Sector': 'Financial', 'Industry': 'Closed-End Fund - Debt', 'Country': 'USA'}
-{'Ticker': 'ACRS', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'ACSG', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
-{'Ticker': 'ACST', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'Canada'}
-{'Ticker': 'ACTG', 'Sector': 'Industrials', 'Industry': 'Specialty Business Services', 'Country': 'USA'}
 {'Ticker': 'ACV', 'Sector': 'Financial', 'Industry': 'Asset Management', 'Country': 'USA'}
 {'Ticker': 'ACWI', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'ACWX', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'ADAP', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'United Kingdom'}
-{'Ticker': 'ACOR', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'ACRE', 'Sector': 'Real Estate', 'Industry': 'REIT - Mortgage', 'Country': 'USA'}
-{'Ticker': 'ACRX', 'Sector': 'Healthcare', 'Industry': 'Drug Manufacturers - Specialty & Generic', 'Country': 'USA'}
 {'Ticker': 'ACSI', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'ACT', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'ACU', 'Sector': 'Consumer Defensive', 'Industry': 'Household & Personal Products', 'Country': 'USA'}
 {'Ticker': 'ACWF', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'ACWV', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
-{'Ticker': 'ACY', 'Sector': 'Industrials', 'Industry': 'Rental & Leasing Services', 'Country': 'USA'}
 {'Ticker': 'ADBE', 'Sector': 'Technology', 'Industry': 'Software - Infrastructure', 'Country': 'USA'}
 {'Ticker': 'ADC', 'Sector': 'Real Estate', 'Industry': 'REIT - Retail', 'Country': 'USA'}
-{'Ticker': 'ADES', 'Sector': 'Industrials', 'Industry': 'Pollution & Treatment Controls', 'Country': 'USA'}
-{'Ticker': 'ADIL', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
-{'Ticker': 'ADMA', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
-{'Ticker': 'ADMP', 'Sector': 'Healthcare', 'Industry': 'Drug Manufacturers - Specialty & Generic', 'Country': 'USA'}
 {'Ticker': 'ADNT', 'Sector': 'Consumer Cyclical', 'Industry': 'Auto Parts', 'Country': 'Ireland'}
 {'Ticker': 'ADPT', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
-{'Ticker': 'ADRO', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'ADSK', 'Sector': 'Technology', 'Industry': 'Software - Application', 'Country': 'USA'}
-{'Ticker': 'ADT', 'Sector': 'Industrials', 'Industry': 'Security & Protection Services', 'Country': 'USA'}
 {'Ticker': 'ADCT', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'Switzerland'}
 {'Ticker': 'ADI', 'Sector': 'Technology', 'Industry': 'Semiconductors', 'Country': 'USA'}
 {'Ticker': 'ADM', 'Sector': 'Consumer Defensive', 'Industry': 'Farm Products', 'Country': 'USA'}
 {'Ticker': 'ADME', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
-{'Ticker': 'ADMS', 'Sector': 'Healthcare', 'Industry': 'Drug Manufacturers - Specialty & Generic', 'Country': 'USA'}
 {'Ticker': 'ADP', 'Sector': 'Industrials', 'Industry': 'Staffing & Employment Services', 'Country': 'USA'}
 {'Ticker': 'ADRE', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'ADS', 'Sector': 'Financial', 'Industry': 'Credit Services', 'Country': 'USA'}
 {'Ticker': 'ADSW', 'Sector': 'Industrials', 'Industry': 'Waste Management', 'Country': 'USA'}
 {'Ticker': 'ADTN', 'Sector': 'Technology', 'Industry': 'Communication Equipment', 'Country': 'USA'}
-{'Ticker': 'ADTX', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'ADVM', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
-{'Ticker': 'ADXS', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'AEE', 'Sector': 'Utilities', 'Industry': 'Utilities - Regulated Electric', 'Country': 'USA'}
-{'Ticker': 'AEG', 'Sector': 'Financial', 'Industry': 'Insurance - Diversified', 'Country': 'Netherlands'}
-{'Ticker': 'AEHR', 'Sector': 'Technology', 'Industry': 'Semiconductor Equipment & Materials', 'Country': 'USA'}
 {'Ticker': 'AEL', 'Sector': 'Financial', 'Industry': 'Insurance - Life', 'Country': 'USA'}
-{'Ticker': 'AEMD', 'Sector': 'Healthcare', 'Industry': 'Medical Devices', 'Country': 'USA'}
 {'Ticker': 'AEP', 'Sector': 'Utilities', 'Industry': 'Utilities - Regulated Electric', 'Country': 'USA'}
 {'Ticker': 'AERI', 'Sector': 'Healthcare', 'Industry': 'Drug Manufacturers - Specialty & Generic', 'Country': 'USA'}
 {'Ticker': 'ADUS', 'Sector': 'Healthcare', 'Industry': 'Medical Care Facilities', 'Country': 'USA'}
 {'Ticker': 'ADX', 'Sector': 'Financial', 'Industry': 'Closed-End Fund - Equity', 'Country': 'USA'}
 {'Ticker': 'AE', 'Sector': 'Energy', 'Industry': 'Oil & Gas Integrated', 'Country': 'USA'}
-{'Ticker': 'AEF', 'Sector': 'Financial', 'Industry': 'Asset Management', 'Country': 'United Kingdom'}
 {'Ticker': 'AEGN', 'Sector': 'Industrials', 'Industry': 'Engineering & Construction', 'Country': 'USA'}
 {'Ticker': 'AEIS', 'Sector': 'Industrials', 'Industry': 'Electrical Equipment & Parts', 'Country': 'USA'}
 {'Ticker': 'AEM', 'Sector': 'Basic Materials', 'Industry': 'Gold', 'Country': 'Canada'}
 {'Ticker': 'AEO', 'Sector': 'Consumer Cyclical', 'Industry': 'Apparel Retail', 'Country': 'USA'}
 {'Ticker': 'AER', 'Sector': 'Industrials', 'Industry': 'Airports & Air Services', 'Country': 'Ireland'}
 {'Ticker': 'AES', 'Sector': 'Utilities', 'Industry': 'Utilities - Diversified', 'Country': 'USA'}
-{'Ticker': 'AESE', 'Sector': 'Communication Services', 'Industry': 'Entertainment', 'Country': 'USA'}
-{'Ticker': 'AEY', 'Sector': 'Technology', 'Industry': 'Electronics & Computer Distribution', 'Country': 'USA'}
-{'Ticker': 'AEZS', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'AFG', 'Sector': 'Financial', 'Industry': 'Insurance - Property & Casualty', 'Country': 'USA'}
-{'Ticker': 'AFI', 'Sector': 'Industrials', 'Industry': 'Building Products & Equipment', 'Country': 'USA'}
-{'Ticker': 'AFIN', 'Sector': 'Real Estate', 'Industry': 'REIT - Diversified', 'Country': 'USA'}
 {'Ticker': 'AFL', 'Sector': 'Financial', 'Industry': 'Insurance - Life', 'Country': 'USA'}
-{'Ticker': 'AFMD', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'Germany'}
 {'Ticker': 'AFTY', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'AG', 'Sector': 'Basic Materials', 'Industry': 'Silver', 'Country': 'Canada'}
 {'Ticker': 'AESR', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'AEYE', 'Sector': 'Technology', 'Industry': 'Software - Application', 'Country': 'USA'}
 {'Ticker': 'AFB', 'Sector': 'Financial', 'Industry': 'Closed-End Fund - Debt', 'Country': 'USA'}
-{'Ticker': 'AFH', 'Sector': 'Financial', 'Industry': 'Insurance - Property & Casualty', 'Country': 'USA'}
 {'Ticker': 'AFIF', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'AFK', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'AFLG', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
@@ -139,57 +101,40 @@
 {'Ticker': 'AFYA', 'Sector': 'Consumer Defensive', 'Industry': 'Education & Training Services', 'Country': 'Brazil'}
 {'Ticker': 'AGCO', 'Sector': 'Industrials', 'Industry': 'Farm & Heavy Construction Machinery', 'Country': 'USA'}
 {'Ticker': 'AGD', 'Sector': 'Financial', 'Industry': 'Closed-End Fund - Foreign', 'Country': 'USA'}
-{'Ticker': 'AGEN', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'AGG', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'AGGY', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'AGIO', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'AGM', 'Sector': 'Financial', 'Industry': 'Credit Services', 'Country': 'USA'}
 {'Ticker': 'AGNC', 'Sector': 'Real Estate', 'Industry': 'REIT - Mortgage', 'Country': 'USA'}
 {'Ticker': 'AGQ', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
-{'Ticker': 'AGRO', 'Sector': 'Consumer Defensive', 'Industry': 'Farm Products', 'Country': 'Luxembourg'}
-{'Ticker': 'AGS', 'Sector': 'Consumer Cyclical', 'Industry': 'Gambling', 'Country': 'USA'}
-{'Ticker': 'AGE', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
-{'Ticker': 'AGFS', 'Sector': 'Consumer Defensive', 'Industry': 'Farm Products', 'Country': 'USA'}
 {'Ticker': 'AGGP', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'AGI', 'Sector': 'Basic Materials', 'Industry': 'Gold', 'Country': 'Canada'}
-{'Ticker': 'AGLE', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'AGMH', 'Sector': 'Technology', 'Industry': 'Software - Application', 'Country': 'Hong Kong'}
 {'Ticker': 'AGO', 'Sector': 'Financial', 'Industry': 'Insurance - Specialty', 'Country': 'Bermuda'}
 {'Ticker': 'AGR', 'Sector': 'Utilities', 'Industry': 'Utilities - Regulated Electric', 'Country': 'USA'}
-{'Ticker': 'AGRX', 'Sector': 'Healthcare', 'Industry': 'Drug Manufacturers - Specialty & Generic', 'Country': 'USA'}
 {'Ticker': 'AGT', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
-{'Ticker': 'AGTC', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'AGYS', 'Sector': 'Technology', 'Industry': 'Software - Application', 'Country': 'USA'}
 {'Ticker': 'AGZD', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'AHCO', 'Sector': 'Healthcare', 'Industry': 'Medical Devices', 'Country': 'USA'}
 {'Ticker': 'AHPI', 'Sector': 'Healthcare', 'Industry': 'Medical Devices', 'Country': 'USA'}
-{'Ticker': 'AI', 'Sector': 'Real Estate', 'Industry': 'REIT - Mortgage', 'Country': 'USA'}
 {'Ticker': 'AIEQ', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'AIG', 'Sector': 'Financial', 'Industry': 'Insurance - Diversified', 'Country': 'USA'}
-{'Ticker': 'AIHS', 'Sector': 'Financial', 'Industry': 'Credit Services', 'Country': 'China'}
-{'Ticker': 'AIKI', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'AGX', 'Sector': 'Industrials', 'Industry': 'Engineering & Construction', 'Country': 'USA'}
 {'Ticker': 'AGZ', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
-{'Ticker': 'AHC', 'Sector': 'Communication Services', 'Industry': 'Publishing', 'Country': 'USA'}
 {'Ticker': 'AHH', 'Sector': 'Real Estate', 'Industry': 'REIT - Diversified', 'Country': 'USA'}
-{'Ticker': 'AHT', 'Sector': 'Real Estate', 'Industry': 'REIT - Hotel & Motel', 'Country': 'USA'}
 {'Ticker': 'AIA', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'AIF', 'Sector': 'Financial', 'Industry': 'Asset Management', 'Country': 'USA'}
-{'Ticker': 'AIH', 'Sector': 'Healthcare', 'Industry': 'Medical Care Facilities', 'Country': 'China'}
 {'Ticker': 'AIIQ', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
-{'Ticker': 'AIM', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'AIMC', 'Sector': 'Industrials', 'Industry': 'Specialty Industrial Machinery', 'Country': 'USA'}
 {'Ticker': 'AIN', 'Sector': 'Consumer Cyclical', 'Industry': 'Textile Manufacturing', 'Country': 'USA'}
 {'Ticker': 'AINV', 'Sector': 'Financial', 'Industry': 'Asset Management', 'Country': 'USA'}
 {'Ticker': 'AIR', 'Sector': 'Industrials', 'Industry': 'Aerospace & Defense', 'Country': 'USA'}
-{'Ticker': 'AIRI', 'Sector': 'Industrials', 'Industry': 'Aerospace & Defense', 'Country': 'USA'}
 {'Ticker': 'AIRT', 'Sector': 'Industrials', 'Industry': 'Integrated Freight & Logistics', 'Country': 'USA'}
 {'Ticker': 'AIV', 'Sector': 'Real Estate', 'Industry': 'REIT - Residential', 'Country': 'USA'}
 {'Ticker': 'AJG', 'Sector': 'Financial', 'Industry': 'Insurance Brokers', 'Country': 'USA'}
 {'Ticker': 'AJX', 'Sector': 'Real Estate', 'Industry': 'REIT - Mortgage', 'Country': 'USA'}
 {'Ticker': 'AKBA', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'AIMT', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
-{'Ticker': 'AINC', 'Sector': 'Financial', 'Industry': 'Asset Management', 'Country': 'USA'}
 {'Ticker': 'AIQ', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'AIRG', 'Sector': 'Technology', 'Industry': 'Communication Equipment', 'Country': 'USA'}
 {'Ticker': 'AIRR', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
@@ -198,14 +143,11 @@
 {'Ticker': 'AJRD', 'Sector': 'Industrials', 'Industry': 'Aerospace & Defense', 'Country': 'USA'}
 {'Ticker': 'AKAM', 'Sector': 'Technology', 'Industry': 'Software - Infrastructure', 'Country': 'USA'}
 {'Ticker': 'AKCA', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
-{'Ticker': 'AKER', 'Sector': 'Healthcare', 'Industry': 'Medical Instruments & Supplies', 'Country': 'USA'}
 {'Ticker': 'AKO-B', 'Sector': 'Consumer Defensive', 'Industry': 'Beverages - Non-Alcoholic', 'Country': 'Chile'}
 {'Ticker': 'AKRO', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
-{'Ticker': 'AKTX', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'United Kingdom'}
 {'Ticker': 'AL', 'Sector': 'Industrials', 'Industry': 'Rental & Leasing Services', 'Country': 'USA'}
 {'Ticker': 'ALB', 'Sector': 'Basic Materials', 'Industry': 'Specialty Chemicals', 'Country': 'USA'}
 {'Ticker': 'ALC', 'Sector': 'Healthcare', 'Industry': 'Medical Instruments & Supplies', 'Country': 'Switzerland'}
-{'Ticker': 'ALDX', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'ALEC', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'ALFA', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'AKO-A', 'Sector': 'Consumer Defensive', 'Industry': 'Beverages - Non-Alcoholic', 'Country': 'Chile'}
@@ -219,25 +161,19 @@
 {'Ticker': 'ALEX', 'Sector': 'Real Estate', 'Industry': 'REIT - Diversified', 'Country': 'USA'}
 {'Ticker': 'ALG', 'Sector': 'Industrials', 'Industry': 'Farm & Heavy Construction Machinery', 'Country': 'USA'}
 {'Ticker': 'ALGN', 'Sector': 'Healthcare', 'Industry': 'Medical Devices', 'Country': 'USA'}
-{'Ticker': 'ALIM', 'Sector': 'Healthcare', 'Industry': 'Drug Manufacturers - Specialty & Generic', 'Country': 'USA'}
 {'Ticker': 'ALK', 'Sector': 'Industrials', 'Industry': 'Airlines', 'Country': 'USA'}
 {'Ticker': 'ALL', 'Sector': 'Financial', 'Industry': 'Insurance - Property & Casualty', 'Country': 'USA'}
 {'Ticker': 'ALLK', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'ALLT', 'Sector': 'Technology', 'Industry': 'Communication Equipment', 'Country': 'Israel'}
-{'Ticker': 'ALNA', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
-{'Ticker': 'ALOT', 'Sector': 'Technology', 'Industry': 'Computer Hardware', 'Country': 'USA'}
 {'Ticker': 'ALRM', 'Sector': 'Technology', 'Industry': 'Software - Application', 'Country': 'USA'}
 {'Ticker': 'ALRS', 'Sector': 'Financial', 'Industry': 'Banks - Regional', 'Country': 'USA'}
 {'Ticker': 'ALGT', 'Sector': 'Industrials', 'Industry': 'Airlines', 'Country': 'USA'}
-{'Ticker': 'ALJJ', 'Sector': 'Industrials', 'Industry': 'Specialty Business Services', 'Country': 'USA'}
 {'Ticker': 'ALKS', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'Ireland'}
 {'Ticker': 'ALLE', 'Sector': 'Industrials', 'Industry': 'Security & Protection Services', 'Country': 'Ireland'}
 {'Ticker': 'ALLO', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'ALLY', 'Sector': 'Financial', 'Industry': 'Credit Services', 'Country': 'USA'}
 {'Ticker': 'ALNY', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'ALPN', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
-{'Ticker': 'ALRN', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
-{'Ticker': 'ALSK', 'Sector': 'Communication Services', 'Industry': 'Telecom Services', 'Country': 'USA'}
 {'Ticker': 'ALSN', 'Sector': 'Consumer Cyclical', 'Industry': 'Auto Parts', 'Country': 'USA'}
 {'Ticker': 'ALTA', 'Sector': 'Financial', 'Industry': 'Banks - Regional', 'Country': 'USA'}
 {'Ticker': 'ALTL', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
@@ -245,20 +181,16 @@
 {'Ticker': 'ALTY', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'ALX', 'Sector': 'Real Estate', 'Industry': 'REIT - Retail', 'Country': 'USA'}
 {'Ticker': 'ALXO', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'Ireland'}
-{'Ticker': 'AM', 'Sector': 'Energy', 'Industry': 'Oil & Gas Midstream', 'Country': 'USA'}
 {'Ticker': 'AMAL', 'Sector': 'Financial', 'Industry': 'Banks - Regional', 'Country': 'USA'}
 {'Ticker': 'AMBA', 'Sector': 'Technology', 'Industry': 'Semiconductor Equipment & Materials', 'Country': 'USA'}
 {'Ticker': 'ALT', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
-{'Ticker': 'ALTG', 'Sector': 'Industrials', 'Industry': 'Rental & Leasing Services', 'Country': 'USA'}
 {'Ticker': 'ALTM', 'Sector': 'Energy', 'Industry': 'Oil & Gas Midstream', 'Country': 'USA'}
 {'Ticker': 'ALTS', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'ALV', 'Sector': 'Consumer Cyclical', 'Industry': 'Auto Parts', 'Country': 'Sweden'}
 {'Ticker': 'ALXN', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
-{'Ticker': 'ALYA', 'Sector': 'Technology', 'Industry': 'Information Technology Services', 'Country': 'Canada'}
 {'Ticker': 'AMAG', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'AMAT', 'Sector': 'Technology', 'Industry': 'Semiconductor Equipment & Materials', 'Country': 'USA'}
 {'Ticker': 'AMBC', 'Sector': 'Financial', 'Industry': 'Insurance - Specialty', 'Country': 'USA'}
-{'Ticker': 'AMBO', 'Sector': 'Consumer Defensive', 'Industry': 'Education & Training Services', 'Country': 'China'}
 {'Ticker': 'AMCA', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'AMCR', 'Sector': 'Consumer Cyclical', 'Industry': 'Packaging & Containers', 'Country': 'Switzerland'}
 {'Ticker': 'AMD', 'Sector': 'Technology', 'Industry': 'Semiconductors', 'Country': 'USA'}
@@ -268,7 +200,6 @@
 {'Ticker': 'AMK', 'Sector': 'Financial', 'Industry': 'Asset Management', 'Country': 'USA'}
 {'Ticker': 'AMLP', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'AMNB', 'Sector': 'Financial', 'Industry': 'Banks - Regional', 'Country': 'USA'}
-{'Ticker': 'AMC', 'Sector': 'Communication Services', 'Industry': 'Entertainment', 'Country': 'USA'}
 {'Ticker': 'AMCI', 'Sector': 'Financial', 'Industry': 'Shell Companies', 'Country': 'USA'}
 {'Ticker': 'AMCX', 'Sector': 'Communication Services', 'Industry': 'Broadcasting', 'Country': 'USA'}
 {'Ticker': 'AME', 'Sector': 'Industrials', 'Industry': 'Specialty Industrial Machinery', 'Country': 'USA'}
@@ -279,26 +210,18 @@
 {'Ticker': 'AMN', 'Sector': 'Healthcare', 'Industry': 'Medical Care Facilities', 'Country': 'USA'}
 {'Ticker': 'AMOM', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'AMOT', 'Sector': 'Technology', 'Industry': 'Electronic Components', 'Country': 'USA'}
-{'Ticker': 'AMPE', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
-{'Ticker': 'AMPY', 'Sector': 'Energy', 'Industry': 'Oil & Gas E&P', 'Country': 'USA'}
 {'Ticker': 'AMRC', 'Sector': 'Industrials', 'Industry': 'Engineering & Construction', 'Country': 'USA'}
 {'Ticker': 'AMRK', 'Sector': 'Financial', 'Industry': 'Capital Markets', 'Country': 'USA'}
-{'Ticker': 'AMRS', 'Sector': 'Basic Materials', 'Industry': 'Specialty Chemicals', 'Country': 'USA'}
-{'Ticker': 'AMS', 'Sector': 'Healthcare', 'Industry': 'Medical Care Facilities', 'Country': 'USA'}
 {'Ticker': 'AMSF', 'Sector': 'Financial', 'Industry': 'Insurance - Specialty', 'Country': 'USA'}
 {'Ticker': 'AMT', 'Sector': 'Real Estate', 'Industry': 'REIT - Specialty', 'Country': 'USA'}
 {'Ticker': 'AMTD', 'Sector': 'Financial', 'Industry': 'Capital Markets', 'Country': 'USA'}
 {'Ticker': 'AMP', 'Sector': 'Financial', 'Industry': 'Asset Management', 'Country': 'USA'}
 {'Ticker': 'AMPH', 'Sector': 'Healthcare', 'Industry': 'Drug Manufacturers - Specialty & Generic', 'Country': 'USA'}
 {'Ticker': 'AMRB', 'Sector': 'Financial', 'Industry': 'Banks - Regional', 'Country': 'USA'}
-{'Ticker': 'AMRH', 'Sector': 'Technology', 'Industry': 'Information Technology Services', 'Country': 'USA'}
-{'Ticker': 'AMRN', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'Ireland'}
-{'Ticker': 'AMRX', 'Sector': 'Healthcare', 'Industry': 'Drug Manufacturers - Specialty & Generic', 'Country': 'USA'}
 {'Ticker': 'AMSC', 'Sector': 'Industrials', 'Industry': 'Specialty Industrial Machinery', 'Country': 'USA'}
 {'Ticker': 'AMSWA', 'Sector': 'Technology', 'Industry': 'Software - Application', 'Country': 'USA'}
 {'Ticker': 'AMTB', 'Sector': 'Financial', 'Industry': 'Banks - Regional', 'Country': 'USA'}
 {'Ticker': 'AMTI', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
-{'Ticker': 'AMTX', 'Sector': 'Energy', 'Industry': 'Oil & Gas Refining & Marketing', 'Country': 'USA'}
 {'Ticker': 'AMUB', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'AMX', 'Sector': 'Communication Services', 'Industry': 'Telecom Services', 'Country': 'Mexico'}
 {'Ticker': 'AMZA', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
@@ -308,91 +231,59 @@
 {'Ticker': 'ANET', 'Sector': 'Technology', 'Industry': 'Computer Hardware', 'Country': 'USA'}
 {'Ticker': 'ANGI', 'Sector': 'Communication Services', 'Industry': 'Internet Content & Information', 'Country': 'USA'}
 {'Ticker': 'ANGO', 'Sector': 'Healthcare', 'Industry': 'Medical Instruments & Supplies', 'Country': 'USA'}
-{'Ticker': 'AMU', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'AMWD', 'Sector': 'Consumer Cyclical', 'Industry': 'Furnishings, Fixtures & Appliances', 'Country': 'USA'}
 {'Ticker': 'AMYT', 'Sector': 'Healthcare', 'Industry': 'Drug Manufacturers - Specialty & Generic', 'Country': 'United Kingdom'}
-{'Ticker': 'AMZN', 'Sector': 'Consumer Cyclical', 'Industry': 'Internet Retail', 'Country': 'USA'}
 {'Ticker': 'ANAB', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
-{'Ticker': 'ANCN', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'ANDE', 'Sector': 'Consumer Defensive', 'Industry': 'Food Distribution', 'Country': 'USA'}
 {'Ticker': 'ANF', 'Sector': 'Consumer Cyclical', 'Industry': 'Apparel Retail', 'Country': 'USA'}
 {'Ticker': 'ANGL', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
-{'Ticker': 'ANH', 'Sector': 'Real Estate', 'Industry': 'REIT - Mortgage', 'Country': 'USA'}
 {'Ticker': 'ANIK', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
-{'Ticker': 'ANIX', 'Sector': 'Healthcare', 'Industry': 'Diagnostics & Research', 'Country': 'USA'}
 {'Ticker': 'ANSS', 'Sector': 'Technology', 'Industry': 'Software - Application', 'Country': 'USA'}
 {'Ticker': 'ANTM', 'Sector': 'Healthcare', 'Industry': 'Healthcare Plans', 'Country': 'USA'}
-{'Ticker': 'ANY', 'Sector': 'Technology', 'Industry': 'Software - Application', 'Country': 'Canada'}
-{'Ticker': 'AOD', 'Sector': 'Financial', 'Industry': 'Closed-End Fund - Foreign', 'Country': 'USA'}
 {'Ticker': 'AOM', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'AOR', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'AOSL', 'Sector': 'Technology', 'Industry': 'Semiconductors', 'Country': 'USA'}
 {'Ticker': 'APA', 'Sector': 'Energy', 'Industry': 'Oil & Gas E&P', 'Country': 'USA'}
 {'Ticker': 'ANIP', 'Sector': 'Healthcare', 'Industry': 'Drug Manufacturers - Specialty & Generic', 'Country': 'USA'}
-{'Ticker': 'ANPC', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'China'}
-{'Ticker': 'ANTE', 'Sector': 'Communication Services', 'Industry': 'Advertising Agencies', 'Country': 'China'}
-{'Ticker': 'ANVS', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'AOA', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'AOK', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'AON', 'Sector': 'Financial', 'Industry': 'Insurance Brokers', 'Country': 'United Kingdom'}
 {'Ticker': 'AOS', 'Sector': 'Industrials', 'Industry': 'Specialty Industrial Machinery', 'Country': 'USA'}
-{'Ticker': 'AP', 'Sector': 'Industrials', 'Industry': 'Metal Fabrication', 'Country': 'USA'}
 {'Ticker': 'APAM', 'Sector': 'Financial', 'Industry': 'Asset Management', 'Country': 'USA'}
 {'Ticker': 'APD', 'Sector': 'Basic Materials', 'Industry': 'Chemicals', 'Country': 'USA'}
 {'Ticker': 'APEI', 'Sector': 'Consumer Defensive', 'Industry': 'Education & Training Services', 'Country': 'USA'}
-{'Ticker': 'APEX', 'Sector': 'Consumer Cyclical', 'Industry': 'Apparel Retail', 'Country': 'USA'}
 {'Ticker': 'APH', 'Sector': 'Technology', 'Industry': 'Electronic Components', 'Country': 'USA'}
 {'Ticker': 'API', 'Sector': 'Technology', 'Industry': 'Software - Application', 'Country': 'China'}
 {'Ticker': 'APLS', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
-{'Ticker': 'APM', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'Hong Kong'}
 {'Ticker': 'APOG', 'Sector': 'Industrials', 'Industry': 'Building Products & Equipment', 'Country': 'USA'}
 {'Ticker': 'APPF', 'Sector': 'Technology', 'Industry': 'Software - Application', 'Country': 'USA'}
 {'Ticker': 'APPS', 'Sector': 'Technology', 'Industry': 'Software - Application', 'Country': 'USA'}
 {'Ticker': 'APDN', 'Sector': 'Industrials', 'Industry': 'Security & Protection Services', 'Country': 'USA'}
-{'Ticker': 'APEN', 'Sector': 'Healthcare', 'Industry': 'Medical Devices', 'Country': 'USA'}
 {'Ticker': 'APG', 'Sector': 'Industrials', 'Industry': 'Engineering & Construction', 'Country': 'USA'}
-{'Ticker': 'APHA', 'Sector': 'Healthcare', 'Industry': 'Drug Manufacturers - Specialty & Generic', 'Country': 'Canada'}
 {'Ticker': 'APLE', 'Sector': 'Real Estate', 'Industry': 'REIT - Hotel & Motel', 'Country': 'USA'}
 {'Ticker': 'APLT', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'APO', 'Sector': 'Financial', 'Industry': 'Asset Management', 'Country': 'USA'}
-{'Ticker': 'APOP', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'Israel'}
 {'Ticker': 'APPN', 'Sector': 'Technology', 'Industry': 'Software - Infrastructure', 'Country': 'USA'}
 {'Ticker': 'APRE', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'APRN', 'Sector': 'Consumer Cyclical', 'Industry': 'Internet Retail', 'Country': 'USA'}
-{'Ticker': 'APTO', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'Canada'}
 {'Ticker': 'APTV', 'Sector': 'Consumer Cyclical', 'Industry': 'Auto Parts', 'Country': 'Ireland'}
 {'Ticker': 'APVO', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'APXT', 'Sector': 'Financial', 'Industry': 'Shell Companies', 'Country': 'USA'}
-{'Ticker': 'AQB', 'Sector': 'Consumer Defensive', 'Industry': 'Farm Products', 'Country': 'USA'}
 {'Ticker': 'AQN', 'Sector': 'Utilities', 'Industry': 'Utilities - Renewable', 'Country': 'Canada'}
 {'Ticker': 'AQUA', 'Sector': 'Industrials', 'Industry': 'Pollution & Treatment Controls', 'Country': 'USA'}
-{'Ticker': 'ARA', 'Sector': 'Healthcare', 'Industry': 'Diagnostics & Research', 'Country': 'USA'}
-{'Ticker': 'ARAY', 'Sector': 'Healthcare', 'Industry': 'Medical Devices', 'Country': 'USA'}
 {'Ticker': 'APT', 'Sector': 'Industrials', 'Industry': 'Building Products & Equipment', 'Country': 'Canada'}
-{'Ticker': 'APTS', 'Sector': 'Real Estate', 'Industry': 'REIT - Residential', 'Country': 'USA'}
-{'Ticker': 'APTX', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
-{'Ticker': 'APWC', 'Sector': 'Industrials', 'Industry': 'Electrical Equipment & Parts', 'Country': 'Taiwan'}
-{'Ticker': 'APYX', 'Sector': 'Healthcare', 'Industry': 'Medical Devices', 'Country': 'USA'}
-{'Ticker': 'AQMS', 'Sector': 'Industrials', 'Industry': 'Waste Management', 'Country': 'USA'}
-{'Ticker': 'AQST', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
-{'Ticker': 'AR', 'Sector': 'Energy', 'Industry': 'Oil & Gas E&P', 'Country': 'USA'}
-{'Ticker': 'ARAV', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
-{'Ticker': 'ARC', 'Sector': 'Industrials', 'Industry': 'Specialty Business Services', 'Country': 'USA'}
 {'Ticker': 'ARCB', 'Sector': 'Industrials', 'Industry': 'Trucking', 'Country': 'USA'}
 {'Ticker': 'ARCE', 'Sector': 'Consumer Defensive', 'Industry': 'Education & Training Services', 'Country': 'Brazil'}
 {'Ticker': 'ARCM', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'ARCT', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'ARDC', 'Sector': 'Financial', 'Industry': 'Asset Management', 'Country': 'USA'}
-{'Ticker': 'ARDX', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'ARES', 'Sector': 'Financial', 'Industry': 'Asset Management', 'Country': 'USA'}
 {'Ticker': 'ARGT', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'ARI', 'Sector': 'Real Estate', 'Industry': 'REIT - Mortgage', 'Country': 'USA'}
 {'Ticker': 'ARKG', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'ARCC', 'Sector': 'Financial', 'Industry': 'Asset Management', 'Country': 'USA'}
 {'Ticker': 'ARCH', 'Sector': 'Energy', 'Industry': 'Thermal Coal', 'Country': 'USA'}
-{'Ticker': 'ARCO', 'Sector': 'Consumer Cyclical', 'Industry': 'Restaurants', 'Country': 'Uruguay'}
 {'Ticker': 'ARD', 'Sector': 'Consumer Cyclical', 'Industry': 'Packaging & Containers', 'Country': 'Luxembourg'}
-{'Ticker': 'ARDS', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'ARE', 'Sector': 'Real Estate', 'Industry': 'REIT - Office', 'Country': 'USA'}
 {'Ticker': 'ARGO', 'Sector': 'Financial', 'Industry': 'Insurance - Property & Casualty', 'Country': 'Bermuda'}
 {'Ticker': 'ARGX', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'Netherlands'}
@@ -400,21 +291,14 @@
 {'Ticker': 'ARKK', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'ARKQ', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'ARKW', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
-{'Ticker': 'ARLO', 'Sector': 'Industrials', 'Industry': 'Security & Protection Services', 'Country': 'USA'}
 {'Ticker': 'ARMK', 'Sector': 'Consumer Cyclical', 'Industry': 'Restaurants', 'Country': 'USA'}
 {'Ticker': 'ARMR', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA'}
 {'Ticker': 'ARNC', 'Sector': 'Industrials', 'Industry': 'Metal Fabrication', 'Country': 'USA'}
 {'Ticker': 'AROW', 'Sector': 'Financial', 'Industry': 'Banks - Regional', 'Country': 'USA'}
 {'Ticker': 'ARQT', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
-{'Ticker': 'ARTL', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
-{'Ticker': 'ARTW', 'Sector': 'Industrials', 'Industry': 'Farm & Heavy Construction Machinery', 'Country': 'USA'}
 {'Ticker': 'ARKR', 'Sector': 'Consumer Cyclical', 'Industry': 'Restaurants', 'Country': 'USA'}
 {'Ticker': 'ARL', 'Sector': 'Real Estate', 'Industry': 'Real Estate - Development', 'Country': 'USA'}
-{'Ticker': 'ARLP', 'Sector': 'Energy', 'Industry': 'Thermal Coal', 'Country': 'USA'}
-{'Ticker': 'ARMP', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'ARNA', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
-{'Ticker': 'AROC', 'Sector': 'Energy', 'Industry': 'Oil & Gas Equipment & Services', 'Country': 'USA'}
-{'Ticker': 'ARPO', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
 {'Ticker': 'ARR', 'Sector': 'Real Estate', 'Industry': 'REIT - Mortgage', 'Country': 'USA'}
 {'Ticker': 'ARTNA', 'Sector': 'Utilities', 'Industry': 'Utilities - Regulated Water', 'Country': 'USA'}
 {'Ticker': 'ARVN', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA'}
