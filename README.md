@@ -34,7 +34,7 @@ For the Summer of 2020 I decided to keep myself very busy with my fields of inte
 2) Social Voting Theory Android Application 
 3) Philosophical Essay
 
-### Project 1 : Machine Learning Stock Predictor
+### Summer 2020 Project 1 : Machine Learning Stock Predictor
 
 I have designed a 'course' to learn the fundamentals of Machine Learning:
 
