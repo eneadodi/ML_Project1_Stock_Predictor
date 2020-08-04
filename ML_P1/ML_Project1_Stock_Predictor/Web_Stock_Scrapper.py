@@ -15,29 +15,21 @@ import constants
 import numpy as np
 import os
 
+
 '''
-This class will be used to scrape information from Finviz.com It will scrape information from the table of data provided by 
-Finviz as well as the ratings data.
+To not overburden the StoclScraper class with methods, I dedicated a helper class which does all formatting jobs for 
+the StockScraper class.
+This class will do things such as:
+    removing data
+    adding data
+    formatting data to pass to StockScraper methods
 '''
-class FinvizScraper(object):
-    
+class StockScraperHelper(object):
     '''
     Constructor
     '''
     def __init__(self):
-        self.scraped_info = []
-        self.scraped_tickers = []
-        self.HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'}
-        #Used to prevent authroitzation issues.
-    
-    """
-    param: url
-    return the Entire HTML code fo the website
-    """
-    def get_entire_HTML_page(self,url):
-        page = requests.get(url,headers=self.HEADERS).text
-        soup = BeautifulSoup(page,features ="lxml")
-        return soup
+        pass
     
     '''
     A quick regex method where it translates large number abbreviations to true number:
@@ -60,8 +52,7 @@ class FinvizScraper(object):
             if len(x) > 1:
                 rnum = float(x[:-1]) * num_map.get(x[-1].upper(), 1)
         return int(rnum)
-    
-    
+
     def remove_empty(self,row):
         for x in row:
             if x == '-':
@@ -76,6 +67,37 @@ class FinvizScraper(object):
         return {'Ticker':row[0],'Sector':row[1],'Industry':row[2],'Country':row[3],'Market Cap': self.nabbr_to_number(row[4]),
                 'Price':float(row[5]),'Change':float(row[6].strip('%'))/100,'Volume': int(row[7].replace(',',''))}
 
+    
+    '''
+    Given a list of ticker names from Stock Scraper, this method will pull information from yfinance API and make it 
+    ready for Stock Scraper to push into scraped_info variable.
+    '''
+    def query_yfinance_data(self,tickers):
+        pass
+'''
+This class will be used to scrape information from Finviz.com and extract information from yfinance.
+'''
+class StockScraper(object):
+    
+    '''
+    Constructor
+    '''
+    def __init__(self):
+        self.helper = StockScraperHelper()
+        self.scraped_info = []
+        self.scraped_tickers = []
+        self.HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'}
+        #Used to prevent authroitzation issues.
+    
+    """
+    param: url
+    return the Entire HTML code fo the website
+    """
+    def get_entire_HTML_page(self,url):
+        page = requests.get(url,headers=self.HEADERS).text
+        soup = BeautifulSoup(page,features ="lxml")
+        return soup
+    
         
     '''
     provided the soup of finviz.com/screener.ashx?v=111 this method will output a list of dictionaries provided in format:
@@ -99,7 +121,7 @@ class FinvizScraper(object):
             for child in r.descendants:
                 if child.name == 'a':
                     info.append(child.text)
-            r_dict = self.row_to_dict(info)
+            r_dict = self.helper.row_to_dict(info)
             stock_list.append(r_dict)
 
         if sector != 'all':
@@ -155,7 +177,7 @@ class FinvizScraper(object):
         
         l = self.get_stock_table_information(soup, sector, industry, country, market_cap, minPrice, maxPrice, volume)
         
-        for i in range(2):
+        for i in range(1):
             next_url = url + url_extension + str(curr_tickers)
             print(next_url)
             next_soup = self.get_entire_HTML_page(next_url)
@@ -175,9 +197,9 @@ class FinvizScraper(object):
         
         #filename = 'stock_info.txt'
         #self.write_list_to_file(filename,l)
+        #print(l)
         self.scraped_info = l
         self.scraped_tickers = self.extract_tickers()
-        return l
 
     '''
     Finviz offers in depth analysis for each stock on their individual page. I will be scraping three additional features for the ML algorithm:
@@ -194,21 +216,60 @@ class FinvizScraper(object):
             sales_r = t_r[3].find_all('td')[1].text
             recc_r = t_r[-1].find_all('td')[1].text
             
-            income = self.nabbr_to_number(income_r) if income_r != '-' else np.nan
-            sales = self.nabbr_to_number(sales_r) if sales_r != '-' else np.nan
-            recc = self.nabbr_to_number(recc_r) if recc_r != '-' else np.nan
-            
-            print(income)
-            print(sales)
-            print(recc)
+            income = self.helper.nabbr_to_number(income_r) if income_r != '-' else np.nan
+            sales = self.helper.nabbr_to_number(sales_r) if sales_r != '-' else np.nan
+            recc = self.helper.nabbr_to_number(recc_r) if recc_r != '-' else np.nan
             
             self.scraped_info[i]['Income'] = income 
             self.scraped_info[i]['Sales'] = sales 
             self.scraped_info[i]['Recommendations'] = recc
             
-            
+    
     def extract_tickers(self):
         return list(map(lambda x: x['Ticker'], self.scraped_info))
+    
+    def add_all_keys(self,key_vals):
+        for t in self.scraped_info:
+            for new_k in key_vals:
+                t[new_k] = None
+    
+    def add_all_same_key_value_pairs(self,key_vals):
+        for t in self.scraped_info:
+            for new_k,new_v in key_vals.items():
+                t[new_k] = new_v
+    
+    '''
+    Add a key, value pair to certain index of info_scraped
+    '''
+                
+    def add_specified_key_value_pair(self,tname,key,val):
+        t = next(item for item in self.scraped_info if item["Ticker"] == tname)
+        t[key] = val
+    
+    '''
+    In this case, we want to automate the add_specified_key_value_pair for all
+    stocks in the info_scraped list. To do this we pass in a dictionary with the 
+    following format:
+    
+    d = {
+            'TICKERNAME1' : {'NEWKEY1A' : 'NEWVAL1A',
+                             'NEWKEY1B' : 'NEWVAL1B',
+                             ....
+                            }
+            'TICKERNAME2' : {'NEWKEY1A' : 'NEWVAL1A',
+                             'NEWKEY1B' : 'NEWVAL1B',
+                             ....
+                            }
+            ....
+        }
+        
+    a function which will format this information in the specified order will likely be necassary
+    '''
+    def add_all_specified_key_value_pair(self,d):
+        for tickn,kickd in d.items():
+            for k,v in kickd.items():
+                self.add_specified_key_value_pair(tick, k, v)
+    
     
     def print_tickers(self):
         
@@ -216,7 +277,9 @@ class FinvizScraper(object):
             print(i)
 
 
-fs = FinvizScraper()
+            
+'''
+fs = StockScraper()
 url = 'https://finviz.com/screener.ashx?v=111&'
 soup = fs.get_entire_HTML_page(url)
 
@@ -226,3 +289,4 @@ l = fs.get_all_stock_table_information(url)
 #fs.print_tickers()
 fs.add_RIS()
 fs.write_info_to_file('stock_info.txt')
+'''

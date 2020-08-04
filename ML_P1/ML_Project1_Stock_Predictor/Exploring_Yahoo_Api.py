@@ -10,14 +10,14 @@ import Web_Stock_Scrapper
 
 
 
-data = yf.download(tickers = 'TSLA', period = '5y', interval='1wk', auto_adjust=True)
+data = yf.download(tickers = 'ATHE', period = '5y', interval='1wk', auto_adjust=True)
 print(data.columns)
-spy = yf.Ticker("TSLA")
+spy = yf.Ticker("IRTC")
 spy_i = spy.info
 for key, value in spy_i.items():
     print(key)
 
-
+#book value, forwardEPS, averageVolume (3 month), threeYearAverageReturn ,Two Hundred Day Average
 print('navPrice:')
 print(spy_i['navPrice'])
 print('regularMarketOpen:')
@@ -40,6 +40,12 @@ print('threeYearAverageReturn:')
 print(spy_i['threeYearAverageReturn'])
 print('forwardEPS:')
 print(spy_i['forwardEps'])
+print("dividends")
+print(spy.dividends)
+print("financials")
+print(spy.sustainability)
+print("Institutional holders")
+print(spy._institutional_holders)
 
 
 '''

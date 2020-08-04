@@ -4,44 +4,44 @@
 {'Ticker': 'AAL', 'Sector': 'Industrials', 'Industry': 'Airlines', 'Country': 'USA', 'Income': -3469000000, 'Sales': 33360000000, 'Recommendations': 3}
 {'Ticker': 'AAOI', 'Sector': 'Technology', 'Industry': 'Semiconductors', 'Country': 'USA', 'Income': -72400000, 'Sales': 178600000, 'Recommendations': 3}
 {'Ticker': 'AAP', 'Sector': 'Consumer Cyclical', 'Industry': 'Specialty Retail', 'Country': 'USA', 'Income': 388000000, 'Sales': 9450000000, 'Recommendations': 2}
-{'Ticker': 'AAT', 'Sector': 'Real Estate', 'Industry': 'REIT - Diversified', 'Country': 'USA', 'Income': 46700000, 'Sales': 378200000, 'Recommendations': 2}
+{'Ticker': 'AAT', 'Sector': 'Real Estate', 'Industry': 'REIT - Diversified', 'Country': 'USA', 'Income': 45400000, 'Sales': 376200000, 'Recommendations': 2}
 {'Ticker': 'AAWW', 'Sector': 'Industrials', 'Industry': 'Airports & Air Services', 'Country': 'USA', 'Income': -240100000, 'Sales': 2700000000, 'Recommendations': 1}
 {'Ticker': 'AAXN', 'Sector': 'Industrials', 'Industry': 'Aerospace & Defense', 'Country': 'USA', 'Income': -1500000, 'Sales': 562200000, 'Recommendations': 2}
 {'Ticker': 'AA', 'Sector': 'Basic Materials', 'Industry': 'Aluminum', 'Country': 'USA', 'Income': -641000000, 'Sales': 9530000000, 'Recommendations': 2}
 {'Ticker': 'AADR', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA', 'Income': nan, 'Sales': nan, 'Recommendations': nan}
 {'Ticker': 'AAMC', 'Sector': 'Financial', 'Industry': 'Asset Management', 'Country': 'USA', 'Income': -5700000, 'Sales': 15800000, 'Recommendations': nan}
-{'Ticker': 'AAN', 'Sector': 'Industrials', 'Industry': 'Rental & Leasing Services', 'Country': 'USA', 'Income': -338800000, 'Sales': 4040000000, 'Recommendations': 2}
+{'Ticker': 'AAN', 'Sector': 'Industrials', 'Industry': 'Rental & Leasing Services', 'Country': 'USA', 'Income': -314400000, 'Sales': 4099999999, 'Recommendations': 1}
 {'Ticker': 'AAON', 'Sector': 'Industrials', 'Industry': 'Building Products & Equipment', 'Country': 'USA', 'Income': 64700000, 'Sales': 493000000, 'Recommendations': 3}
 {'Ticker': 'AAPL', 'Sector': 'Technology', 'Industry': 'Consumer Electronics', 'Country': 'USA', 'Income': 57220000000, 'Sales': 267980000000, 'Recommendations': 2}
 {'Ticker': 'AAXJ', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA', 'Income': nan, 'Sales': nan, 'Recommendations': nan}
-{'Ticker': 'AB', 'Sector': 'Financial', 'Industry': 'Asset Management', 'Country': 'USA', 'Income': 254400000, 'Sales': 283600000, 'Recommendations': 2}
+{'Ticker': 'AB', 'Sector': 'Financial', 'Industry': 'Asset Management', 'Country': 'USA', 'Income': 259000000, 'Sales': 287700000, 'Recommendations': 2}
 {'Ticker': 'ABB', 'Sector': 'Industrials', 'Industry': 'Specialty Industrial Machinery', 'Country': 'Switzerland', 'Income': 1420000000, 'Sales': 26330000000, 'Recommendations': 2}
 {'Ticker': 'ABC', 'Sector': 'Healthcare', 'Industry': 'Medical Distribution', 'Country': 'USA', 'Income': 1580000000, 'Sales': 186160000000, 'Recommendations': 2}
 {'Ticker': 'ABMD', 'Sector': 'Healthcare', 'Industry': 'Medical Devices', 'Country': 'USA', 'Income': 203000000, 'Sales': 840900000, 'Recommendations': 2}
 {'Ticker': 'ABT', 'Sector': 'Healthcare', 'Industry': 'Medical Devices', 'Country': 'USA', 'Income': 3080000000, 'Sales': 31440000000, 'Recommendations': 2}
-{'Ticker': 'ACA', 'Sector': 'Industrials', 'Industry': 'Infrastructure Operations', 'Country': 'USA', 'Income': 116200000, 'Sales': 1810000000, 'Recommendations': 1}
+{'Ticker': 'ACA', 'Sector': 'Industrials', 'Industry': 'Infrastructure Operations', 'Country': 'USA', 'Income': 112300000, 'Sales': 1740000000, 'Recommendations': 1}
 {'Ticker': 'ACAM', 'Sector': 'Industrials', 'Industry': 'Conglomerates', 'Country': 'USA', 'Income': 3100000, 'Sales': nan, 'Recommendations': nan}
 {'Ticker': 'ABBV', 'Sector': 'Healthcare', 'Industry': 'Drug Manufacturers - General', 'Country': 'USA', 'Income': 8390000000, 'Sales': 34060000000, 'Recommendations': 1}
-{'Ticker': 'ABCB', 'Sector': 'Financial', 'Industry': 'Banks - Regional', 'Country': 'USA', 'Income': 140900000, 'Sales': 694200000, 'Recommendations': 1}
+{'Ticker': 'ABCB', 'Sector': 'Financial', 'Industry': 'Banks - Regional', 'Country': 'USA', 'Income': 134199999, 'Sales': 750200000, 'Recommendations': 1}
 {'Ticker': 'ABEQ', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA', 'Income': nan, 'Sales': nan, 'Recommendations': nan}
-{'Ticker': 'ABG', 'Sector': 'Consumer Cyclical', 'Industry': 'Auto & Truck Dealerships', 'Country': 'USA', 'Income': 163000000, 'Sales': 7150000000, 'Recommendations': 2}
+{'Ticker': 'ABG', 'Sector': 'Consumer Cyclical', 'Industry': 'Auto & Truck Dealerships', 'Country': 'USA', 'Income': 157700000, 'Sales': 6790000000, 'Recommendations': 2}
 {'Ticker': 'ABM', 'Sector': 'Industrials', 'Industry': 'Specialty Business Services', 'Country': 'USA', 'Income': -24000000, 'Sales': 6400000000, 'Recommendations': 2}
 {'Ticker': 'ABR', 'Sector': 'Real Estate', 'Industry': 'REIT - Mortgage', 'Country': 'USA', 'Income': 36900000, 'Sales': 508300000, 'Recommendations': 2}
 {'Ticker': 'ABTX', 'Sector': 'Financial', 'Industry': 'Banks - Regional', 'Country': 'USA', 'Income': 43800000, 'Sales': 233200000, 'Recommendations': 3}
 {'Ticker': 'AC', 'Sector': 'Financial', 'Industry': 'Capital Markets', 'Country': 'USA', 'Income': -57300000, 'Sales': 31000000, 'Recommendations': nan}
 {'Ticker': 'ACAD', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'USA', 'Income': -238000000, 'Sales': 366200000, 'Recommendations': 1}
 {'Ticker': 'ACB', 'Sector': 'Healthcare', 'Industry': 'Drug Manufacturers - Specialty & Generic', 'Country': 'Canada', 'Income': nan, 'Sales': nan, 'Recommendations': nan}
-{'Ticker': 'ACBI', 'Sector': 'Financial', 'Industry': 'Banks - Regional', 'Country': 'USA', 'Income': 23800000, 'Sales': 105700000, 'Recommendations': 2}
-{'Ticker': 'ACCD', 'Sector': 'Healthcare', 'Industry': 'Health Information Services', 'Country': 'USA', 'Income': -56200000, 'Sales': 123200000, 'Recommendations': nan}
-{'Ticker': 'ACEL', 'Sector': 'Consumer Cyclical', 'Industry': 'Gambling', 'Country': 'USA', 'Income': -10200000, 'Sales': 529600000, 'Recommendations': 2}
+{'Ticker': 'ACBI', 'Sector': 'Financial', 'Industry': 'Banks - Regional', 'Country': 'USA', 'Income': 18700000, 'Sales': 102900000, 'Recommendations': 2}
+{'Ticker': 'ACCD', 'Sector': 'Healthcare', 'Industry': 'Health Information Services', 'Country': 'USA', 'Income': -56200000, 'Sales': 123200000, 'Recommendations': 1}
 {'Ticker': 'ACES', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA', 'Income': nan, 'Sales': nan, 'Recommendations': nan}
+{'Ticker': 'ACHV', 'Sector': 'Healthcare', 'Industry': 'Biotechnology', 'Country': 'Canada', 'Income': -13800000, 'Sales': nan, 'Recommendations': 1}
 {'Ticker': 'ACIA', 'Sector': 'Technology', 'Industry': 'Communication Equipment', 'Country': 'USA', 'Income': 41500000, 'Sales': 485100000, 'Recommendations': 2}
 {'Ticker': 'ACLS', 'Sector': 'Technology', 'Industry': 'Semiconductor Equipment & Materials', 'Country': 'USA', 'Income': 22200000, 'Sales': 370500000, 'Recommendations': 2}
 {'Ticker': 'ACMR', 'Sector': 'Technology', 'Industry': 'Semiconductor Equipment & Materials', 'Country': 'USA', 'Income': 18700000, 'Sales': 111400000, 'Recommendations': 2}
-{'Ticker': 'ACC', 'Sector': 'Real Estate', 'Industry': 'REIT - Residential', 'Country': 'USA', 'Income': 83100000, 'Sales': 943000000, 'Recommendations': 2}
+{'Ticker': 'ACC', 'Sector': 'Real Estate', 'Industry': 'REIT - Residential', 'Country': 'USA', 'Income': 110400000, 'Sales': 918400000, 'Recommendations': 2}
 {'Ticker': 'ACGL', 'Sector': 'Financial', 'Industry': 'Insurance - Diversified', 'Country': 'Bermuda', 'Income': 1290000000, 'Sales': 6670000000, 'Recommendations': 2}
 {'Ticker': 'ACHC', 'Sector': 'Healthcare', 'Industry': 'Medical Care Facilities', 'Country': 'USA', 'Income': 112900000, 'Sales': 3130000000, 'Recommendations': 2}
-{'Ticker': 'ACI', 'Sector': 'Consumer Defensive', 'Industry': 'Grocery Stores', 'Country': 'USA', 'Income': 466400000, 'Sales': 62460000000, 'Recommendations': nan}
+{'Ticker': 'ACI', 'Sector': 'Consumer Defensive', 'Industry': 'Grocery Stores', 'Country': 'USA', 'Income': 1000000000, 'Sales': 66470000000, 'Recommendations': nan}
 {'Ticker': 'ACIO', 'Sector': 'Financial', 'Industry': 'Exchange Traded Fund', 'Country': 'USA', 'Income': nan, 'Sales': nan, 'Recommendations': nan}
 {'Ticker': 'ACIW', 'Sector': 'Technology', 'Industry': 'Software - Infrastructure', 'Country': 'USA', 'Income': 68600000, 'Sales': 1340000000, 'Recommendations': 1}
 {'Ticker': 'ACM', 'Sector': 'Industrials', 'Industry': 'Engineering & Construction', 'Country': 'USA', 'Income': -323400000, 'Sales': 16579999999, 'Recommendations': 1}
