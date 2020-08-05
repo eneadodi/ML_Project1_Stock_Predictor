@@ -139,7 +139,7 @@ class StockScraper(object):
     def write_info_to_file(self,filename):
         abs_path =  'C:/Users/Enea Dodi/git/ML_P1/ML_Project1_Stock_Predictor/' + filename
         f = open(abs_path,'w')
-        for s in self.scraped_info: #write every stock dictionary in list to file
+        for s in self.scraped_info[0:3]: #write every stock dictionary in list to file
             f.write(str(s) + '\n')
         f.close()
         return
@@ -268,7 +268,7 @@ class StockScraper(object):
     def add_all_specified_key_value_pair(self,d):
         for tickn,kickd in d.items():
             for k,v in kickd.items():
-                self.add_specified_key_value_pair(tick, k, v)
+                self.add_specified_key_value_pair(tickn, k, v)
     
     
     def print_tickers(self):
