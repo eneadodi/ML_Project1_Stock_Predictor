@@ -15,16 +15,30 @@ import constants
 import numpy as np
 import os
 
+<<<<<<< HEAD
 '''
 This class will be used to scrape information from Finviz.com It will scrape information from the table of data provided by 
 Finviz as well as the ratings data.
 '''
 class FinvizScraper(object):
     
+=======
+
+'''
+To not overburden the StoclScraper class with methods, I dedicated a helper class which does all formatting jobs for 
+the StockScraper class.
+This class will do things such as:
+    removing data
+    adding data
+    formatting data to pass to StockScraper methods
+'''
+class StockScraperHelper(object):
+>>>>>>> padding_branch
     '''
     Constructor
     '''
     def __init__(self):
+<<<<<<< HEAD
         self.HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'}
         #Used to prevent authroitzation issues.
     
@@ -36,6 +50,9 @@ class FinvizScraper(object):
         page = requests.get(url,headers=self.HEADERS).text
         soup = BeautifulSoup(page,features ="lxml")
         return soup
+=======
+        pass
+>>>>>>> padding_branch
     
     '''
     A quick regex method where it translates large number abbreviations to true number:
@@ -58,8 +75,12 @@ class FinvizScraper(object):
             if len(x) > 1:
                 rnum = float(x[:-1]) * num_map.get(x[-1].upper(), 1)
         return int(rnum)
+<<<<<<< HEAD
     
     
+=======
+
+>>>>>>> padding_branch
     def remove_empty(self,row):
         for x in row:
             if x == '-':
@@ -70,9 +91,47 @@ class FinvizScraper(object):
         del row[1]
         del row[-4]
         self.remove_empty(row)
+<<<<<<< HEAD
         return {'Ticker':row[0],'Sector':row[1],'Industry':row[2],'Country':row[3],'Market Cap': self.nabbr_to_number(row[4]),
                 'Price':float(row[5]),'Change':float(row[6].strip('%'))/100,'Volume': int(row[7].replace(',',''))}
 
+=======
+         
+        return {'Ticker':row[0],'Sector':row[1],'Industry':row[2],'Country':row[3],'Market Cap': self.nabbr_to_number(row[4]),
+                'Price':float(row[5]),'Change':float(row[6].strip('%'))/100,'Volume': int(row[7].replace(',',''))}
+
+    
+    '''
+    Given a list of ticker names from Stock Scraper, this method will pull information from yfinance API and make it 
+    ready for Stock Scraper to push into scraped_info variable.
+    '''
+    def query_yfinance_data(self,tickers):
+        pass
+'''
+This class will be used to scrape information from Finviz.com and extract information from yfinance.
+'''
+class StockScraper(object):
+    
+    '''
+    Constructor
+    '''
+    def __init__(self):
+        self.helper = StockScraperHelper()
+        self.scraped_info = []
+        self.scraped_tickers = []
+        self.HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'}
+        #Used to prevent authroitzation issues.
+    
+    """
+    param: url
+    return the Entire HTML code fo the website
+    """
+    def get_entire_HTML_page(self,url):
+        page = requests.get(url,headers=self.HEADERS).text
+        soup = BeautifulSoup(page,features ="lxml")
+        return soup
+    
+>>>>>>> padding_branch
         
     '''
     provided the soup of finviz.com/screener.ashx?v=111 this method will output a list of dictionaries provided in format:
@@ -96,9 +155,15 @@ class FinvizScraper(object):
             for child in r.descendants:
                 if child.name == 'a':
                     info.append(child.text)
+<<<<<<< HEAD
             r_dict = self.row_to_dict(info)
             stock_list.append(r_dict)
         
+=======
+            r_dict = self.helper.row_to_dict(info)
+            stock_list.append(r_dict)
+
+>>>>>>> padding_branch
         if sector != 'all':
             stock_list = list(filter(lambda x: x['Sector'] == sector,stock_list))
         if industry != 'all':
@@ -106,16 +171,28 @@ class FinvizScraper(object):
         if country != 'all':
             stock_list = list(filter(lambda x: x['Country'] == country,stock_list))
         if market_cap != 'all':
+<<<<<<< HEAD
             stock_list = list(filter(lambda x: x['Market Cap']  > market_cap,stock_list))
+=======
+            stock_list = list(filter(lambda x: x['Market Cap']  > int(market_cap),stock_list))
+>>>>>>> padding_branch
         stock_list = list(filter(lambda x: (x['Price'] > minPrice) & (x['Price'] < maxPrice),stock_list))
         return stock_list
     
     
+<<<<<<< HEAD
     def write_list_to_file(self,filename,l):
         abs_path =  'C:/Users/Enea Dodi/git/ML_P1_Stonks_Predictor/ML_P1_Stonks/Stock_predictor/' + filename
         f = open(abs_path,'w')
         for s in l: #write every stock dictionary in list to file
             f.write(str(s))
+=======
+    def write_info_to_file(self,filename):
+        abs_path =  'C:/Users/Enea Dodi/git/ML_P1/ML_Project1_Stock_Predictor/' + filename
+        f = open(abs_path,'w')
+        for s in self.scraped_info: #write every stock dictionary in list to file
+            f.write(str(s) + '\n')
+>>>>>>> padding_branch
         f.close()
         return
     
@@ -137,7 +214,11 @@ class FinvizScraper(object):
         maxPrice - Filter for certain maximum Price. Default 1000
         volume - Filter for certain Volume. Default 200,000
     '''
+<<<<<<< HEAD
     def get_all_stock_table_information(self,url,sector='all',industry='all',country='all',market_cap='all',minPrice=8,maxPrice=1000,volume=200000):
+=======
+    def get_all_stock_table_information(self,url,sector='all',industry='all',country='all',market_cap='all',minPrice=8,maxPrice=1000,volume=200000,minimal = True):
+>>>>>>> padding_branch
         '''
         First we get soup and find the td with class 'count-text'. This'll give us the total number of
         tickers.
@@ -150,13 +231,18 @@ class FinvizScraper(object):
         url_extension = 'r='
         curr_tickers = 21
         
+<<<<<<< HEAD
         l = self.get_stock_table_information(soup)
+=======
+        l = self.get_stock_table_information(soup, sector, industry, country, market_cap, minPrice, maxPrice, volume)
+>>>>>>> padding_branch
         
         for i in range(iterations):
             next_url = url + url_extension + str(curr_tickers)
             print(next_url)
             next_soup = self.get_entire_HTML_page(next_url)
             curr_tickers += 20
+<<<<<<< HEAD
             l = l + self.get_stock_table_information(next_soup)
         
         filename = 'stock_info.txt'
@@ -164,9 +250,117 @@ class FinvizScraper(object):
         return l
 
 fs = FinvizScraper()
+=======
+            l = l + self.get_stock_table_information(next_soup, sector, industry, country, market_cap, minPrice, maxPrice, volume)
+        
+        if minimal:
+            '''
+            There were many ways for me to implement the minimal parameter. While seemingly a longer process, 
+            due to the filterations done by the other parameters, it is best to remove the specified columns at the end.
+            '''
+            keys = ('Market Cap', 'Price', 'Change', 'Volume')
+            for i in l:
+                for k in keys:
+                    del i[k]
+        
+        
+        #filename = 'stock_info.txt'
+        #self.write_list_to_file(filename,l)
+        #print(l)
+        self.scraped_info = l
+        self.scraped_tickers = self.extract_tickers()
+
+    '''
+    Finviz offers in depth analysis for each stock on their individual page. I will be scraping three additional features for the ML algorithm:
+    Reccomendation : the average analyst recommendation (1 best, 5 worst)
+    Income : income of company
+    Sales : Sales of company
+    '''
+    def add_RIS(self):
+        url = 'https://finviz.com/quote.ashx?t='
+        for i in range(len(self.scraped_tickers)):
+            t_r = self.get_entire_HTML_page(url+self.scraped_tickers[i]).find('table',{'class':'snapshot-table2'},recursive = True).find_all('tr',{'class':'table-dark-row'})
+
+            income_r = t_r[2].find_all('td')[1].text
+            sales_r = t_r[3].find_all('td')[1].text
+            recc_r = t_r[-1].find_all('td')[1].text
+            
+            income = self.helper.nabbr_to_number(income_r) if income_r != '-' else np.nan
+            sales = self.helper.nabbr_to_number(sales_r) if sales_r != '-' else np.nan
+            recc = self.helper.nabbr_to_number(recc_r) if recc_r != '-' else np.nan
+            
+            self.scraped_info[i]['Income'] = income 
+            self.scraped_info[i]['Sales'] = sales 
+            self.scraped_info[i]['Recommendations'] = recc
+            
+    
+    def extract_tickers(self):
+        return list(map(lambda x: x['Ticker'], self.scraped_info))
+    
+    def add_all_keys(self,key_vals):
+        for t in self.scraped_info:
+            for new_k in key_vals:
+                t[new_k] = None
+    
+    def add_all_same_key_value_pairs(self,key_vals):
+        for t in self.scraped_info:
+            for new_k,new_v in key_vals.items():
+                t[new_k] = new_v
+    
+    '''
+    Add a key, value pair to certain index of info_scraped
+    '''
+                
+    def add_specified_key_value_pair(self,tname,key,val):
+        t = next(item for item in self.scraped_info if item["Ticker"] == tname)
+        t[key] = val
+    
+    '''
+    In this case, we want to automate the add_specified_key_value_pair for all
+    stocks in the info_scraped list. To do this we pass in a dictionary with the 
+    following format:
+    
+    d = {
+            'TICKERNAME1' : {'NEWKEY1A' : 'NEWVAL1A',
+                             'NEWKEY1B' : 'NEWVAL1B',
+                             ....
+                            }
+            'TICKERNAME2' : {'NEWKEY1A' : 'NEWVAL1A',
+                             'NEWKEY1B' : 'NEWVAL1B',
+                             ....
+                            }
+            ....
+        }
+        
+    a function which will format this information in the specified order will likely be necassary
+    '''
+    def add_all_specified_key_value_pair(self,d):
+        for tickn,kickd in d.items():
+            for k,v in kickd.items():
+                self.add_specified_key_value_pair(tickn, k, v)
+    
+    
+    def print_tickers(self):
+        
+        for i in self.scraped_tickers:
+            print(i)
+
+
+            
+'''
+fs = StockScraper()
+>>>>>>> padding_branch
 url = 'https://finviz.com/screener.ashx?v=111&'
 soup = fs.get_entire_HTML_page(url)
 
 #l = fs.get_stock_table_information(soup)
 l = fs.get_all_stock_table_information(url)
+<<<<<<< HEAD
 #print(l)
+=======
+
+#fs.print_tickers()
+fs.add_RIS()
+fs.write_info_to_file('stock_info.txt')
+'''
+>>>>>>> padding_branch
