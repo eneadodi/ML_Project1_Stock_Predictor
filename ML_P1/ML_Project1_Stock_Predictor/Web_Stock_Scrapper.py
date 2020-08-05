@@ -131,7 +131,7 @@ class StockScraper(object):
         if country != 'all':
             stock_list = list(filter(lambda x: x['Country'] == country,stock_list))
         if market_cap != 'all':
-            stock_list = list(filter(lambda x: x['Market Cap']  > market_cap,stock_list))
+            stock_list = list(filter(lambda x: x['Market Cap']  > int(market_cap),stock_list))
         stock_list = list(filter(lambda x: (x['Price'] > minPrice) & (x['Price'] < maxPrice),stock_list))
         return stock_list
     
@@ -139,7 +139,7 @@ class StockScraper(object):
     def write_info_to_file(self,filename):
         abs_path =  'C:/Users/Enea Dodi/git/ML_P1/ML_Project1_Stock_Predictor/' + filename
         f = open(abs_path,'w')
-        for s in self.scraped_info[0:3]: #write every stock dictionary in list to file
+        for s in self.scraped_info: #write every stock dictionary in list to file
             f.write(str(s) + '\n')
         f.close()
         return
@@ -177,7 +177,7 @@ class StockScraper(object):
         
         l = self.get_stock_table_information(soup, sector, industry, country, market_cap, minPrice, maxPrice, volume)
         
-        for i in range(1):
+        for i in range(iterations):
             next_url = url + url_extension + str(curr_tickers)
             print(next_url)
             next_soup = self.get_entire_HTML_page(next_url)
