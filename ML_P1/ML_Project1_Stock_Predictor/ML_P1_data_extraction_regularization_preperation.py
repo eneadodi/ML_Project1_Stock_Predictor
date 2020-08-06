@@ -11,8 +11,9 @@ import pickle
 import os
 import threading 
 
-lock = Lock()
-f = open("execution_time_tracking.txt","w")
+
+lock = threading.Lock()
+f = open("execution_time_tracking.txt","a")
 '''
 Given a list of ticker names from Stock Scraper, this method will pull information from yfinance API and make it 
 ready for Stock Scraper to push into scraped_info variable.
@@ -25,6 +26,7 @@ def query_and_format_yfinance_data(allTickers,periodt = '1mo',intervalt = '1wk')
     
     queried_data = {}
     for t in allTickers:
+        print("Curr ticker: " + str(t))
         queried_data[t] = {}
         curr_stock_history = data[t]
         for r in range(rows):
@@ -42,7 +44,7 @@ def query_and_format_yfinance_data(allTickers,periodt = '1mo',intervalt = '1wk')
         
         '''
         ih = yf.Ticker(t).institutional_holders 
-        time.sleep(0.05)
+        time.sleep(0.2)
         if (ih is None) or (isinstance(ih, list)) or ('Holder' not in ih.columns) :
             queried_data[t]['Institutional_Holders'] = []
         else:
@@ -65,7 +67,7 @@ def prepare_Stock_Scraper():
     ss = StockScraper()
     url = 'https://finviz.com/screener.ashx?v=111&'
 
-    ss.get_all_stock_table_information(url)
+    ss.get_all_stock_table_information(url,market_cap='1500000000')
     print('got table information')
     ss.add_RIS()
     print('added RIS')
@@ -73,24 +75,25 @@ def prepare_Stock_Scraper():
 
 def query_and_save_yf(ss,t_n,picklename):
     t_start = time.time()
-    d = query_and_format_yfinance_data(t_n)
+    d = query_and_format_yfinance_data(t_n,periodt='2y',intervalt='1wk')
     t_end = time.time()
     t_total = t_end - t_start
     yfinance_query_time = "query_and_format_yfinance_data for this quarter of ticker names took " + "{:.4f}".format(t_total) + " seconds\n"
     f.write(yfinance_query_time)
-    lock.acquire() #to ensure thread synchronization is well met.
+    #lock.acquire() #to ensure thread synchronization is well met.
     ss.add_all_specified_key_value_pair(d)
     progress_save_p = ss.scraped_info
-    lock.release()
+    #lock.release()
     save_obj(progress_save_p, picklename)
     print('Saved to ' + picklename + '\n')
-    time.sleep(0.5)
+    #time.sleep(0.5)
     
 def main():
     
     
     '''
     Scraping information from Finviz first
+    '''
     '''
     t_start = time.time()
     ss = prepare_Stock_Scraper()
@@ -99,11 +102,52 @@ def main():
     t_total = t_end - t_start
     finviz_scraping_time = "prepare_Stock_Scraper() took " + "{:.4f}".format(t_total) + " seconds\n"
     f.write(finviz_scraping_time)
-    
-    ticker_info_list = ss.scraped_info
+    '''
+    ss = StockScraper()
+    ss.scraped_info = load_obj('preYFinanceData')
+    ss.scraped_tickers = ss.extract_tickers()
     ticker_names = ss.scraped_tickers
+    ticker_info = ss.scraped_info
+    save_obj(ticker_info, "preYFinanceData")
+    print("ticker name length is: " + str(len(ticker_names)))
     
+    t_n1 = ticker_names[:400]
+    t_n2 = ticker_names[400:800]
+    t_n3 = ticker_names[800:1200]
+    t_n4 = ticker_names[1200:1600]
+    t_n5 = ticker_names[1600:]
     
+    query_and_save_yf(ss,t_n1,'1.5StockData')
+    
+    query_and_save_yf(ss,t_n2,'2.5StockData')
+    
+    query_and_save_yf(ss,t_n3,'3.5QuarterStockData')
+    
+    query_and_save_yf(ss,t_n4,'4.5StockData')
+    
+    query_and_save_yf(ss,t_n5,'FullStockData')
+    '''
+    VERSION 1
+    d2 = query_and_format_yfinance_data(t_n2)
+    ss.add_all_specified_key_value_pair(d2)
+    progress_save_p2 = ss.scraped_info
+    save_obj(progress_save_p2, "halfStockData")
+    print('Saved this quarter of complete dictionary')
+    
+    d3 = query_and_format_yfinance_data(t_n3)
+    ss.add_all_specified_key_value_pair(d3)
+    progress_save_p3 = ss.scraped_info
+    save_obj(progress_save_p3, "ThreeQuarterStockData")
+    print('Saved this quarter of complete dictionary')
+    
+    d4 = query_and_format_yfinance_data(t_n4)
+    ss.add_all_specified_key_value_pair(d4)
+    progress_save_p4 = ss.scraped_info
+    save_obj(progress_save_p4, "FullStockData")
+    print('Saved this quarter of complete dictionary')
+    '''
+    '''
+    VERSION 2: Threading made yfinance go bonkers therefore i opted out.
     divisor = len(ticker_names) // 4
     
     t_n1 = ticker_names[:divisor]
@@ -124,34 +168,11 @@ def main():
     thread3.start()
     thread4.start()
     
+    thread1.join()
+    thread2.join()
+    thread3.join()
+    thread4.join() 
     '''
-     query_yf(ss,t_n1,'quarterStockData')
-    
-    query_yf(ss,t_n2,'HalfStockData')
-    
-    query_yf(ss,t_n3,'ThreeQuarterStockData')
-    
-    query_yf(ss,t_n4,'FullStockData')
-    
-    d2 = query_and_format_yfinance_data(t_n2)
-    ss.add_all_specified_key_value_pair(d2)
-    progress_save_p2 = ss.scraped_info
-    save_obj(progress_save_p2, "halfStockData")
-    print('Saved this quarter of complete dictionary')
-    
-    d3 = query_and_format_yfinance_data(t_n3)
-    ss.add_all_specified_key_value_pair(d3)
-    progress_save_p3 = ss.scraped_info
-    save_obj(progress_save_p3, "ThreeQuarterStockData")
-    print('Saved this quarter of complete dictionary')
-    
-    d4 = query_and_format_yfinance_data(t_n4)
-    ss.add_all_specified_key_value_pair(d4)
-    progress_save_p4 = ss.scraped_info
-    save_obj(progress_save_p4, "FullStockData")
-    print('Saved this quarter of complete dictionary')
-    '''
-    
     
 if __name__ == '__main__':
     main()
