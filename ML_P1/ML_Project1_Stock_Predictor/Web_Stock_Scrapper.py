@@ -136,6 +136,14 @@ class StockScraper(object):
         return stock_list
     
     
+    def write_IH_to_file(self,filename):
+        abs_path =  'C:/Users/Enea Dodi/git/ML_P1/ML_Project1_Stock_Predictor/' + filename
+        f = open(abs_path,'w')
+        for s in self.scraped_info: #write every stock dictionary in list to file
+            f.write(str(s['Institutional_Holders']) + '\n')
+        f.close()
+        return
+    
     def write_info_to_file(self,filename):
         abs_path =  'C:/Users/Enea Dodi/git/ML_P1/ML_Project1_Stock_Predictor/' + filename
         f = open(abs_path,'w')
