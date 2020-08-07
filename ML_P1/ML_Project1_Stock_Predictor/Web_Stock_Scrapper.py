@@ -283,18 +283,3 @@ class StockScraper(object):
         
         for i in self.scraped_tickers:
             print(i)
-
-
-            
-'''
-fs = StockScraper()
-url = 'https://finviz.com/screener.ashx?v=111&'
-soup = fs.get_entire_HTML_page(url)
-
-#l = fs.get_stock_table_information(soup)
-l = fs.get_all_stock_table_information(url)
-
-#fs.print_tickers()
-fs.add_RIS()
-fs.write_info_to_file('stock_info.txt')
-'''
