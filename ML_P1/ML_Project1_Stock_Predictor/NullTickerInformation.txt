@@ -1,0 +1,548 @@
+average # null per ticker for volume columns in dataframe is: 107.13448090371168
+std # null per ticker for volume columns in dataframe is: 21.360310213290543
+average # null per ticker for price columns in dataframe is: 107.13448090371168
+std # null per ticker for price columns in dataframe is: 21.360310213290543
+average # null per ticker for categorical columns in dataframe is: 0.1172673480365788
+std #null per ticker for categorical columns in dataframe is: 0.4392206855532678
+VOLUME NULL OUTLIERS: 
+153/1859 are one standard deviation away from average null values per ticker
+Ticker
+GLOB     207
+BKU      207
+PSLV     207
+TTD      207
+WM       207
+LRN      207
+WLTW     207
+FEYE     207
+CCC      207
+NWN      207
+CSOD     207
+RYAAY    207
+CCU      207
+CROX     207
+PCVX     206
+KKR      206
+RELX     206
+LX       206
+MGA      206
+CRM      206
+CVET     206
+LVGO     206
+CMP      206
+AER      206
+DOX      206
+LHX      206
+HXL      206
+VOD      206
+UNF      206
+K        206
+FR       206
+TXRH     206
+EOG      206
+VERX     204
+ALVR     204
+JAMF     203
+NCNO     202
+ALXO     202
+BLI      202
+RLAY     202
+GOCO     201
+DNB      200
+LMND     200
+ACCD     200
+ACI      199
+API      199
+RPRX     198
+AZEK     197
+VRM      197
+BNR      197
+FOUR     196
+WMG      196
+LEGN     196
+DADA     196
+ZI       196
+ADCT     194
+NARI     194
+SLQT     194
+KC       192
+APG      191
+LPRO     188
+MSGE     188
+ARNC     187
+BIPC     187
+CHX      186
+NKLA     186
+OTIS     185
+CARR     185
+GFL      183
+SDGR     179
+PPD      179
+REYN     178
+ONEM     178
+IMAB     176
+DNK      176
+NTCO     175
+VIAC     172
+SPT      171
+BILL     171
+XP       171
+OCFT     171
+HWM      167
+ONTO     165
+DAO      164
+PGNY     164
+VIR      162
+BNTX     162
+VIE      161
+PTON     160
+NVST     159
+IGMS     159
+PRMW     159
+CRNC     159
+DDOG     159
+PING     159
+NET      158
+SBSW     158
+SWTX     158
+TXG      158
+SDC      158
+TT       156
+TFII     154
+DKNG     153
+VRT      152
+DT       152
+WTRG     152
+NOVA     151
+VVNT     151
+AMK      150
+ORCC     150
+MDLA     150
+DOYU     150
+AFYA     150
+IFS      148
+BBIO     147
+KRTX     147
+IMVT     147
+ADPT     147
+CHNG     147
+IAA      146
+WORK     146
+GO       146
+CRWD     145
+CHWY     145
+FVRR     145
+GSX      144
+FSLY     142
+CTVA     142
+AVTR     141
+PSN      140
+UBER     140
+SY       139
+BYND     139
+SCPL     139
+TPTX     137
+ZM       137
+PLMR     137
+PINS     137
+PD       136
+ALC      136
+TW       135
+BAK      135
+SILK     135
+LYFT     134
+LEVI     133
+DOW      133
+SPCE     132
+FOXA     132
+AHCO     132
+FOX      132
+NLOK     131
+FUTU     131
+SWAV     131
+
+
+PRICE NULL OUTLIERS: 
+153/1859 are one standard deviation away from average null values per ticker
+Ticker
+GLOB     207
+BKU      207
+PSLV     207
+TTD      207
+WM       207
+LRN      207
+WLTW     207
+FEYE     207
+CCC      207
+NWN      207
+CSOD     207
+RYAAY    207
+CCU      207
+CROX     207
+PCVX     206
+KKR      206
+RELX     206
+LX       206
+MGA      206
+CRM      206
+CVET     206
+LVGO     206
+CMP      206
+AER      206
+DOX      206
+LHX      206
+HXL      206
+VOD      206
+UNF      206
+K        206
+FR       206
+TXRH     206
+EOG      206
+VERX     204
+ALVR     204
+JAMF     203
+NCNO     202
+ALXO     202
+BLI      202
+RLAY     202
+GOCO     201
+DNB      200
+LMND     200
+ACCD     200
+ACI      199
+API      199
+RPRX     198
+AZEK     197
+VRM      197
+BNR      197
+FOUR     196
+WMG      196
+LEGN     196
+DADA     196
+ZI       196
+ADCT     194
+NARI     194
+SLQT     194
+KC       192
+APG      191
+LPRO     188
+MSGE     188
+ARNC     187
+BIPC     187
+CHX      186
+NKLA     186
+OTIS     185
+CARR     185
+GFL      183
+SDGR     179
+PPD      179
+REYN     178
+ONEM     178
+IMAB     176
+DNK      176
+NTCO     175
+VIAC     172
+SPT      171
+BILL     171
+XP       171
+OCFT     171
+HWM      167
+ONTO     165
+DAO      164
+PGNY     164
+VIR      162
+BNTX     162
+VIE      161
+PTON     160
+NVST     159
+IGMS     159
+PRMW     159
+CRNC     159
+DDOG     159
+PING     159
+NET      158
+SBSW     158
+SWTX     158
+TXG      158
+SDC      158
+TT       156
+TFII     154
+DKNG     153
+VRT      152
+DT       152
+WTRG     152
+NOVA     151
+VVNT     151
+AMK      150
+ORCC     150
+MDLA     150
+DOYU     150
+AFYA     150
+IFS      148
+BBIO     147
+KRTX     147
+IMVT     147
+ADPT     147
+CHNG     147
+IAA      146
+WORK     146
+GO       146
+CRWD     145
+CHWY     145
+FVRR     145
+GSX      144
+FSLY     142
+CTVA     142
+AVTR     141
+PSN      140
+UBER     140
+SY       139
+BYND     139
+SCPL     139
+TPTX     137
+ZM       137
+PLMR     137
+PINS     137
+PD       136
+ALC      136
+TW       135
+BAK      135
+SILK     135
+LYFT     134
+LEVI     133
+DOW      133
+SPCE     132
+FOXA     132
+AHCO     132
+FOX      132
+NLOK     131
+FUTU     131
+SWAV     131
+
+
+CATEGORICAL NULL OUTLIERS: 
+147/1859 are one standard deviation away from average null values per ticker
+Ticker
+PSLV     3
+DSL      3
+CGC      3
+BBN      3
+AKO-A    3
+JAMF     3
+IVV      3
+OR       3
+NTCO     3
+TFII     3
+SUZ      3
+DOOO     3
+PTY      2
+TAK      2
+ARGX     2
+EQX      2
+GLPG     2
+DNB      2
+ALVR     2
+KL       2
+GFL      2
+CSQ      2
+NG       2
+IFS      2
+GDV      2
+CWEN     2
+RACE     2
+MAG      2
+BLI      2
+MOR      2
+FMS      2
+BF-A     2
+LEN-B    2
+VERX     2
+GRFS     2
+DNP      2
+NUV      2
+NWS      2
+PCI      2
+UTG      2
+PBR-A    2
+RLAY     2
+NAC      2
+GMAB     2
+CP       2
+AQN      2
+BTT      2
+HEI-A    2
+PBA      2
+ETY      2
+FTS      2
+FOX      2
+CEF      2
+HDB      2
+NVG      2
+UTF      2
+ADX      2
+NAD      2
+JPS      2
+GSH      1
+CUK      1
+DOX      1
+COKE     1
+KOD      1
+FOUR     1
+OTIS     1
+FCNCA    1
+FSK      1
+ANAT     1
+SAND     1
+ALXO     1
+CENTA    1
+PTON     1
+MYOV     1
+AGO      1
+PVG      1
+ALLK     1
+MYOK     1
+NCNO     1
+APG      1
+Z        1
+GOCO     1
+BRK-B    1
+IX       1
+APLS     1
+LBTYK    1
+ACI      1
+SKM      1
+DNK      1
+AUPH     1
+BEP      1
+CRH      1
+IBOC     1
+IGMS     1
+CBOE     1
+ALLO     1
+SPNS     1
+MORN     1
+API      1
+RDS-B    1
+CHT      1
+QSR      1
+VRM      1
+AGI      1
+IMVT     1
+FNV      1
+RGR      1
+IOVA     1
+AG       1
+ADCT     1
+ARCC     1
+CARR     1
+MDGL     1
+NEA      1
+UL       1
+LBRDK    1
+KRTX     1
+NTR      1
+UNF      1
+FSV      1
+UA       1
+BBU      1
+YMAB     1
+AXSM     1
+TR       1
+ZNH      1
+LSXMK    1
+FWONK    1
+PCVX     1
+NZF      1
+SWTX     1
+NGG      1
+EURN     1
+ESGR     1
+BIPC     1
+GBDC     1
+ARNC     1
+ZI       1
+GHC      1
+CAJ      1
+OSB      1
+ALC      1
+TU       1
+DB       1
+TPTX     1
+HCM      1
+AU       1
+
+
+BAD BAD STOCKSNTCO
+-----
+VRM
+-----
+OTIS
+-----
+APG
+-----
+API
+-----
+GFL
+-----
+SWTX
+-----
+TFII
+-----
+TPTX
+-----
+CARR
+-----
+DNB
+-----
+PCVX
+-----
+BLI
+-----
+ZI
+-----
+ACI
+-----
+VERX
+-----
+ADCT
+-----
+NCNO
+-----
+BIPC
+-----
+KRTX
+-----
+ALXO
+-----
+JAMF
+-----
+UNF
+-----
+ARNC
+-----
+ALVR
+-----
+ALC
+-----
+IMVT
+-----
+DNK
+-----
+GOCO
+-----
+FOUR
+-----
+FOX
+-----
+IFS
+-----
+DOX
+-----
+PSLV
+-----
+IGMS
+-----
+PTON
+-----
+RLAY
+-----
