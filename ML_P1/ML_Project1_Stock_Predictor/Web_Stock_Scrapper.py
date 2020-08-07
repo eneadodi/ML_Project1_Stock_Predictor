@@ -181,12 +181,23 @@ class StockScraper(object):
     
     
 <<<<<<< HEAD
+<<<<<<< HEAD
     def write_list_to_file(self,filename,l):
         abs_path =  'C:/Users/Enea Dodi/git/ML_P1_Stonks_Predictor/ML_P1_Stonks/Stock_predictor/' + filename
         f = open(abs_path,'w')
         for s in l: #write every stock dictionary in list to file
             f.write(str(s))
 =======
+=======
+    def write_IH_to_file(self,filename):
+        abs_path =  'C:/Users/Enea Dodi/git/ML_P1/ML_Project1_Stock_Predictor/' + filename
+        f = open(abs_path,'w')
+        for s in self.scraped_info: #write every stock dictionary in list to file
+            f.write(str(s['Institutional_Holders']) + '\n')
+        f.close()
+        return
+    
+>>>>>>> padding_branch
     def write_info_to_file(self,filename):
         abs_path =  'C:/Users/Enea Dodi/git/ML_P1/ML_Project1_Stock_Predictor/' + filename
         f = open(abs_path,'w')
