@@ -1,0 +1,6 @@
+prepare_Stock_Scraper() took 1588.4088 seconds
+query_and_format_yfinance_data for this fifth of ticker names took 833.0118 seconds
+query_and_format_yfinance_data for this fifth of ticker names took 769.6889 seconds
+quert_and_format_yfinance_data for thsi fifth of ticker names took 774.2251 seconds
+query_and_format_yfinance_data for this fifth of ticker names took 784.8919 seconds
+query_and_format_yfinance_data for this fifth of ticker names took 491.4485 seconds
