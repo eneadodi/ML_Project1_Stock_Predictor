@@ -1,0 +1,2 @@
+prepare_Stock_Scraper() took 1588.4088 seconds
+query_and_format_yfinance_data of ticker names took 3895.1087 seconds

@@ -96,7 +96,7 @@ def main():
     '''
     Scraping information from Finviz first
     '''
-    
+    '''
     t_start = time.time()
     ss = prepare_Stock_Scraper()
     t_end = time.time()
@@ -104,12 +104,11 @@ def main():
     t_total = t_end - t_start
     finviz_scraping_time = "prepare_Stock_Scraper() took " + "{:.4f}".format(t_total) + " seconds\n"
     f.write(finviz_scraping_time)
+    '''
     
-    '''
     ss = StockScraper()
-    ss.scraped_info = load_obj('FullStockData')
+    ss.scraped_info = load_obj('preYFinanceData')
     ss.scraped_tickers = ss.extract_tickers()
-    '''
     
     ticker_names = ss.scraped_tickers
     ticker_info = ss.scraped_info
@@ -117,13 +116,14 @@ def main():
     #save_obj(ticker_info, "preYFinanceData")
     #print("ticker name length is: " + str(len(ticker_names)))
     
-    t_n1 = ticker_names[:400]
-    t_n2 = ticker_names[400:800]
-    t_n3 = ticker_names[800:1200]
-    t_n4 = ticker_names[1200:1600]
-    t_n5 = ticker_names[1600:]
+    #t_n1 = ticker_names[:400]
+    #t_n2 = ticker_names[400:800]
+    #t_n3 = ticker_names[800:1200]
+    #t_n4 = ticker_names[1200:1600]
+    #t_n5 = ticker_names[1600:]
     
-    
+    query_and_save_yf(ss, ticker_names, "FullStockDataVB")
+    '''
     query_and_save_yf(ss,t_n1,'1.5StockData')
     
     query_and_save_yf(ss,t_n2,'2.5StockData')
@@ -133,7 +133,7 @@ def main():
     query_and_save_yf(ss,t_n4,'4.5StockData')
     
     query_and_save_yf(ss,t_n5,'FullStockData')
-    
+    '''
     f.close()
 
     '''
