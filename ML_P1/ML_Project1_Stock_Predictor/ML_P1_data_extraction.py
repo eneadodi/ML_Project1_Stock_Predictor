@@ -15,6 +15,52 @@ import threading
 #lock = threading.Lock()
 f = open("execution_time_tracking.txt","a")
 
+
+'''
+Given a list of ticker names from Stock Scraper, this method will pull information from yfinance API and make it 
+ready for Stock Scraper to push into scraped_info variable.
+'''
+''' 
+def query_and_save_yf2(ss,picklename):
+    f = open('ConcludedStocksYF2.txt','a')
+    ticker_names = ss.scraped_tickers
+    for i in ticker_names:
+        print('Curr Ticker: ' + i)
+        ticker = yf.Ticker(i)
+        time.sleep(0.2)
+        data = ticker.history(period = '5y', interval = '1wk',auto_adjust=True)
+        queried_data = {}
+        queried_data[i] = {}
+        rows = len(data.index)
+        for r in range(rows):
+            date = str(data.index[r].date())
+            queried_data[i][date + ' Close'] = data['Close'].iloc[r]
+            queried_data[i][date + ' Volume'] = data['Volume'].iloc[r]
+        print("Finished storing Ticker prices for " + i)
+        ih = ticker.institutional_holders
+        if (ih is None) or (isinstance(ih, list)) or ('Holder' not in ih.columns) :
+            queried_data[i]['Institutional Holders'] = []
+        else:
+            queried_data[i]['Institutional Holders'] = ih['Holder'].tolist()
+        
+        ss.add_all_specified_key_value_pair(queried_data)
+        progress_save_p = ss.scraped_info
+        
+        e.save_obj(progress_save_p,picklename)
+        print("FInished completely with Ticker: " + i)
+        f.write("Finished: " + i + '\n')
+    f.close()
+    
+def main():
+    print('start!')
+    time.sleep(2)
+    ss = StockScraper()
+    ss.scraped_info = e.load_obj('preYFinanceData')
+    ss.scraped_tickers = ss.extract_tickers()
+
+    query_and_save_yf2(ss,"FullStockDataVC")
+'''
+
 '''
 Given a list of ticker names from Stock Scraper, this method will pull information from yfinance API and make it 
 ready for Stock Scraper to push into scraped_info variable.
@@ -89,7 +135,7 @@ def query_and_save_yf(ss,t_n,picklename):
     f.write(yfinance_query_time)
     #lock.acquire() #to ensure thread synchronization is well met.
     #time.sleep(0.5)
-    
+
 def main():
     
     
@@ -114,13 +160,6 @@ def main():
     ticker_info = ss.scraped_info
     
     #save_obj(ticker_info, "preYFinanceData")
-    #print("ticker name length is: " + str(len(ticker_names)))
-    
-    #t_n1 = ticker_names[:400]
-    #t_n2 = ticker_names[400:800]
-    #t_n3 = ticker_names[800:1200]
-    #t_n4 = ticker_names[1200:1600]
-    #t_n5 = ticker_names[1600:]
     
     query_and_save_yf(ss, ticker_names, "FullStockDataVB")
     '''

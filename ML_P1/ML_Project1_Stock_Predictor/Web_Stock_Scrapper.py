@@ -148,7 +148,7 @@ class StockScraper(object):
         abs_path =  'C:/Users/Enea Dodi/git/ML_P1/ML_Project1_Stock_Predictor/' + filename
         f = open(abs_path,'w')
         for s in self.scraped_info: #write every stock dictionary in list to file
-            f.write(str(s) + '\n')
+            f.write(str(s) + '\n\n\n\n')
         f.close()
         return
     
