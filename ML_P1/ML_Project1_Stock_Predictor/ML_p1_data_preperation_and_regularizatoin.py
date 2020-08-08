@@ -18,11 +18,33 @@ import os
 import threading 
 import collections
 from pandas.tests.frame.test_sort_values_level_as_str import ascending
-
+from dateutil import rrule
+from datetime import datetime, timedelta
+import copy
+from pickle import HIGHEST_PROTOCOL
+'''
+Yfinance gave many null dates that were between the weekly intervals. As in, 
+if a week time is 2020-07-06 to 2020-07-13, then any values that were between these two dates are all null for all stocks. 
+Thus we need to clean up that information.
+First week is 2018-08-06 and last week is 2020-08-06
+'''
+def pick_date_range(df,startd,endd):
+    start = datetime(startd[0],startd[1],startd[2])
+    end = datetime(endd[0],endd[1],endd[2])
+    
+    l = []
+    l.extend(['Ticker','Sector','Industry','Country','Income','Sales','Recommendations','Institutional Holders'])
+    for dt in rrule.rrule(rrule.WEEKLY,dtstart=start,until=end):
+        #l.append("Date: " + str(dt.date()) + " Close")
+        l.append(str(dt.date()))
+    cols = [c for c in df.columns if any(map(c.__contains__, l))]
+    return df[cols]
+    
 '''
 Yfinance has a lot of missing values. I want to simply print out stats on what values are missing
+This method also removes the worst tickers if specified. Default it doe snot.
 '''
-def get_null_information(filename,df):
+def get_null_information(filename,df,remove_worst = False):
     pd.set_option('display.max_rows', len(df))
     f = open(filename + '.txt','w')
     #Divide up the df into three sections: volume per week, price per week, Non time related values
@@ -75,6 +97,8 @@ def get_null_information(filename,df):
     f.write(serc_outliers.to_string())
     f.write("\n\n\n")
     
+    
+    
     #finally check to see which tickers are featured in all three categories. These stocks probably gotta go.
     serv_i = serv_outliers.index
     serp_i = serp_outliers.index
@@ -86,6 +110,7 @@ def get_null_information(filename,df):
         f.write('\n-----\n')
     
     pd.reset_option('display.max_rows')
+    
     f.close()
 '''
 To print all information onto console rather than truncated version. 
@@ -139,15 +164,13 @@ Thus the given solution is acceptable.
 def fill_empty_price_columns(df):
     pass
 
-def main():
-    
-    
-    
+
+def initalStart():     
     #Load information
     ss = StockScraper()
-    ss.scraped_info = e.load_obj('FullStockDataVB')
-    ss.scraped_tickers = ss.extract_tickers()
+    ss.scraped_info = e.load_obj('FullStockDataVC')
     stock_information_dict = ss.scraped_info
+    ss.scraped_tickers = ss.extract_tickers()
     
     #check to see if each dictionary has same key values:
     #check_identical_keys(stock_information_dict)
@@ -157,23 +180,52 @@ def main():
     df = pd.DataFrame(stock_information_dict, columns=stock_information_dict[0].keys())
     df.set_index('Ticker',inplace=True)
     df = df.reindex(np.random.permutation(df.index))
-    #print(df.head(5))
-    # df.loc[df.astype(str).drop_duplicates().index] There are no duplicates :)
+    #df.loc[df.astype(str).drop_duplicates().index] There are no duplicates :)
     
     
     
-    #print(non_time_values_df.columns)
-    #print(volume_per_week_df.columns)
-    #print(price_per_week_df.columns)
+    #I have yet to decide if my Machine Learning Algorithm will be learning from a 2 year time span or a 5 year time span.
+    # Thus I will make a copy of both options
+    dstart2y = [2018,8,7]
+    dstart5y = [2015,8,7]
+    dend = [2020,8,7]
     
-    #print("Describing Volume per Week sub-DataFrame",volume_per_week_df.info())
-    #print("Describing Price per week sub-DataFrame",price_per_week_df.info())
-    #print("Describing non-time related columns sub-DataFrame",non_time_values_df.info())
-    #pd.set_option('display.max_rows', len(df))
+    df2y = pick_date_range(df,dstart2y,dend)
+    df5y = pick_date_range(df, dstart5y, dend)
+    df2y.to_pickle('2YStockDF',protocol=HIGHEST_PROTOCOL)
+    df5y.to_pickle('5YStockDF',protocol=HIGHEST_PROTOCOL)
     
-    get_null_information('NullTickerInformation', df)
+    
+def main():
+    
+    f = open('dictionryToStringVC.txt','a')
+    #Will only be called once, when we have the dictionary but not pandas.
+    initalStart()
+    '''
+    df = pd.read_pickle('2YStockDF')
+    #df5y = pd.read_pickle('5yStockDF')
+    
+    
+    
+    filter_vpw = [col for col in df if 'Volume' in col]
+    filter_vpw = [col for col in df if 'Volume' in col]
+    filter_ppw = [col for col in df if 'Close' in col]
+    time_rv = filter_vpw + filter_ppw
+    filter_ntrv = [col for col in df if col not in time_rv]
+
+    volume_per_week_df = df[filter_vpw]
+    price_per_week_df = df[filter_ppw]
+    categorical_values_df = df[filter_ntrv]
+    get_null_information('NullTickerInformation2Y', df)
+    pd.set_option('display.max_rows', len(df))
+    ndf = price_per_week_df.isnull().sum(axis=0)
+    
+    #print(ndf)
+    #print(len(list(ndf)))
+    
+    '''
     print("donzo")
-    
-    
+    f.close()
+
 if __name__ == "__main__":
     main()
