@@ -4,6 +4,7 @@ In ML_P1_data_extraction, I extracted infromation from finviz through Web_Stock_
 In this module, I will load in the pickle FullStockData.pkl from the directory, transform this dictionary into a pandas DataFrame,
 fix any missing values, normalize/regularize and prepare the data for the ML algorithms.
 '''
+import math
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -22,6 +23,7 @@ from dateutil import rrule
 from datetime import datetime, timedelta
 import copy
 from pickle import HIGHEST_PROTOCOL
+from pandas.tests.reshape.test_pivot import dropna
 '''
 Yfinance gave many null dates that were between the weekly intervals. As in, 
 if a week time is 2020-07-06 to 2020-07-13, then any values that were between these two dates are all null for all stocks. 
@@ -33,7 +35,7 @@ def pick_date_range(df,startd,endd):
     end = datetime(endd[0],endd[1],endd[2])
     
     l = []
-    l.extend(['Ticker','Sector','Industry','Country','Income','Sales','Recommendations','Institutional Holders'])
+    l.extend(['Ticker','Sector','Industry','Country','Income','Sales','Recommendations','Institutional Holders','Institutional Holders'])
     for dt in rrule.rrule(rrule.WEEKLY,dtstart=start,until=end):
         #l.append("Date: " + str(dt.date()) + " Close")
         l.append(str(dt.date()))
@@ -41,8 +43,9 @@ def pick_date_range(df,startd,endd):
     return df[cols]
     
 '''
-Yfinance has a lot of missing values. I want to simply print out stats on what values are missing
-This method also removes the worst tickers if specified. Default it doe snot.
+Yfinance has a lot of missing values. I want to simply print out stats on what tickers are outside 2*std null values from mean amount of null values.
+This method also removes the worst tickers if specified. Default it does not.
+If removing tickers, then all tickers with more than 2*std null values from mean amount of null values get deleted from the dataframe.
 '''
 def get_null_information(filename,df,remove_worst = False):
     pd.set_option('display.max_rows', len(df))
@@ -75,13 +78,13 @@ def get_null_information(filename,df,remove_worst = False):
     
     #get subset where the amount of nulls is greater than one standard deviation away from the mean, then sort. 
     #This'll give me an ide aof which stocks to drop.
-    serv_outliers = serv[(serv >= serv_m + serv_std)]
+    serv_outliers = serv[(serv >= serv_m + 2*serv_std)]
     serv_outliers.sort_values(ascending=False,inplace=True,na_position='first')
     
-    serp_outliers = serp[(serp >= serp_m + serp_std)]
+    serp_outliers = serp[(serp >= serp_m + 2*serp_std)]
     serp_outliers.sort_values(ascending=False,inplace=True,na_position='first')
     
-    serc_outliers = serc[(serc >= serc_m + serc_std)]
+    serc_outliers = serc[(serc >= serc_m + 2*serc_std)]
     serc_outliers.sort_values(ascending=False,inplace=True,na_position='first')
     
     f.write("VOLUME NULL OUTLIERS: \n")
@@ -109,6 +112,10 @@ def get_null_information(filename,df,remove_worst = False):
         f.write(b)
         f.write('\n-----\n')
     
+    if remove_worst == True:
+        for i in serp_i:
+            df.drop(i,inplace=True)
+        return df
     pd.reset_option('display.max_rows')
     
     f.close()
@@ -146,8 +153,11 @@ def fill_empty_volume_columns(df):
 '''
 Calculate average volume of given row.
 '''
-def calculate_average_volume(row):          
-    pass
+def calculate_average_volume(row):
+    filter_vpw = [col for col in row if 'Volume' in col]  
+    row_v = row[filter_vpw]
+    m = row_v.mean(axis=1)
+    return m[0]
 
 '''
 This one is tricky.
@@ -164,11 +174,31 @@ Thus the given solution is acceptable.
 def fill_empty_price_columns(df):
     pass
 
+'''
+Upon Inspection of the Excel and null values of the Dataframe,
+There was no need of the previous three methods: fill_empty_volume_columns, calculate_average_volume, fill_empty_price_columns
+This is because if there were empty columns, then that was due to the Stock not existing at Date of column or 
+(for very few) yfinance didn't give data. 
+IT IS FROWNED UPON to give magic values for features in a ML algorithm, and if the empty cells were surrounded by 
+full cells, then updating the empty cells with one of the aforementioned methods would make sense. But in these cases,
+we would be giving the stocks magical values before they actually existed
 
+Thus because of the low density of empty cells, I will simply fill them by hand :)
+TERP and LM in 2020-08-03 were merged thus i will simply put the previous price and average volume.
+'''
+def fill_empty_date_cells(df):
+    df.at['MAIN','Date: 2018-08-20 Volume'] = calculate_average_volume(df.loc[['MAIN']])
+    df.at['MAIN','Date: 2018-08-20 Close'] = 34.925841473925
+    df.at['LM','Date: 2020-08-03 Volume'] = calculate_average_volume(df.loc[['LM']])
+    df.at['LM','Date: 2020-08-03 Close'] = 49.98
+    df.at['TERP','Date: 2020-08-03 Volume'] = calculate_average_volume(df.loc[['TERP']])
+    df.at['TERP','Date: 2020-08-03 Close'] = 18.85
+    print('Done filling empty cells.')
+    
 def initalStart():     
     #Load information
     ss = StockScraper()
-    ss.scraped_info = e.load_obj('FullStockDataVC')
+    ss.scraped_info = e.load_obj('data/FullStockDataVB')
     stock_information_dict = ss.scraped_info
     ss.scraped_tickers = ss.extract_tickers()
     
@@ -186,28 +216,90 @@ def initalStart():
     
     #I have yet to decide if my Machine Learning Algorithm will be learning from a 2 year time span or a 5 year time span.
     # Thus I will make a copy of both options
-    dstart2y = [2018,8,7]
-    dstart5y = [2015,8,7]
+    dstart2y = [2018,8,6]
+    dstart5y = [2015,8,3]
     dend = [2020,8,7]
-    
+    for i in df.columns:
+        print(i)
+
     df2y = pick_date_range(df,dstart2y,dend)
-    df5y = pick_date_range(df, dstart5y, dend)
-    df2y.to_pickle('2YStockDF',protocol=HIGHEST_PROTOCOL)
-    df5y.to_pickle('5YStockDF',protocol=HIGHEST_PROTOCOL)
+    #df5y = pick_date_range(df, dstart5y, dend)
+    df2y.to_pickle('2YStockDFB',protocol=HIGHEST_PROTOCOL)
+    #df5y.to_pickle('5YStockDFB',protocol=HIGHEST_PROTOCOL)
     
-    
+def remove_incomplete_rows(df):
+    counter = 0
+    for index, row in df.iterrows():
+        if pd.isnull(row['Date: 2018-08-13 Close']):
+            print(index)
+            counter += 1
+            df.drop(index=index,inplace=True)
+            
+    print('COunter is ' , counter)
+
+'''
+Arguably if income is null, this is an important feature for predicting stock prices thus some may want to simply drop the items that do not feature
+income. However, for the sake of learning, I will develop the method which will fill these values
+
+The income missing value method will follow this heuristic:
+
+If Sales Column is not NULL:
+    Group by sector, and divide income by sale. Then take this value and multiply the sales column to get the income column. 
+    make sure to not multiply negative by negative.
+
+If Sales Column is NULL:
+    Group by industry, get mean value. 
+
+Error checked by calculating the mean value given to fill null incomes by the if and the else. If the mean value was roughly the same, then math was done right.
+'''
+def fill_null_Income(df):
+    in_df_indust = df.Income.groupby(df['Industry'])
+    count = 0
+    in_df_sec = df.groupby(df['Sector'])
+    df_null = df[df['Income'].isnull()]
+    for index, r in df_null.iterrows():
+        count += 1
+        print('Currently working on ', r.name)
+        sales = r['Sales']
+        print('sales is: ',sales)
+        if math.isnan(sales):
+            industry = r['Industry']
+            m_val_by_industry = in_df_indust.get_group(industry).mean()
+            
+            if math.isnan(m_val_by_industry):
+                sector = r['Sector']
+                m_val_by_sector = in_df_sec.get_group(sector).Income.mean()
+                print('Entered first if, value given is: ' , m_val_by_sector)
+                df.loc[index,'Income'] = m_val_by_sector
+            else:
+                df.loc[index,'Income'] = m_val_by_industry
+                print('Entered first if, value given is: ' , m_val_by_industry)
+        else:#Sales isn't none
+            sector = r['Sector']
+            df_sect = in_df_sec.get_group(sector)
+            median_income_div_sales = (df_sect['Income'] / df_sect['Sales']).median()# because very sucessful companies can scew
+            #print('med ot is ', median_income_div_sales) 
+            #print(df_sect.head())
+            fill = 0
+            if median_income_div_sales < 0:
+                fill = -1*abs(median_income_div_sales * sales)
+                df.loc[index,'Income'] = fill
+            else:
+                fill = abs(median_income_div_sales * sales)
+                df.loc[index,'Income'] = fill
+            print('Entered second if, value given is: ', fill)
+    print(count, ' is count')
 def main():
     
     f = open('dictionryToStringVC.txt','a')
-    #Will only be called once, when we have the dictionary but not pandas.
-    initalStart()
-    '''
-    df = pd.read_pickle('2YStockDF')
+    #####Will only be called once, when we have the dictionary but not pandas.
+    #initalStart()
+
+    df = pd.read_pickle('data/2YStockDFBcleaner.pkl')
     #df5y = pd.read_pickle('5yStockDF')
+    pd.set_option('display.max_rows', len(df))
     
-    
-    
-    filter_vpw = [col for col in df if 'Volume' in col]
+    #####Useful Filters
     filter_vpw = [col for col in df if 'Volume' in col]
     filter_ppw = [col for col in df if 'Close' in col]
     time_rv = filter_vpw + filter_ppw
@@ -216,16 +308,32 @@ def main():
     volume_per_week_df = df[filter_vpw]
     price_per_week_df = df[filter_ppw]
     categorical_values_df = df[filter_ntrv]
-    get_null_information('NullTickerInformation2Y', df)
-    pd.set_option('display.max_rows', len(df))
-    ndf = price_per_week_df.isnull().sum(axis=0)
+    ############################
     
-    #print(ndf)
-    #print(len(list(ndf)))
     
-    '''
+    ####USED TO REMOVE WORST TICKERS (tickers with A LOT of missing features)
+    #get_null_information('NullTickerInformation2YB', df,remove_worst=False)
+    #new_df.to_pickle('2YStockDFBclean',protocol=HIGHEST_PROTOCOL)
+    #new_df.to_excel('2YStockDFBcleanexcel.xlsx')
+    ############################
+    
+    ####To get information on what values are still mising or NULL
+    ndf = categorical_values_df.isnull().sum(axis=0)
+    print_full(ndf)
+    ############################
+    
+    
+    ####USED TO FILL NULL INCOME VALUES WITH APPROPRIATE VALUES
+    #fill_null_Income(df)
+    #categorical_values_df.to_excel('boopdiboop.xlsx')
+    #e.save_obj(df,'2YStockDFBcleanerA')
+    #############################
+    
+    
     print("donzo")
-    f.close()
 
+    f.close()
+    
+    
 if __name__ == "__main__":
     main()
