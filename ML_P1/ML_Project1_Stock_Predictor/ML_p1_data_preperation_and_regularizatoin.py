@@ -24,6 +24,7 @@ from datetime import datetime, timedelta
 import copy
 from pickle import HIGHEST_PROTOCOL
 from pandas.tests.reshape.test_pivot import dropna
+from numpy import NaN
 '''
 Yfinance gave many null dates that were between the weekly intervals. As in, 
 if a week time is 2020-07-06 to 2020-07-13, then any values that were between these two dates are all null for all stocks. 
@@ -124,7 +125,7 @@ To print all information onto console rather than truncated version.
 '''
 def print_full(x):
     pd.set_option('display.max_rows', len(x))
-    pd.set_option('display.max_columns', None)
+    #pd.set_option('display.max_columns', None)
     pd.set_option('display.width', 2000)
     pd.set_option('display.float_format', '{:20,.2f}'.format)
     pd.set_option('display.max_colwidth', None)
@@ -238,6 +239,47 @@ def remove_incomplete_rows(df):
     print('COunter is ' , counter)
 
 '''
+This function will be used after the fill_null_income function so
+we suppose all income values are defined. This order was to optimize
+income by using real sales listed whenever we can, and to switch
+the optimization to most average for the candidates with both
+Sales and Income missing
+NOTE: This comes with the presupposition that income is a better 
+feature than sales.
+
+For Sales, we find the mean/median ratio difference between known sales and incomes for Sectors,
+Then apply the listed income to a function including this ratio to spit out a solid
+variantable and averaged sales value.
+'''
+def fill_null_Sales(df):
+    in_df_ind = df.groupby(df['Industry'])
+    in_df_sect = df.groupby(df['Sector'])
+    df_null = df[df['Sales'].isnull()]
+    count = 0
+    for index, r in df_null.iterrows():
+        count+=1
+        sector_n = r['Sector']
+        industry_n = r['Industry']
+        income_v = r['Income']
+        s = in_df_ind.get_group(industry_n).mean()
+        sector_or_ind_sales = s.Sales
+        if math.isnan(sector_or_ind_sales):
+            sector_or_ind_sales = in_df_sect.get_group(sector_n).mean().Sales
+        sector_income = s.Income
+        ratio_si = sector_or_ind_sales / sector_income
+        print('Income value for ticker: ', r.name, ' is: ', income_v)
+        print('Average sales for this sector is: ', sector_or_ind_sales,' For sector ', industry_n)
+        print('Average income for this sector is: ', sector_income,' For sector ', industry_n)
+        print('Thus ratio is ' , ratio_si)
+        print('new_sales_val is  ', abs(ratio_si *  income_v))
+        new_sale_val = abs(ratio_si *  income_v)
+        print('New Sales value for ticker: ', r.name, ' is: ', new_sale_val,'\n\n')
+        df.loc[index,'Sales'] = new_sale_val
+    print('count is : ', count)
+
+    
+    
+'''
 Arguably if income is null, this is an important feature for predicting stock prices thus some may want to simply drop the items that do not feature
 income. However, for the sake of learning, I will develop the method which will fill these values
 
@@ -256,6 +298,7 @@ def fill_null_Income(df):
     in_df_indust = df.Income.groupby(df['Industry'])
     count = 0
     in_df_sec = df.groupby(df['Sector'])
+    
     df_null = df[df['Income'].isnull()]
     for index, r in df_null.iterrows():
         count += 1
@@ -289,13 +332,71 @@ def fill_null_Income(df):
                 df.loc[index,'Income'] = fill
             print('Entered second if, value given is: ', fill)
     print(count, ' is count')
+    
+    
+'''
+Popped as an idea in my head. Seemed useful.
+'''
+global_count = 0 
+def print_global_count():
+    global global_count
+    print(global_count)
+    global_count+=1
+
+def reset_global_counter():
+    global global_count
+    global_count = 0
+
+
+'''
+A general class to one_hot_encode. 
+df = pandas DataFrame to be morphed
+c_name = column name to one hot encode
+contains_null = if dataframe column contains null, then add a new column
+                for tracking which ones contained a null in the first place
+null_value = so user can decide on what the 0 value for the one hot encoding should be:
+            ex: null_value = [] , null_value = Circle(radius=1), etc
+'''
+def one_hot_encode(df,c_name,contains_null = False,null_value = None,sparsev=False):
+    r_df = pd.concat([df,pd.get_dummies(df[c_name],prefix=c_name,sparse=sparsev)],axis=1,sort=False)
+    
+    '''
+    Quick way to make a boolean contains column
+    '''
+    def check_for_null(x):
+        
+        if null_value is None:
+            if pd.isnull(x):
+                print_global_count() # Recommendations should be 55
+                return 0
+            else:
+                return 1
+        else:
+            if x is null_value:
+                return 0
+            else:
+                return 1
+            
+            
+    if contains_null == True:
+        r_df['Contain ' + c_name] = df[c_name].apply(check_for_null)
+    
+    r_df.drop([c_name],axis=1,inplace=True)
+    print('Done one hot encoding: ' , c_name)
+
+    reset_global_counter()
+    return r_df
+    
 def main():
     
     f = open('dictionryToStringVC.txt','a')
     #####Will only be called once, when we have the dictionary but not pandas.
     #initalStart()
-
+    ############################
+    
+    
     df = pd.read_pickle('data/2YStockDFBcleaner.pkl')
+
     #df5y = pd.read_pickle('5yStockDF')
     pd.set_option('display.max_rows', len(df))
     
@@ -322,16 +423,101 @@ def main():
     print_full(ndf)
     ############################
     
+    df2 = pd.read_pickle('data/2YStockDFB')
+    ih = df2[df['Institutional Holders']]
     
+    print_full(ih.head(20))
     ####USED TO FILL NULL INCOME VALUES WITH APPROPRIATE VALUES
     #fill_null_Income(df)
     #categorical_values_df.to_excel('boopdiboop.xlsx')
     #e.save_obj(df,'2YStockDFBcleanerA')
+    #Pre method income avg: 769344444.4
+    #Post method income avg: 783475326.4
+    #############################
+    
+    ###Used to fill NULL SALES VALUES WITH APPROPRIATE VALUES 
+    #fill_null_Sales(df)
+    #categorical_values_df.to_excel('boopdibab.xlsx')
+    #e.save_obj(df, '2YStockDFBcleanerB')
+    #Pre method Sales avg: 11688020115
+    #Post method Sales avg: 11762226708
     #############################
     
     
-    print("donzo")
+    ###REMOVE TICKERS THAT BELONG TO SPECIFIED Industries, Countries
+    '''
+    This is important because if a feature doesn't appear enough, then the ML may either not know what to do with the information
+    Or incorrectly use the information. I fear it incorrectly using information when there are One-Hot-Encoded columns with only one or two True values
+    It hurts removing then along with the 20 stocks that go with them but for the sake of Occam's razor I will do it. Only those that appear less than three time
+    are removed. 
+    A total of 41 stocks are getting removed :(
+    '''
+    #bad_industries = ['Uranium','Textile Manufacturing', 'Real Estate - Diversified','Publishing','Pollution & Treatment Controls','Pharmaceutical Retailers','Paper & Paper Products',
+    #                  'Other Precious Metals & Mining','Oil & Gas Drilling','Marine Shipping','Luxury Goods','Financial Conglomerates','Exchange Traded Fund',
+    #                  'Electronics & Computer Distribution','Copper','Conglomerates','Business Equipment & Supplies','Aluminum']
+    #bad_countries = ['Taiwan','Spain','Russia','Philippines','Peru','Panama','Norway','Italy','Indonesia','Colombia','Cayman Islands','Sweden']
+    # 
+    #df_bit = df[df['Industry'].isin(bad_industries)].index
+    #print('IND length is ', len(df_bit))
+    #df.drop(labels=df_bit,axis=0,inplace=True)
+    #
+    #df_bct = df[df['Country'].isin(bad_countries)].index
+    #print('COUN length is ', len(df_bct))
+    #df.drop(labels=df_bct,axis=0,inplace=True)
+    #############################
+    
+    
+    ###USED TO MAKE ONE HOT ENCODING OF RECOMMENDATOINS
+    #df = one_hot_encode(df,c_name = 'Recommendations',contains_null=True)
+    #oh_names = df.iloc[:,-6:].columns #one hot names
+    #index_oh = 5
+    #for n in oh_names: # To move to position i'd like
+    #   df.insert(index_oh,n,df.pop(n))
+    #    index_oh+= 1
+    #df.drop(columns='Recommendations_5.0',inplace=True) # If not 1-4, then must be 5, Also there is only one such
+    #df.to_excel('bipbapboop3.xlsx')
+    ##############################
+    
+    
+    
+    ###USED TO MAKE ONE HOT ENCODING OF COUNTRY
+    #df = one_hot_encode(df,c_name = 'Country')
+    #oh_names = df.iloc[:,-25:].columns
+    #index_oh = 2
+    #for n in oh_names: # To move to position i'd like
+    #    df.insert(index_oh,n,df.pop(n))
+    #    index_oh+= 1
+    #df.to_excel('bipbapboop4.xlsx')
+    ##############################
+    
+    
+    
+    
+    ###Used TO MAKE ONE HOT ENCODING OF SECTOR
+    #df = one_hot_encode(df,c_name= 'Sector')
+    #oh_names = df.iloc[:,-11:].columns
+    #index_oh = 0
+    #for n in oh_names: # To move to position i'd like
+    #    df.insert(index_oh,n,df.pop(n))
+    #    index_oh+= 1
+    #df.to_excel('bipbapboop5.xlsx')
+    #############################
+    
+    
+    
+    
+    ###USED TO MAKE ONE HOT ENCODING OF INDUSTRY
+    #df = one_hot_encode(df, c_name = 'Industry',sparsev=True)
+    #oh_names = df.iloc[:,-125:].columns
+    #index_oh = 11
+    #for n in oh_names: # To move to position i'd like
+    #    df.insert(index_oh,n,df.pop(n))
+    #    index_oh+= 1
+    #df.to_excel('PostOneHotStockData.xlsx')
+    #############################
+    #e.save_obj(df,'2YStockDFBcleaner')
 
+    print('Donzo')
     f.close()
     
     
