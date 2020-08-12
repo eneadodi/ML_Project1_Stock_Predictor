@@ -125,7 +125,7 @@ To print all information onto console rather than truncated version.
 '''
 def print_full(x):
     pd.set_option('display.max_rows', len(x))
-    #pd.set_option('display.max_columns', None)
+    pd.set_option('display.max_columns', None)
     pd.set_option('display.width', 2000)
     pd.set_option('display.float_format', '{:20,.2f}'.format)
     pd.set_option('display.max_colwidth', None)
@@ -389,27 +389,31 @@ def one_hot_encode(df,c_name,contains_null = False,null_value = None,sparsev=Fal
     
 def main():
     
-    f = open('dictionryToStringVC.txt','a')
+    f = open('XXXXXX.txt','a')
     #####Will only be called once, when we have the dictionary but not pandas.
     #initalStart()
     ############################
     
     
+    
+    
     df = pd.read_pickle('data/2YStockDFBcleaner.pkl')
-
     #df5y = pd.read_pickle('5yStockDF')
-    pd.set_option('display.max_rows', len(df))
+    #df.to_excel('bipbapboop4.xlsx')
+    
     
     #####Useful Filters
-    filter_vpw = [col for col in df if 'Volume' in col]
-    filter_ppw = [col for col in df if 'Close' in col]
-    time_rv = filter_vpw + filter_ppw
-    filter_ntrv = [col for col in df if col not in time_rv]
-
-    volume_per_week_df = df[filter_vpw]
-    price_per_week_df = df[filter_ppw]
-    categorical_values_df = df[filter_ntrv]
+    #filter_vpw = [col for col in df if 'Volume' in col]
+    #filter_ppw = [col for col in df if 'Close' in col]
+    #time_rv = filter_vpw + filter_ppw
+    #filter_ntrv = [col for col in df if col not in time_rv]
+    #
+    #volume_per_week_df = df[filter_vpw]
+    #price_per_week_df = df[filter_ppw]
+    #categorical_values_df = df[filter_ntrv]
     ############################
+    
+    
     
     
     ####USED TO REMOVE WORST TICKERS (tickers with A LOT of missing features)
@@ -418,15 +422,19 @@ def main():
     #new_df.to_excel('2YStockDFBcleanexcel.xlsx')
     ############################
     
+    
+    
+    
     ####To get information on what values are still mising or NULL
-    ndf = categorical_values_df.isnull().sum(axis=0)
-    print_full(ndf)
+    #ndf = categorical_values_df.isnull().sum(axis=0)
+    #print_full(ndf)
     ############################
     
-    df2 = pd.read_pickle('data/2YStockDFB')
-    ih = df2[df['Institutional Holders']]
     
-    print_full(ih.head(20))
+    
+    
+    
+    #print_full(ih.head(20))
     ####USED TO FILL NULL INCOME VALUES WITH APPROPRIATE VALUES
     #fill_null_Income(df)
     #categorical_values_df.to_excel('boopdiboop.xlsx')
@@ -435,6 +443,10 @@ def main():
     #Post method income avg: 783475326.4
     #############################
     
+    
+    
+    
+    
     ###Used to fill NULL SALES VALUES WITH APPROPRIATE VALUES 
     #fill_null_Sales(df)
     #categorical_values_df.to_excel('boopdibab.xlsx')
@@ -442,6 +454,9 @@ def main():
     #Pre method Sales avg: 11688020115
     #Post method Sales avg: 11762226708
     #############################
+    
+    
+    
     
     
     ###REMOVE TICKERS THAT BELONG TO SPECIFIED Industries, Countries
@@ -467,6 +482,9 @@ def main():
     #############################
     
     
+    
+    
+    
     ###USED TO MAKE ONE HOT ENCODING OF RECOMMENDATOINS
     #df = one_hot_encode(df,c_name = 'Recommendations',contains_null=True)
     #oh_names = df.iloc[:,-6:].columns #one hot names
@@ -480,6 +498,8 @@ def main():
     
     
     
+    
+    
     ###USED TO MAKE ONE HOT ENCODING OF COUNTRY
     #df = one_hot_encode(df,c_name = 'Country')
     #oh_names = df.iloc[:,-25:].columns
@@ -489,6 +509,7 @@ def main():
     #    index_oh+= 1
     #df.to_excel('bipbapboop4.xlsx')
     ##############################
+    
     
     
     
