@@ -25,6 +25,8 @@ import copy
 from pickle import HIGHEST_PROTOCOL
 from pandas.tests.reshape.test_pivot import dropna
 from numpy import NaN
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
+
 '''
 Yfinance gave many null dates that were between the weekly intervals. As in, 
 if a week time is 2020-07-06 to 2020-07-13, then any values that were between these two dates are all null for all stocks. 
@@ -195,6 +197,12 @@ def fill_empty_date_cells(df):
     df.at['TERP','Date: 2020-08-03 Volume'] = calculate_average_volume(df.loc[['TERP']])
     df.at['TERP','Date: 2020-08-03 Close'] = 18.85
     print('Done filling empty cells.')
+
+def label_calc(x):
+    if x >= 0.03:
+        return 1
+    else:
+        return 0
     
 def initalStart():     
     #Load information
@@ -386,7 +394,39 @@ def one_hot_encode(df,c_name,contains_null = False,null_value = None,sparsev=Fal
 
     reset_global_counter()
     return r_df
-    
+
+'''
+Stock prices are approximately log normal. Thus I decided on first transforming
+stock price X -> Y = ln(x) then using the Standard scalar of sklearn.
+'''
+def log_normal_scale_rows(df):
+    #First transform all values to log.
+    for column in df:
+        df.loc[:,column] = np.log(df[column])
+    scaler = StandardScaler()
+    df2 = pd.DataFrame(columns = df.columns,index=df.index,data=scaler.fit_transform(df.values.T).T)
+    return df2
+
+'''
+It made sense to scale ticker Income and Sales based on the Sector group that they belong in.
+This comes from the heuristic that different sectors have different ceilings.
+'''
+def scale_MinMax_by_Sector(df,s_or_i='Sales'):
+    g = df.groupby(df['Sector'])
+    df_section = df[[s_or_i]]
+    names = g.groups.keys()
+    scaler = MinMaxScaler()
+    for n in names:
+
+        dfn = g.get_group(n)[[s_or_i]]
+
+        dfn_scaled = pd.DataFrame(index=dfn.index,data=scaler.fit_transform(dfn.values))
+        
+        df_section[df_section.index.isin(list(dfn.index))] = dfn_scaled
+
+        dfn_scaled.to_excel('minmax'+n+'.xlsx')
+    return df_section
+
 def main():
     
     f = open('XXXXXX.txt','a')
@@ -397,14 +437,14 @@ def main():
     
     
     
-    df = pd.read_pickle('data/2YStockDFBcleaner.pkl')
+    #df = pd.read_pickle('../data/2YStockDFBcleaner.pkl')
     #df5y = pd.read_pickle('5yStockDF')
     #df.to_excel('bipbapboop4.xlsx')
     
     
     #####Useful Filters
-    #filter_vpw = [col for col in df if 'Volume' in col]
-    #filter_ppw = [col for col in df if 'Close' in col]
+    #filter_vpw = [col for col in df if ' Volume' in col]
+    #filter_ppw = [col for col in df if ' Close' in col]
     #time_rv = filter_vpw + filter_ppw
     #filter_ntrv = [col for col in df if col not in time_rv]
     #
@@ -413,9 +453,15 @@ def main():
     #categorical_values_df = df[filter_ntrv]
     ############################
     
-    
-    
-    
+
+    ####To get information on what values are still mising or NULL
+    #ndf = categorical_values_df.isnull().sum(axis=0)
+    #print_full(ndf)
+    ############################
+
+
+
+
     ####USED TO REMOVE WORST TICKERS (tickers with A LOT of missing features)
     #get_null_information('NullTickerInformation2YB', df,remove_worst=False)
     #new_df.to_pickle('2YStockDFBclean',protocol=HIGHEST_PROTOCOL)
@@ -425,16 +471,6 @@ def main():
     
     
     
-    ####To get information on what values are still mising or NULL
-    #ndf = categorical_values_df.isnull().sum(axis=0)
-    #print_full(ndf)
-    ############################
-    
-    
-    
-    
-    
-    #print_full(ih.head(20))
     ####USED TO FILL NULL INCOME VALUES WITH APPROPRIATE VALUES
     #fill_null_Income(df)
     #categorical_values_df.to_excel('boopdiboop.xlsx')
@@ -445,8 +481,6 @@ def main():
     
     
     
-    
-    
     ###Used to fill NULL SALES VALUES WITH APPROPRIATE VALUES 
     #fill_null_Sales(df)
     #categorical_values_df.to_excel('boopdibab.xlsx')
@@ -454,8 +488,6 @@ def main():
     #Pre method Sales avg: 11688020115
     #Post method Sales avg: 11762226708
     #############################
-    
-    
     
     
     
@@ -484,10 +516,28 @@ def main():
     
     
     
+    ###USED TO SCALE INCOME AND SALES COLUMNS
+    #df[['Income']] = scale_MinMax_by_Sector(df,'Income')
+    #df[['Sales']] = scale_MinMax_by_Sector(df,'Sales')
+    #df.to_excel('AllScaledData.xlsx')
+    #e.save_obj(df,'2YStockDFBcleaner')
+    
+    
+    
     
     ###USED TO MAKE ONE HOT ENCODING OF RECOMMENDATOINS
-    #df = one_hot_encode(df,c_name = 'Recommendations',contains_null=True)
-    #oh_names = df.iloc[:,-6:].columns #one hot names
+    # Recommendations was a feature that was oringally in a Real Number scale from 1-5. 
+    # However, the Integer number scale from 1-5 has a different meaning
+    # Where: 1 -> Strong Buy
+    #        2 -> Buy
+    #        3 -> Hold 
+    #        4 -> Sell 
+    #        5 -> Strong Sell 
+    # Thus a value of 3.9 would still be a hold, rather than a sell. Therefore,
+    # one option of using recommendations as a feature (the option I chose for my models)
+    # was to use the Integer number scale with rounding down and as categories.
+    # df = one_hot_encode(df,c_name = 'Recommendations',contains_null=True)
+    # oh_names = df.iloc[:,-6:].columns #one hot names
     #index_oh = 5
     #for n in oh_names: # To move to position i'd like
     #   df.insert(index_oh,n,df.pop(n))
@@ -509,7 +559,6 @@ def main():
     #    index_oh+= 1
     #df.to_excel('bipbapboop4.xlsx')
     ##############################
-    
     
     
     
@@ -538,8 +587,37 @@ def main():
     #############################
     #e.save_obj(df,'2YStockDFBcleaner')
 
-    print('Donzo')
+
+
+    ###USED TO SCALE PRICE AND VOLUME COLUMNS BY ROW   
+    #print('telumpt')
+    #df[filter_ppw] = log_normal_scale_rows(price_per_week_df)
+    #df[filter_vpw] = log_normal_scale_rows(volume_per_week_df)
+    
+    
+    ###USED TO MAKE LABEL COLUMN
+    #df2 = pd.read_pickle('../data/PDPREONEHOT.pkl')
+    #df2 = df2[df2.index.isin(list(df.index))]
+    #
+    #df2_c_w = df2['Date: 2020-08-03 Close']
+    #df2_p_w = df2['Date: 2020-07-27 Close']
+    #df2_i = df2_c_w - df2_p_w
+    #print(df2_i)
+    #df2_l = df2_i / df2_p_w
+    #df2_l.to_frame()
+    #print(df2_l)
+    ##df2_l.to_excel('percentage_gain.xlsx')
+    #df2_l = df2_l.apply(label_calc)
+    ##df2_l.to_excel('percentage_gainBinary.xlsx')
+    #del df['Date: 2020-08-03 Close']
+    #df['Label'] = df2_l
+    #df.to_excel('ReadyData.xlsx')
+    #e.save_obj(df,'2YStockDFBcleaner')
+    #print('Donzo')
+    
     f.close()
+    
+
     
     
 if __name__ == "__main__":
