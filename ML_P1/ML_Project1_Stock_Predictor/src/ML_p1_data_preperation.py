@@ -81,15 +81,15 @@ def get_null_information(filename,df,remove_worst = False):
     
     #get subset where the amount of nulls is greater than one standard deviation away from the mean, then sort. 
     #This'll give me an ide aof which stocks to drop.
-    serv_outliers = serv[(serv >= serv_m + 2*serv_std)]
+    serv_outliers = serv[(serv >= serv_m + 1*serv_std)]
     serv_outliers.sort_values(ascending=False,inplace=True,na_position='first')
     
-    serp_outliers = serp[(serp >= serp_m + 2*serp_std)]
+    serp_outliers = serp[(serp >= serp_m + 1*serp_std)]
     serp_outliers.sort_values(ascending=False,inplace=True,na_position='first')
     
-    serc_outliers = serc[(serc >= serc_m + 2*serc_std)]
+    serc_outliers = serc[(serc >= serc_m + 1*serc_std)]
     serc_outliers.sort_values(ascending=False,inplace=True,na_position='first')
-    
+
     f.write("VOLUME NULL OUTLIERS: \n")
     f.write(str(serv_outliers.shape[0]) + "/1859 are one standard deviation away from average null values per ticker\n")
     f.write(serv_outliers.to_string())
@@ -204,15 +204,16 @@ def label_calc(x):
     else:
         return 0
     
-def initalStart():     
+def initalStart(dic_n):     
     #Load information
     ss = StockScraper()
-    ss.scraped_info = e.load_obj('data/FullStockDataVB')
+    ss.scraped_info = e.load_obj(dic_n)
     stock_information_dict = ss.scraped_info
     ss.scraped_tickers = ss.extract_tickers()
     
+
     #check to see if each dictionary has same key values:
-    #check_identical_keys(stock_information_dict)
+    check_identical_keys(stock_information_dict)
   
     
     #Create Pandas, reindex, and drop duplicates to support random order and avoid duplicates.
@@ -226,15 +227,15 @@ def initalStart():
     #I have yet to decide if my Machine Learning Algorithm will be learning from a 2 year time span or a 5 year time span.
     # Thus I will make a copy of both options
     dstart2y = [2018,8,6]
-    dstart5y = [2015,8,3]
-    dend = [2020,8,7]
+    dstart5y = [2015,8,10]
+    dend = [2020,8,14]
     for i in df.columns:
         print(i)
 
     df2y = pick_date_range(df,dstart2y,dend)
-    #df5y = pick_date_range(df, dstart5y, dend)
-    df2y.to_pickle('2YStockDFB',protocol=HIGHEST_PROTOCOL)
-    #df5y.to_pickle('5YStockDFB',protocol=HIGHEST_PROTOCOL)
+    df5y = pick_date_range(df, dstart5y, dend)
+    df2y.to_pickle('2YStockDFLowCriteria',protocol=HIGHEST_PROTOCOL)
+    df5y.to_pickle('5YStockDFBLowCriteria',protocol=HIGHEST_PROTOCOL)
     
 def remove_incomplete_rows(df):
     counter = 0
@@ -403,6 +404,7 @@ def log_normal_scale_rows(df):
     #First transform all values to log.
     for column in df:
         df.loc[:,column] = np.log(df[column])
+    df.to_excel('loNgBoisaa.xlsx')
     scaler = StandardScaler()
     df2 = pd.DataFrame(columns = df.columns,index=df.index,data=scaler.fit_transform(df.values.T).T)
     return df2
@@ -427,54 +429,78 @@ def scale_MinMax_by_Sector(df,s_or_i='Sales'):
         dfn_scaled.to_excel('minmax'+n+'.xlsx')
     return df_section
 
+
+'''
+In case I just do not want to deal with any industry with less than 4 examples.
+'''
+def remove_bad_ticks_by_group(df,occurences,group_n):
+    g = df.groupby(df[group_n]).count()
+    
+    #group_names = g.groups.keys()
+    #print(g.columns)
+    bad_g = list(g[g['Sector'] < occurences].index.values)
+    print(bad_g)
+    df_i = df[[group_n]]
+    for index,row in df_i.iterrows():
+        if row.values[0] in bad_g:
+            df.drop(index,inplace=True)
+
+    return df
+
 def main():
     
     f = open('XXXXXX.txt','a')
     #####Will only be called once, when we have the dictionary but not pandas.
-    #initalStart()
+    #initalStart('FullStockDataLowCriteria')
     ############################
     
     
     
     
-    #df = pd.read_pickle('../data/2YStockDFBcleaner.pkl')
+    df = pd.read_pickle('../data/2YStockDFLowCriteria.pkl')
     #df5y = pd.read_pickle('5yStockDF')
     #df.to_excel('bipbapboop4.xlsx')
     
-    
+    df.drop(['ALRS','AKO-A','VHI','AMCR','ERYP','DBCP','DOOO','BIOX','WINS','CIZN','INFY','ATCO','DLNG','LMNL','ELLO','PNRG'],inplace=True)
     #####Useful Filters
-    #filter_vpw = [col for col in df if ' Volume' in col]
-    #filter_ppw = [col for col in df if ' Close' in col]
-    #time_rv = filter_vpw + filter_ppw
-    #filter_ntrv = [col for col in df if col not in time_rv]
+    filter_vpw = [col for col in df if ' Volume' in col]
+    filter_ppw = [col for col in df if ' Close' in col]
+    time_rv = filter_vpw + filter_ppw
+    filter_ntrv = [col for col in df if col not in time_rv]
     #
-    #volume_per_week_df = df[filter_vpw]
-    #price_per_week_df = df[filter_ppw]
-    #categorical_values_df = df[filter_ntrv]
+    volume_per_week_df = df[filter_vpw]
+    price_per_week_df = df[filter_ppw]
+    categorical_values_df = df[filter_ntrv]
     ############################
     
 
     ####To get information on what values are still mising or NULL
-    #ndf = categorical_values_df.isnull().sum(axis=0)
-    #print_full(ndf)
+    ndf = categorical_values_df.isnull().sum(axis=0)
+    print_full(ndf)
     ############################
 
-
-
+    
 
     ####USED TO REMOVE WORST TICKERS (tickers with A LOT of missing features)
-    #get_null_information('NullTickerInformation2YB', df,remove_worst=False)
-    #new_df.to_pickle('2YStockDFBclean',protocol=HIGHEST_PROTOCOL)
-    #new_df.to_excel('2YStockDFBcleanexcel.xlsx')
+    #new_df = get_null_information('NullTickerInformationLowCriteria2YB', df,remove_worst=False)
+    #new_df.to_pickle('2YStockDFBLowCriteriaclean.pkl',protocol=HIGHEST_PROTOCOL)
+    #new_df.to_excel('2YStockDFBLowCriteriacleanexcel.xlsx')
     ############################
     
+    
+    
+    
+    ####USED TO REMOVE TICKERS WITH INDUSTRIES THAT APPEAR RARELY
+    #df = remove_bad_ticks_by_group(df,5,'Industry')
+    #e.save_obj(df,'2YStockDFLowCriteriaA')
+    ############################
     
     
     
     ####USED TO FILL NULL INCOME VALUES WITH APPROPRIATE VALUES
     #fill_null_Income(df)
     #categorical_values_df.to_excel('boopdiboop.xlsx')
-    #e.save_obj(df,'2YStockDFBcleanerA')
+    #e.save_obj(df,'2YStockDFLowCriteriaB')
     #Pre method income avg: 769344444.4
     #Post method income avg: 783475326.4
     #############################
@@ -484,43 +510,19 @@ def main():
     ###Used to fill NULL SALES VALUES WITH APPROPRIATE VALUES 
     #fill_null_Sales(df)
     #categorical_values_df.to_excel('boopdibab.xlsx')
-    #e.save_obj(df, '2YStockDFBcleanerB')
+    #e.save_obj(df, '2YStockDFLowCriteriaB')
     #Pre method Sales avg: 11688020115
     #Post method Sales avg: 11762226708
     #############################
     
-    
-    
-    ###REMOVE TICKERS THAT BELONG TO SPECIFIED Industries, Countries
-    '''
-    This is important because if a feature doesn't appear enough, then the ML may either not know what to do with the information
-    Or incorrectly use the information. I fear it incorrectly using information when there are One-Hot-Encoded columns with only one or two True values
-    It hurts removing then along with the 20 stocks that go with them but for the sake of Occam's razor I will do it. Only those that appear less than three time
-    are removed. 
-    A total of 41 stocks are getting removed :(
-    '''
-    #bad_industries = ['Uranium','Textile Manufacturing', 'Real Estate - Diversified','Publishing','Pollution & Treatment Controls','Pharmaceutical Retailers','Paper & Paper Products',
-    #                  'Other Precious Metals & Mining','Oil & Gas Drilling','Marine Shipping','Luxury Goods','Financial Conglomerates','Exchange Traded Fund',
-    #                  'Electronics & Computer Distribution','Copper','Conglomerates','Business Equipment & Supplies','Aluminum']
-    #bad_countries = ['Taiwan','Spain','Russia','Philippines','Peru','Panama','Norway','Italy','Indonesia','Colombia','Cayman Islands','Sweden']
-    # 
-    #df_bit = df[df['Industry'].isin(bad_industries)].index
-    #print('IND length is ', len(df_bit))
-    #df.drop(labels=df_bit,axis=0,inplace=True)
-    #
-    #df_bct = df[df['Country'].isin(bad_countries)].index
-    #print('COUN length is ', len(df_bct))
-    #df.drop(labels=df_bct,axis=0,inplace=True)
-    #############################
-    
-    
+
     
     
     ###USED TO SCALE INCOME AND SALES COLUMNS
     #df[['Income']] = scale_MinMax_by_Sector(df,'Income')
     #df[['Sales']] = scale_MinMax_by_Sector(df,'Sales')
     #df.to_excel('AllScaledData.xlsx')
-    #e.save_obj(df,'2YStockDFBcleaner')
+    #e.save_obj(df,'2YStockDFLowCriteriaC')
     
     
     
@@ -533,31 +535,31 @@ def main():
     #        3 -> Hold 
     #        4 -> Sell 
     #        5 -> Strong Sell 
-    # Thus a value of 3.9 would still be a hold, rather than a sell. Therefore,
-    # one option of using recommendations as a feature (the option I chose for my models)
-    # was to use the Integer number scale with rounding down and as categories.
-    # df = one_hot_encode(df,c_name = 'Recommendations',contains_null=True)
-    # oh_names = df.iloc[:,-6:].columns #one hot names
+    #df = one_hot_encode(df,c_name = 'Recommendations',contains_null=True)
+    #oh_names = df.iloc[:,-6:].columns #one hot names
     #index_oh = 5
     #for n in oh_names: # To move to position i'd like
     #   df.insert(index_oh,n,df.pop(n))
-    #    index_oh+= 1
+    #   index_oh+= 1
     #df.drop(columns='Recommendations_5.0',inplace=True) # If not 1-4, then must be 5, Also there is only one such
     #df.to_excel('bipbapboop3.xlsx')
+    #e.save_obj(df,'2YStockDFLowCriteriaD')
     ##############################
     
     
-    
-    
+    ###USED TO REMOVE TICKERS WHERE COUNTRY APPEARS VERY RARELY
+    #df = remove_bad_ticks_by_group(df,5,'Country')
+    #len_count = -1*len(df.groupby('Country').groups.keys())
     
     ###USED TO MAKE ONE HOT ENCODING OF COUNTRY
     #df = one_hot_encode(df,c_name = 'Country')
-    #oh_names = df.iloc[:,-25:].columns
+    #oh_names = df.iloc[:,len_count:].columns
     #index_oh = 2
     #for n in oh_names: # To move to position i'd like
     #    df.insert(index_oh,n,df.pop(n))
     #    index_oh+= 1
     #df.to_excel('bipbapboop4.xlsx')
+    #e.save_obj(df,'2YStockDFLowCriteriaE')
     ##############################
     
     
@@ -571,6 +573,7 @@ def main():
     #    df.insert(index_oh,n,df.pop(n))
     #    index_oh+= 1
     #df.to_excel('bipbapboop5.xlsx')
+    #e.save_obj(df,'2YStockDFLowCriteriaF')
     #############################
     
     
@@ -578,22 +581,24 @@ def main():
     
     ###USED TO MAKE ONE HOT ENCODING OF INDUSTRY
     #df = one_hot_encode(df, c_name = 'Industry',sparsev=True)
-    #oh_names = df.iloc[:,-125:].columns
+    #oh_names = df.iloc[:,-130:].columns
     #index_oh = 11
     #for n in oh_names: # To move to position i'd like
     #    df.insert(index_oh,n,df.pop(n))
     #    index_oh+= 1
     #df.to_excel('PostOneHotStockData.xlsx')
+    #e.save_obj(df,'2YStockDFLowCriteriaG')
     #############################
-    #e.save_obj(df,'2YStockDFBcleaner')
 
 
 
     ###USED TO SCALE PRICE AND VOLUME COLUMNS BY ROW   
-    #print('telumpt')
-    #df[filter_ppw] = log_normal_scale_rows(price_per_week_df)
-    #df[filter_vpw] = log_normal_scale_rows(volume_per_week_df)
     
+    print('telumpt')
+    df[filter_ppw] = log_normal_scale_rows(price_per_week_df)
+    df[filter_vpw] = log_normal_scale_rows(volume_per_week_df)
+    df.to_excel('PostScaling.xlsx')
+    e.save_obj(df,'2YStockDFLowCriteria')
     
     ###USED TO MAKE LABEL COLUMN
     #df2 = pd.read_pickle('../data/PDPREONEHOT.pkl')
@@ -613,7 +618,8 @@ def main():
     #df['Label'] = df2_l
     #df.to_excel('ReadyData.xlsx')
     #e.save_obj(df,'2YStockDFBcleaner')
-    #print('Donzo')
+    
+    print('Donzo')
     
     f.close()
     

@@ -1,0 +1,2 @@
+prepare_Stock_Scraper() took 3482.4135 seconds for the larger pool
+query_and_format_yfinance_data for this quarter of ticker names took 745.8681 seconds

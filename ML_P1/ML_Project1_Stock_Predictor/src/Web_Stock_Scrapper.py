@@ -51,21 +51,25 @@ class StockScraperHelper(object):
         else:
             if len(x) > 1:
                 rnum = float(x[:-1]) * num_map.get(x[-1].upper(), 1)
-        return int(rnum)
+        return int(rnum+0.5)
 
     def remove_empty(self,row):
         for x in row:
             if x == '-':
                 x = np.nan
 
+    def float_convert(self,val):
+        if val == '-':
+            return np.nan
+        else:
+            return float(val)
     def row_to_dict(self,row):
         del row[0]
         del row[1]
         del row[-4]
         self.remove_empty(row)
-         
         return {'Ticker':row[0],'Sector':row[1],'Industry':row[2],'Country':row[3],'Market Cap': self.nabbr_to_number(row[4]),
-                'Price':float(row[5]),'Change':float(row[6].strip('%'))/100,'Volume': int(row[7].replace(',',''))}
+                'Price':self.float_convert(row[5]),'Change':self.float_convert(row[6].strip('%'))/100,'Volume': self.float_convert(row[7].replace(',',''))}
 
     
     '''
@@ -170,7 +174,7 @@ class StockScraper(object):
         maxPrice - Filter for certain maximum Price. Default 1000
         volume - Filter for certain Volume. Default 200,000
     '''
-    def get_all_stock_table_information(self,url,sector='all',industry='all',country='all',market_cap='all',minPrice=8,maxPrice=1000,volume=200000,minimal = True):
+    def get_all_stock_table_information(self,url,sector='all',industry='all',country='all',market_cap='all',minPrice=2.50,maxPrice=2000,volume=200000,minimal = True):
         '''
         First we get soup and find the td with class 'count-text'. This'll give us the total number of
         tickers.
