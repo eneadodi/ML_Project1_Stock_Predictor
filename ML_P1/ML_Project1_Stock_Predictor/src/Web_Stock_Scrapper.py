@@ -72,12 +72,10 @@ class StockScraperHelper(object):
                 'Price':self.float_convert(row[5]),'Change':self.float_convert(row[6].strip('%'))/100,'Volume': self.float_convert(row[7].replace(',',''))}
 
     
-    '''
-    Given a list of ticker names from Stock Scraper, this method will pull information from yfinance API and make it 
-    ready for Stock Scraper to push into scraped_info variable.
-    '''
-    def query_yfinance_data(self,tickers):
-        pass
+    def print_tickers(self,scraped_ticks):
+    
+        for i in scraped_tickers:
+            print(i)
 '''
 This class will be used to scrape information from Finviz.com and extract information from yfinance.
 '''
@@ -91,7 +89,7 @@ class StockScraper(object):
         self.scraped_info = []
         self.scraped_tickers = []
         self.HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'}
-        #Used to prevent authroitzation issues.
+        #Used to prevent authorization issues.
     
     """
     param: url
@@ -284,6 +282,6 @@ class StockScraper(object):
     
     
     def print_tickers(self):
-        
-        for i in self.scraped_tickers:
+        self.helper.print_tickers(self.scraped_tickers)
+        for i in scraped_tickers:
             print(i)
