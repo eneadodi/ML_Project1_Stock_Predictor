@@ -90,16 +90,18 @@ def get_null_information(filename,df,remove_worst = False):
     serc_outliers = serc[(serc >= serc_m + 1*serc_std)]
     serc_outliers.sort_values(ascending=False,inplace=True,na_position='first')
 
+    size = str(len(df.index))
+    
     f.write("VOLUME NULL OUTLIERS: \n")
-    f.write(str(serv_outliers.shape[0]) + "/1859 are one standard deviation away from average null values per ticker\n")
+    f.write(str(serv_outliers.shape[0]) + "/" + size + " are one standard deviation away from average null values per ticker\n")
     f.write(serv_outliers.to_string())
     f.write("\n\n\n")
     f.write("PRICE NULL OUTLIERS: \n")
-    f.write(str(serp_outliers.shape[0]) +"/1859 are one standard deviation away from average null values per ticker\n")
+    f.write(str(serp_outliers.shape[0]) +"/" + size + " are one standard deviation away from average null values per ticker\n")
     f.write(serp_outliers.to_string())
     f.write("\n\n\n")
     f.write("CATEGORICAL NULL OUTLIERS: \n")
-    f.write(str(serc_outliers.shape[0]) +"/1859 are one standard deviation away from average null values per ticker\n")
+    f.write(str(serc_outliers.shape[0]) + "/" + size + " are one standard deviation away from average null values per ticker\n")
     f.write(serc_outliers.to_string())
     f.write("\n\n\n")
     
@@ -113,7 +115,7 @@ def get_null_information(filename,df,remove_worst = False):
     bad_stocks = set(serv_i).intersection(serp_i).intersection(serc_i)
     for b in bad_stocks:
         f.write(b)
-        f.write('\n-----\n')
+        f.write('\n\n')
     
     if remove_worst == True:
         for i in serp_i:
@@ -376,7 +378,7 @@ def one_hot_encode(df,c_name,contains_null = False,null_value = None,sparsev=Fal
         
         if null_value is None:
             if pd.isnull(x):
-                print_global_count() # Recommendations should be 55
+                print_global_count() # To see if I miss a null or not.
                 return 0
             else:
                 return 1
@@ -404,7 +406,7 @@ def log_normal_scale_rows(df):
     #First transform all values to log.
     for column in df:
         df.loc[:,column] = np.log(df[column])
-    df.to_excel('loNgBoisaa.xlsx')
+    
     scaler = StandardScaler()
     df2 = pd.DataFrame(columns = df.columns,index=df.index,data=scaler.fit_transform(df.values.T).T)
     return df2
@@ -461,7 +463,7 @@ def main():
     #df5y = pd.read_pickle('5yStockDF')
     #df.to_excel('bipbapboop4.xlsx')
     
-    df.drop(['ALRS','AKO-A','VHI','AMCR','ERYP','DBCP','DOOO','BIOX','WINS','CIZN','INFY','ATCO','DLNG','LMNL','ELLO','PNRG'],inplace=True)
+    
     #####Useful Filters
     filter_vpw = [col for col in df if ' Volume' in col]
     filter_ppw = [col for col in df if ' Close' in col]
