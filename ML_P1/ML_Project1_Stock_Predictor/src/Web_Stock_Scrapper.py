@@ -204,10 +204,6 @@ class StockScraper(object):
                 for k in keys:
                     del i[k]
         
-        
-        #filename = 'stock_info.txt'
-        #self.write_list_to_file(filename,l)
-        #print(l)
         self.scraped_info = l
         self.scraped_tickers = self.extract_tickers()
 
