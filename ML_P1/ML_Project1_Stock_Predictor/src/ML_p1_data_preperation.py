@@ -538,6 +538,8 @@ def price_volume_ratio_feature_creator(df,startd,endd,leave_final_two_price_colu
 '''Maybe two years of Dates is unnecessary? If so, we can increase the number of examples.
    If the length of the Dates is not integer divisible by splits, then it will not include the last split.
    Splits parameter MUST be less than amount of dates.
+   NOT TESTED
+   ----------
 '''
 def split_dates_v_and_p(df,startd,endd,splits=4):
     
@@ -596,31 +598,65 @@ def split_dates(df,startd,endd,splits=4):
     ilter_rpw = [col for col in df if ' Price/Volume' in col]
     filter_ntrv = [col for col in df if ' Price/Volume' not in col]
 
-    ratio_per_week_df = df[iter_rpw]
-    
+    ratio_per_week_df = df[ilter_rpw]
     categorical_values_df = df[filter_ntrv]
     
+    
     #Total amount of Date Columns
-    total_cols = len(ratio_per_week_df.columns)
+    total_date_cols = len(ratio_per_week_df.columns)
     
     #Splitting dates will result in the column names needing to be changed.
     #Thus the new columns will be Date(xY) where Y is the Yth date plus the normal nondate columns
-    counter = 1
+    counter = 1 # For Y value
     new_cols = list(categorical_values_df.columns)   
-    for i in range(int((total_cols/splits)+0.99999)): #if perfect split, then don't add 1 to range.
+    new_cols_dates_length = int((total_date_cols/splits)+0.99999)
+    
+    for i in range(new_cols_dates_length): #if perfect split, then don't add 1 to range.
         new_cols.append('Date(X'+str(counter)+') Price/Volume')
+        counter+=1
+    
+    '''Because we will likely have a final split with less columns than the preivous splits, then
+    we need to append nan columns to the final split until they are equal in column lengths to use
+    pd.concat on the list of dataframes. To do this I will need a new list that simply appends the lengths
+    of each split.columns
+    '''
+    split_columns_length = [] 
     
     sddf = pd.DataFrame(columns=new_cols)
+    split_dfs = []
     
-    splitr = split(list(ratio_per_week_df.columns),splits)
+    '''We need to track the final week Closing for each split to use as label. Thus we need to return 
+    a list containing the final two column names of each split. We can use the date on these to calculate
+    the labels
+    '''
+    final_two_each_split = []
     
+    splitr = split(list(ratio_per_week_df.columns),new_cols_dates_length)
+    handle_final_split = 1
+
     for i in range(splits):
-        df_split = df[next(splitr)]
+        
+        df_split = ratio_per_week_df[next(splitr)]
+        final_two_each_split.append(df_split.iloc[:,-2:].columns)
+        
+        split_columns_length.append((len(df_split.columns) + len(categorical_values_df.columns)))
         sddf_part = categorical_values_df.join(df_split)
-        sddf = sddf.append(sddf_part)
+        
+        if handle_final_split == splits: 
+            iterations = split_columns_length[0] - split_columns_length[-1]
+            print('made it here')
+            for i in range(iterations):
+                sddf_part['NAN COLUMNS ' + str(i)] = np.nan 
+                
+        sddf_part.columns = new_cols
+        #sddf_part.to_excel('split'+str(handle_final_split)+'.xlsx')
+        handle_final_split+=1
+        split_dfs.append(sddf_part)
+        
     
-    sddf.to_excel("splittingv1.xlsx")
-    return sddf
+    sddf = pd.concat(split_dfs)
+    #sddf.to_excel("splittingv1.xlsx")
+    return final_two_each_split,sddf
     
 def main():
     
@@ -632,7 +668,7 @@ def main():
     
     
     
-    df = pd.read_pickle('../data/2YStockDFLowCriteria.pkl')
+    df = pd.read_pickle('../data/2YStockDFRatio.pkl')
     
     #e.save_obj(df,'2YStockDFLowCriteria')
     #df5y = pd.read_pickle('5yStockDF')
@@ -812,10 +848,24 @@ def main():
     
     
     ###USED TO MAKE DATASET WITH PRICE/VOLUME RATIO FEATURE
-    #dstart2y = [2018,8,6]
-    #dend = [2020,8,10]
+    dstart2y = [2018,8,6]
+    dend = [2020,8,10]
     #pdr = price_volume_ratio_feature_creator(df, dstart2y, dend)
     #e.save_obj(pdr,'2YStockDFRatio')
+    
+    
+    ###USED TO MAKE ALTERNATE DATAFRAME WITH LESS COLUMNS AND MORE ROWS. Removes all non Dated values too.
+    df = df.drop(labels = ['Date: 2020-08-03 Close','Date: 2020-08-10 Close'],axis=1)
+    sdf_label_cols, sdf = split_dates(df, dstart2y, dend, 4)
+    filter_ntrv = [col for col in sdf if ' Price/Volume' not in col]
+    sdf.drop(df[filter_ntrv],axis=1,inplace=True)
+    print('making excel')
+    sdf.to_excel('splitRatioOnly.xlsx')
+    e.save_obj(sdf,'2YStockDFRatioSplit')
+    e.save_obj(sdf_label_cols,'2YStockDFRatioSplitLabelColumns')
+    for i in sdf_label_cols:
+        print(i)
+    
     
     
     print('Donzo')
