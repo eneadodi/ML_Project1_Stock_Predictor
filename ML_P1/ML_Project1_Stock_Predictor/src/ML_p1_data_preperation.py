@@ -28,8 +28,8 @@ from numpy import NaN
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
 def filtered_columns(df):
-    filter_vpw = [col for col in df if 'Volume' in col]
-    filter_ppw = [col for col in df if 'Close' in col]
+    filter_vpw = [col for col in df if ' Volume' in col]
+    filter_ppw = [col for col in df if ' Close' in col]
     time_rv = filter_vpw + filter_ppw
     filter_ntrv = [col for col in df if col not in time_rv]
 
@@ -49,7 +49,7 @@ def date_column_name_creator(startd,endd,extension="",date_as_string=True):
     end = datetime(endd[0],endd[1],endd[2])
     l = []
     for dt in rrule.rrule(rrule.WEEKLY,dtstart=start,until=end):
-        if dateclass == True:
+        if date_as_string == True:
             l.append(str(dt.date()) + extension)
         else:
             l.append(dt.date())
@@ -157,7 +157,7 @@ To print all information onto console rather than truncated version.
 '''
 def print_full(x):
     pd.set_option('display.max_rows', len(x))
-    pd.set_option('display.max_columns', None)
+    #pd.set_option('display.max_columns', None)
     pd.set_option('display.width', 2000)
     pd.set_option('display.float_format', '{:20,.2f}'.format)
     pd.set_option('display.max_colwidth', None)
@@ -478,10 +478,10 @@ def remove_bad_ticks_by_group(df,occurences,group_n):
     return df
 
 ''''Sector may be unnecessary because industry is a feature'''
-def remove_sector(df):
-    cols = [c for c in df.columns if 'Sector_' not in c]
+def remove_category(df,substring):
+    cols = [c for c in df.columns if substring not in c]
     rsdf = df[cols]
-    rsdf.to_excel('rsDF.xlsx')
+    rsdf.to_excel('rDF'+substring[:-1]+'.xlsx')
     return df
 
 
@@ -504,7 +504,6 @@ def price_volume_ratio_feature_creator(df,startd,endd,leave_final_two_price_colu
     #filters the volume and price DFs separately
     volume_per_week_df, price_per_week_df, categorical_values_df = filtered_columns(df)
     
-    
     #to save if needed later.
     final_two_prices = price_per_week_df.iloc[:,-2:].copy()
     
@@ -512,8 +511,11 @@ def price_volume_ratio_feature_creator(df,startd,endd,leave_final_two_price_colu
     #to get column names
     col_names = date_column_name_creator(startd, endd, ' Price/Volume')
     
+    
     #Create new feature which is the ratio of price and week.
-    new_feat = price_per_week_df / volume_per_week_df
+    new_feat = price_per_week_df/volume_per_week_df.values[:,:]
+    print('SIZE ,' , len(new_feat.columns))
+    #print_full(new_feat)
     new_feat.columns = col_names
     
     new_feat.to_excel('ratio.xlsx')
@@ -522,12 +524,17 @@ def price_volume_ratio_feature_creator(df,startd,endd,leave_final_two_price_colu
     new_feat = lognormal_scale_rows(new_feat)
      
     #create new DataFrame with price and volume replaced with the ratio price/volume
-    pvrfdf = categorical_values_df.join(new_feat,inplace=True)
+    pvrfdf = categorical_values_df.join(new_feat)
+
+    if leave_final_two_price_columns == True:
+        pvrfdf = pvrfdf.join(final_two_prices)
+        
     pvrfdf.to_excel('ratiofit.xlsx')
     
     return pvrfdf
-
-
+    
+    
+    
 '''Maybe two years of Dates is unnecessary? If so, we can increase the number of examples.
    If the length of the Dates is not integer divisible by splits, then it will not include the last split.
    Splits parameter MUST be less than amount of dates.
@@ -626,6 +633,8 @@ def main():
     
     
     df = pd.read_pickle('../data/2YStockDFLowCriteria.pkl')
+    
+    #e.save_obj(df,'2YStockDFLowCriteria')
     #df5y = pd.read_pickle('5yStockDF')
     #df.to_excel('bipbapboop4.xlsx')
     
@@ -634,7 +643,7 @@ def main():
     volume_per_week_df, price_per_week_df, categorical_values_df = filtered_columns(df)
     ############################
     
-    
+
     ####To get information on what values are still mising or NULL
     #ndf = categorical_values_df.isnull().sum(axis=0) #change categorical_values with volume_per_week or price_per_week if needed
     #print_full(ndf)
@@ -783,6 +792,31 @@ def main():
     #df['Label'] = df2_l
     #df.to_excel('ReadyData.xlsx')
     #e.save_obj(df,'2YStockDFBcleaner')
+    #############################
+    
+    
+    
+    
+    
+    ###USED TO MAKE DATASETS WITH REMOVED COLUMNS
+    #se = remove_category(df2,'Sector_')
+    #ind = remove_category(df2,'Industry_')
+    #vol = remove_volume(df2)
+    #
+    #e.save_obj(se,'2YStockDFSR')
+    #e.save_obj(ind,'2YStockDFIR')
+    #e.save_obj(vol,'2YStockDFVR')
+    #############################
+    
+    
+    
+    
+    ###USED TO MAKE DATASET WITH PRICE/VOLUME RATIO FEATURE
+    #dstart2y = [2018,8,6]
+    #dend = [2020,8,10]
+    #pdr = price_volume_ratio_feature_creator(df, dstart2y, dend)
+    #e.save_obj(pdr,'2YStockDFRatio')
+    
     
     print('Donzo')
     
