@@ -27,6 +27,34 @@ from pandas.tests.reshape.test_pivot import dropna
 from numpy import NaN
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
+def filtered_columns(df):
+    filter_vpw = [col for col in df if 'Volume' in col]
+    filter_ppw = [col for col in df if 'Close' in col]
+    time_rv = filter_vpw + filter_ppw
+    filter_ntrv = [col for col in df if col not in time_rv]
+
+    volume_per_week_df = df[filter_vpw]
+    price_per_week_df = df[filter_ppw]
+    categorical_values_df = df[filter_ntrv]
+    return volume_per_week_df,price_per_week_df,categorical_values_df;
+
+'''
+Simple little helper function which creates a list of names for columns
+given the start date and end date.
+Interval is weekly.
+THIS METHOD WAS CREATED AFTER pick_date_range
+'''
+def date_column_name_creator(startd,endd,extension="",date_as_string=True):
+    start = datetime(startd[0],startd[1],startd[2])
+    end = datetime(endd[0],endd[1],endd[2])
+    l = []
+    for dt in rrule.rrule(rrule.WEEKLY,dtstart=start,until=end):
+        if dateclass == True:
+            l.append(str(dt.date()) + extension)
+        else:
+            l.append(dt.date())
+    return l
+
 '''
 Yfinance gave many null dates that were between the weekly intervals. As in, 
 if a week time is 2020-07-06 to 2020-07-13, then any values that were between these two dates are all null for all stocks. 
@@ -402,7 +430,7 @@ def one_hot_encode(df,c_name,contains_null = False,null_value = None,sparsev=Fal
 Stock prices are approximately log normal. Thus I decided on first transforming
 stock price X -> Y = ln(x) then using the Standard scalar of sklearn.
 '''
-def log_normal_scale_rows(df):
+def lognormal_scale_rows(df):
     #First transform all values to log.
     for column in df:
         df.loc[:,column] = np.log(df[column])
@@ -449,6 +477,144 @@ def remove_bad_ticks_by_group(df,occurences,group_n):
 
     return df
 
+''''Sector may be unnecessary because industry is a feature'''
+def remove_sector(df):
+    cols = [c for c in df.columns if 'Sector_' not in c]
+    rsdf = df[cols]
+    rsdf.to_excel('rsDF.xlsx')
+    return df
+
+
+def remove_volume(df):
+    cols = [c for c in df.columns if ' Volume' not in c]
+    rvdf = df[cols]
+    rvdf.to_excel('rvDF.xlsx')
+    return rvdf 
+
+
+        
+        
+''''A price/volume ratio that is lognormally scaled will likely be a better feature
+than each individually. If needed to create lavel, final two price columns can optionally 
+be saved and concatenated at the end.
+Dates: 08-06-2018 -> 08-14-2020 
+'''
+def price_volume_ratio_feature_creator(df,startd,endd,leave_final_two_price_columns = True):
+    
+    #filters the volume and price DFs separately
+    volume_per_week_df, price_per_week_df, categorical_values_df = filtered_columns(df)
+    
+    
+    #to save if needed later.
+    final_two_prices = price_per_week_df.iloc[:,-2:].copy()
+    
+    
+    #to get column names
+    col_names = date_column_name_creator(startd, endd, ' Price/Volume')
+    
+    #Create new feature which is the ratio of price and week.
+    new_feat = price_per_week_df / volume_per_week_df
+    new_feat.columns = col_names
+    
+    new_feat.to_excel('ratio.xlsx')
+    
+    #lognormally scale new_feat
+    new_feat = lognormal_scale_rows(new_feat)
+     
+    #create new DataFrame with price and volume replaced with the ratio price/volume
+    pvrfdf = categorical_values_df.join(new_feat,inplace=True)
+    pvrfdf.to_excel('ratiofit.xlsx')
+    
+    return pvrfdf
+
+
+'''Maybe two years of Dates is unnecessary? If so, we can increase the number of examples.
+   If the length of the Dates is not integer divisible by splits, then it will not include the last split.
+   Splits parameter MUST be less than amount of dates.
+'''
+def split_dates_v_and_p(df,startd,endd,splits=4):
+    
+    
+    #Generator to return list sections by size n
+    def split(l,n):
+        for i in range(0,len(l),n):
+            yield l[i:i+n]
+            
+            
+            
+    #filters the volume and price DFs separately
+    volume_per_week_df, price_per_week_df, categorical_values_df = filtered_columns(df)
+    
+    #Total amount of Date Columns
+    total_cols = len(volume_per_week_df.columns)
+    
+    #Splitting dates will result in the column names needing to be changed.
+    #Thus the new columns will be Date(xY) where Y is the Yth date plus the normal nondate columns
+    counter = 1
+    new_cols = list(categorical_values_df.columns)   
+    for i in range(int((total_cols/splits)+0.99999)): #if perfect split, then don't add 1 to range.
+        new_cols.append('Date(X'+str(counter)+') Price')
+        new_cols.append('Date(X'+str(counter)+') Volume')
+
+           
+    
+    sddf = pd.DataFrame(columns=new_cols)
+    
+    splitv = split(list(volume_per_week_df.columns),splits)
+    splitp = split(list(price_per_week_df.columns),splits)
+    
+    for i in range(splits):
+        df_v_split = df[next(splitv)]
+        df_p_split = df[next(splitp)]
+        df_split = df_v_split.join(df_p_split)
+        df_split.reindex_axis(df_split.columns[::2].tolist() + df_split.columns[1::2].tolist(), axis=1)
+        sddf_part = categorical_values_df.join(df_split)
+        sddf = sddf.append(sddf_part)
+    
+    sddf.to_excel("splittingv1.xlsx")
+    return sddf
+
+'''
+When the ratio dataframe is used, this method should be used rather than split_dates_v_and_p
+'''
+def split_dates(df,startd,endd,splits=4):
+    #Generator to return list sections by size n
+    def split(l,n):
+        for i in range(0,len(l),n):
+            yield l[i:i+n]
+            
+            
+            
+    #filters the volume and price DFs separately
+    ilter_rpw = [col for col in df if ' Price/Volume' in col]
+    filter_ntrv = [col for col in df if ' Price/Volume' not in col]
+
+    ratio_per_week_df = df[iter_rpw]
+    
+    categorical_values_df = df[filter_ntrv]
+    
+    #Total amount of Date Columns
+    total_cols = len(ratio_per_week_df.columns)
+    
+    #Splitting dates will result in the column names needing to be changed.
+    #Thus the new columns will be Date(xY) where Y is the Yth date plus the normal nondate columns
+    counter = 1
+    new_cols = list(categorical_values_df.columns)   
+    for i in range(int((total_cols/splits)+0.99999)): #if perfect split, then don't add 1 to range.
+        new_cols.append('Date(X'+str(counter)+') Price/Volume')
+    
+    sddf = pd.DataFrame(columns=new_cols)
+    
+    splitr = split(list(ratio_per_week_df.columns),splits)
+    
+    for i in range(splits):
+        df_split = df[next(splitr)]
+        sddf_part = categorical_values_df.join(df_split)
+        sddf = sddf.append(sddf_part)
+    
+    sddf.to_excel("splittingv1.xlsx")
+    return sddf
+    
 def main():
     
     f = open('XXXXXX.txt','a')
@@ -465,20 +631,13 @@ def main():
     
     
     #####Useful Filters
-    filter_vpw = [col for col in df if ' Volume' in col]
-    filter_ppw = [col for col in df if ' Close' in col]
-    time_rv = filter_vpw + filter_ppw
-    filter_ntrv = [col for col in df if col not in time_rv]
-    #
-    volume_per_week_df = df[filter_vpw]
-    price_per_week_df = df[filter_ppw]
-    categorical_values_df = df[filter_ntrv]
+    volume_per_week_df, price_per_week_df, categorical_values_df = filtered_columns(df)
     ############################
     
-
+    
     ####To get information on what values are still mising or NULL
-    ndf = categorical_values_df.isnull().sum(axis=0)
-    print_full(ndf)
+    #ndf = categorical_values_df.isnull().sum(axis=0) #change categorical_values with volume_per_week or price_per_week if needed
+    #print_full(ndf)
     ############################
 
     
@@ -594,13 +753,17 @@ def main():
 
 
 
-    ###USED TO SCALE PRICE AND VOLUME COLUMNS BY ROW   
+    ###USED TO SCALE PRICE AND VOLUME COLUMNS BY ROW    
+    #print('telumpt')
+    #df[filter_ppw] = log_normal_scale_rows(price_per_week_df)
+    #df[filter_vpw] = log_normal_scale_rows(volume_per_week_df)
+    #df.to_excel('PostScaling.xlsx')
+    #e.save_obj(df,'2YStockDFLowCriteria')
+    #############################
     
-    print('telumpt')
-    df[filter_ppw] = log_normal_scale_rows(price_per_week_df)
-    df[filter_vpw] = log_normal_scale_rows(volume_per_week_df)
-    df.to_excel('PostScaling.xlsx')
-    e.save_obj(df,'2YStockDFLowCriteria')
+    
+    
+    
     
     ###USED TO MAKE LABEL COLUMN
     #df2 = pd.read_pickle('../data/PDPREONEHOT.pkl')
