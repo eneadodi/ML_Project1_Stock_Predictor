@@ -852,19 +852,22 @@ def main():
     dend = [2020,8,10]
     #pdr = price_volume_ratio_feature_creator(df, dstart2y, dend)
     #e.save_obj(pdr,'2YStockDFRatio')
+    #############################
+    
+    
+    
     
     
     ###USED TO MAKE ALTERNATE DATAFRAME WITH LESS COLUMNS AND MORE ROWS. Removes all non Dated values too.
-    df = df.drop(labels = ['Date: 2020-08-03 Close','Date: 2020-08-10 Close'],axis=1)
-    sdf_label_cols, sdf = split_dates(df, dstart2y, dend, 4)
-    filter_ntrv = [col for col in sdf if ' Price/Volume' not in col]
-    sdf.drop(df[filter_ntrv],axis=1,inplace=True)
-    print('making excel')
-    sdf.to_excel('splitRatioOnly.xlsx')
-    e.save_obj(sdf,'2YStockDFRatioSplit')
-    e.save_obj(sdf_label_cols,'2YStockDFRatioSplitLabelColumns')
-    for i in sdf_label_cols:
-        print(i)
+    #df = df.drop(labels = ['Date: 2020-08-03 Close','Date: 2020-08-10 Close'],axis=1)
+    #sdf_label_cols, sdf = split_dates(df, dstart2y, dend, 4)
+    #filter_ntrv = [col for col in sdf if ' Price/Volume' not in col]
+    #sdf.drop(df[filter_ntrv],axis=1,inplace=True)
+    #print('making excel')
+    #sdf.to_excel('splitRatioOnly.xlsx')
+    #e.save_obj(sdf,'2YStockDFRatioSplit')
+    #e.save_obj(sdf_label_cols,'2YStockDFRatioSplitLabelColumns')
+    #############################
     
     
     
