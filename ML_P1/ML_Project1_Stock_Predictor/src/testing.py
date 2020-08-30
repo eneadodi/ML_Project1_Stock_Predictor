@@ -21,29 +21,8 @@ from yfinance.utils import auto_adjust
 
     
 def main():
-    #df = pd.read_pickle('../data/PRE_OHE_LOW_CRITERIA.pkl')
-    df = pd.read_pickle('../data/2YStockDFLowCriteria.pkl')
-    #####Useful Filters
-    filter_vpw = [col for col in df if ' Volume' in col]
-    filter_ppw = [col for col in df if ' Close' in col]
-    time_rv = filter_vpw + filter_ppw
-    filter_ntrv = [col for col in df if col not in time_rv]
-    #
-    volume_per_week_df = df[filter_vpw]
-    price_per_week_df = df[filter_ppw]
-    categorical_values_df = df[filter_ntrv]
-    ############################
     
-    subs = price_per_week_df.iloc[200]
     
-    y = subs.to_numpy()
-    x = range(106)
-    poly = np.polyfit(x,y,30)
-    poly_y = np.poly1d(poly)(x)
-    plt.plot(x,poly_y)
-    plt.plot(x,y)
-    print(y[0:5]) 
-    print(poly_y[0:5]) 
-    plt.show()
+    
 if __name__ == '__main__':
     main()
