@@ -355,7 +355,7 @@ def SVM_process():
     return model
 
 #From Google Machine Learning Crash Course
-def create_logistic_model():
+def create_Logistic_model():
   """Create and compile a simple classification model."""
   # Most simple tf.keras models are sequential.
   model = tf.keras.models.Sequential()
@@ -378,7 +378,7 @@ def create_logistic_model():
   return model    
 
 #From Google Machine Learning Crash Course
-def train_model(model, dataset, epochs, label_name,
+def train_Logistic_model(model, dataset, epochs, label_name,
                 batch_size=None, shuffle=True):
   """Feed a dataset into the model in order to train it."""
 
