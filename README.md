@@ -60,3 +60,7 @@ I will be using TensorFlow, Pandas, Numpy, and Matplotlib for the development an
 Information on my developed algorithm, such as features, representation, evaluation, failure scenarios, ideal outcomes, bias prevention, etc can be found on the Jupyter Notebook on this repository. 
 
 Hope you enjoy!
+
+Note: As I was working on both a Java project and a Python project at the same time, I did my best to adhere to code conventions of the individual projects. However, there is a possibility I camel-cased something in Python, or I snake-cased something in Java and I was unable to catch it doing read throughs of my code due to working on both projects at the same time. If there are conventions I am not following please feel free to contact me!
+
+Contact: eneadodi@umass.edu
