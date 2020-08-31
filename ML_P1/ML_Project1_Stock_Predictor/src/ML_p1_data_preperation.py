@@ -435,13 +435,29 @@ def lognormal_scale_rows(df):
     print('length pre: ', df.shape)
     for column in df:
         df.loc[:,column] = np.log(df[column])
-        for index, row in df.iterrows():
-            if np.isinf(row.iloc[column]) == True:
-                df.drop(df.loc[index],axis=0,inplace=True)
+        
+    df = df[~df.isin([np.nan, np.inf, -np.inf]).any(1)]
+
     print('length post: ', df.shape)
     scaler = StandardScaler()
     df2 = pd.DataFrame(columns = df.columns,index=df.index,data=scaler.fit_transform(df.values.T).T)
     return df2,scaler
+
+def normal_scale_rows(df):
+    print('length post: ', df.shape)
+    scaler = StandardScaler()
+    df2 = pd.DataFrame(columns = df.columns,index=df.index,data=scaler.fit_transform(df.values.T).T)
+    return df2,scaler
+
+def log_scale_rows(df):
+    #First transform all values to log.
+    print('length pre: ', df.shape)
+    for column in df:
+        df.loc[:,column] = np.log(df[column])
+    return df
+
+    
+
 
 '''
 It made sense to scale ticker Income and Sales based on the Sector group that they belong in.
@@ -503,7 +519,7 @@ than each individually. If needed to create lavel, final two price columns can o
 be saved and concatenated at the end.
 Dates: 08-06-2018 -> 08-14-2020 
 '''
-def price_volume_ratio_feature_creator(df,startd,endd,leave_final_two_price_columns = True):
+def price_volume_ratio_feature_creator(df,startd=True,endd=True,leave_final_two_price_columns = False,date_version=True):
     
     #filters the volume and price DFs separately
     volume_per_week_df, price_per_week_df, categorical_values_df = filtered_columns(df)
@@ -511,11 +527,15 @@ def price_volume_ratio_feature_creator(df,startd,endd,leave_final_two_price_colu
     #to save if needed later.
     final_two_prices = price_per_week_df.iloc[:,-2:].copy()
     
-    
     #to get column names
-    col_names = date_column_name_creator(startd, endd, ' Price/Volume')
-    
-    
+    if date_version == True:
+        col_names = date_column_name_creator(startd, endd, ' Price/Volume')
+    else:
+        col_names = []
+        names = volume_per_week_df.columns
+        for col in names:
+            col_names.append(col[0:8] + ' Price/Volume')
+            
     #Create new feature which is the ratio of price and week.
     new_feat = price_per_week_df/volume_per_week_df.values[:,:]
     print('SIZE ,' , len(new_feat.columns))
@@ -525,15 +545,52 @@ def price_volume_ratio_feature_creator(df,startd,endd,leave_final_two_price_colu
     new_feat.to_excel('ratio.xlsx')
     
     #lognormally scale new_feat
-    new_feat = lognormal_scale_rows(new_feat)
-     
+    '''
+    Because lognormally scaling automatically removes rows with inf values, 
+    we can 'hack' lognormal_scale_rows by passing in a concatenated df of
+    new_feat and categorical_values, and then removing the bunch together.
+    '''
+    if date_version == True:     
+        new_feat,s = lognormal_scale_rows(new_feat)
+    else:
+        #first we simply log
+        new_feat = log_scale_rows(new_feat)
+        print(new_feat.shape)
+        #then we remove all inf bois
+        proxy_df = pd.concat([categorical_values_df,new_feat],axis=1)
+        proxy_df = proxy_df[~proxy_df.isin([np.nan, np.inf, -np.inf]).any(1)]
+        print('d')
+        print(proxy_df.shape)
+        print('got here')
+        filt = [c for c in proxy_df.columns if 'Price/Volume' in c]
+        filt2 = [c for c in proxy_df.columns if 'Price/Volume' not in c]
+        new_feat = proxy_df[filt]
+        categorical_values_df = proxy_df[filt2]
+        new_feat , s = normal_scale_rows(new_feat)
+        
+    print(categorical_values_df.shape)
+    print(new_feat.shape)
+    
     #create new DataFrame with price and volume replaced with the ratio price/volume
-    pvrfdf = categorical_values_df.join(new_feat)
-
+    if date_version == True:
+        pvrfdf = categorical_values_df.join(new_feat)
+    else:
+        columns = list(categorical_values_df)
+        columns2 = list(new_feat)
+        conc_df = []
+        
+        
+        for i in columns:
+            conc_df.append(categorical_values_df[i])
+        
+        conc_df.append(new_feat)
+        
+        pvrfdf = pd.concat(conc_df,axis=1)
+        print(pvrfdf.shape)
     if leave_final_two_price_columns == True:
         pvrfdf = pvrfdf.join(final_two_prices)
         
-    pvrfdf.to_excel('ratiofit.xlsx')
+    #pvrfdf.to_excel('ratiofit.xlsx')
     
     return pvrfdf
     
@@ -542,8 +599,6 @@ def price_volume_ratio_feature_creator(df,startd,endd,leave_final_two_price_colu
 '''Maybe two years of Dates is unnecessary? If so, we can increase the number of examples.
    If the length of the Dates is not integer divisible by splits, then it will not include the last split.
    Splits parameter MUST be less than amount of dates.
-   NOT TESTED
-   ----------
 '''
 def split_dates_v_and_p(df,startd,endd,splits=4):
     
@@ -556,36 +611,68 @@ def split_dates_v_and_p(df,startd,endd,splits=4):
             
             
     #filters the volume and price DFs separately
-    volume_per_week_df, price_per_week_df, categorical_values_df = filtered_columns(df)
+    volume_per_week_df, price_per_week_df, categorical_values_df = p.filtered_columns(df)
     
     #Total amount of Date Columns
-    total_cols = len(volume_per_week_df.columns)
+    total_date_cols = len(volume_per_week_df.columns)
     
     #Splitting dates will result in the column names needing to be changed.
     #Thus the new columns will be Date(xY) where Y is the Yth date plus the normal nondate columns
     counter = 1
     new_cols = list(categorical_values_df.columns)   
-    for i in range(int((total_cols/splits)+0.99999)): #if perfect split, then don't add 1 to range.
-        new_cols.append('Date(X'+str(counter)+') Price')
-        new_cols.append('Date(X'+str(counter)+') Volume')
+    new_cols_dates_length = int((total_date_cols/splits)+0.99999)
 
-           
+    for i in range(new_cols_dates_length): #if perfect split, then don't add 1 to range.
+
+        new_cols.append('Date(X'+str(counter)+') Volume')
+        counter += 1
+    
+    counter = 1
+    for i in range(new_cols_dates_length): #if perfect split, then don't add 1 to range.
+        new_cols.append('Date(X'+str(counter)+') Close')
+        counter += 1
+            
+    '''Because we will likely have a final split with less columns than the preivous splits, then
+    we need to append nan columns to the final split until they are equal in column lengths to use
+    pd.concat on the list of dataframes. To do this I will need a new list that simply appends the lengths
+    of each split.columns
+    '''
+    split_columns_length = [] 
     
     sddf = pd.DataFrame(columns=new_cols)
+    split_dfs = []
+    final_two_each_split = []
     
-    splitv = split(list(volume_per_week_df.columns),splits)
-    splitp = split(list(price_per_week_df.columns),splits)
+    splitr = split(list(price_per_week_df.columns),new_cols_dates_length)
+    handle_final_split = 1
+    splitr2 = split(list(volume_per_week_df.columns),new_cols_dates_length)
     
     for i in range(splits):
-        df_v_split = df[next(splitv)]
-        df_p_split = df[next(splitp)]
-        df_split = df_v_split.join(df_p_split)
-        df_split.reindex_axis(df_split.columns[::2].tolist() + df_split.columns[1::2].tolist(), axis=1)
-        sddf_part = categorical_values_df.join(df_split)
-        sddf = sddf.append(sddf_part)
+        print(i)
+        df_split1 = price_per_week_df[next(splitr)]
+        df_split2 = volume_per_week_df[next(splitr2)]
+        final_two_each_split.append(df_split1.iloc[:,-2:].columns)
+        
+        split_columns_length.append((len(df_split1.columns) + len(categorical_values_df.columns) + len(df_split2.columns)))
+        sddf_part = categorical_values_df.join(df_split2)
+        sddf_part = sddf_part.join(df_split1)
+        
+        if handle_final_split == splits: 
+            iterations = split_columns_length[0] - split_columns_length[-1]
+            print('made it here')
+            for i in range(iterations):
+                sddf_part['NAN COLUMNS ' + str(i)] = np.nan 
+                
+        sddf_part.columns = new_cols
+        #sddf_part.to_excel('split'+str(handle_final_split)+'.xlsx')
+        handle_final_split+=1
+        split_dfs.append(sddf_part)
+        
     
-    sddf.to_excel("splittingv1.xlsx")
-    return sddf
+    sddf = pd.concat(split_dfs)
+    #sddf.to_excel("splittingv1.xlsx")
+    return final_two_each_split,sddf
+           
 
 '''
 When the ratio dataframe is used, this method should be used rather than split_dates_v_and_p

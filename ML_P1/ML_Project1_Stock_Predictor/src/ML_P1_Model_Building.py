@@ -13,6 +13,7 @@ from tensorflow.keras import layers
 from sklearn.svm import SVC
 import ML_p1_data_preperation as p
 import copy
+from sklearn.metrics import classification_report, confusion_matrix
 
 #Keras imports
 from keras.models import Sequential
@@ -260,8 +261,186 @@ def fix_y_values(data):
         i.drop(labels='Volume', inplace=True)
     return data
 
-def main():
-    #df = pd.read_pickle('../data/2YStockDFLowCriteria.pkl')
+def SVM_process1():
+    
+    df = pd.read_pickle('../data/Low_Criteria_Pre_price_v_scale.pkl')
+    dstart2y = [2018,8,6]
+    dend = [2020,8,10]
+
+    final_two_split, df2 = split_dates_v_and_p(df,dstart2y,dend,5)
+    
+    df2 = df2.iloc[:13580]
+    
+    #now we split price and volume separately and remove last two columns of each split df
+
+    vpw,ppw,cw = p.filtered_columns(df2)
+    
+    label_price = copy.deepcopy(ppw[ppw.columns[-2:]])
+    ppw = ppw[ppw.columns[:-1]]
+    vpw = vpw[vpw.columns[:-1]]
+
+    #now we combine the columns again.
+    df2 = pd.concat([cw,vpw,ppw],axis=1)
+
+
+    #we make the label column and join it to df2.
+    label_price['Gain %'] =  label_price.apply(lambda row: ((row.iloc[1] - row.iloc[0])/np.abs(row.iloc[0]))*100,axis=1)
+    label_price['label'] = label_price.apply(lambda row: (1 if (row.loc['Gain %'] >= 3) else 0),axis=1)
+
+    l_col = label_price['label']
+    print(l_col.shape)
+    print(df2.shape)
+    df2 = pd.concat([df2,l_col],axis =1)
+    e.save_obj(df2,'second_check_pointSVM')
+
+    
+    print('done with svm process 1')
+    
+def SVM_process2():
+    df = pd.read_pickle('second_check_pointSVM.pkl')
+    #df.to_excel('sffs.xlsx')
+    df = p.price_volume_ratio_feature_creator(df,date_version=False)
+    label = df['label']
+    df.drop(columns='label',inplace=True)
+    df['Label'] = label
+    print('made it here!')
+    e.save_obj(df,'third_check_pointSVM')
+    print('done with svm process 2')
+    
+def SVM_process():
+    #SVM_process1()
+    #SVM_process2()
+    df = pd.read_pickle('../data/third_check_pointSVM.pkl')
+    
+    df_y = df['Label']
+    #on the SVM, we will not be using the Sector,Industry, Country
+    filt = []
+    filt.extend([c for c in df.columns if 'Industry_' in c])
+    filt.extend([c for c in df.columns if 'Sector_' in c])
+    filt.extend([c for c in df.columns if 'Country_' in c])
+    filt.append('Label')
+    filt = list(set(filt)) #to make sure there's no repeated values.
+    print('length of filter columns is: ' , len(filt))
+    print('pre')
+    print(df.shape)
+    df_x = df.drop(filt,axis=1)
+    
+    x_data = df_x.to_numpy()
+    y_data = df_y.to_numpy()
+    print('post')
+    print(x_data.shape)
+    
+    '''train/validate with 75% of the data. This was chosen 
+    to avoid training on the last 22 weeks because the SVM 
+    will in the future work in conjunction with logistic regression
+    and will be looking at the last 22 weeks there.
+    '''
+    x_train_data = x_data[:int(len(x_data)*0.74+0.5)]
+    y_train_data = y_data[:int(len(y_data)*0.74+0.5)]
+    
+    x_test_data = x_data[int(len(x_data)*0.74+0.5):]
+    y_test_data = y_data[int(len(y_data)*0.74+0.5):]
+    
+    print('time to train model')
+    
+    model = SVC(kernel='sigmoid')
+    history = model.fit(x_train_data,y_train_data)
+    print(history)
+    print(type(history))
+    
+    y_predict = model.predict(x_test_data)
+    confusion_m = np.array(confusion_matrix(y_test_data, y_predict,labels = [1,0]))
+    confusion_m = pd.DataFrame(confusion_m, index=['Went up 3%','Did not go up 3%'],columns=['Predicted up 3%','Predicted not go up 3%'])
+    confusion_m.to_excel('SVM_Confusion_Matrix_sigmoid_drop_country.xlsx')
+    return model
+
+#From Google Machine Learning Crash Course
+def create_logistic_model():
+  """Create and compile a simple classification model."""
+  # Most simple tf.keras models are sequential.
+  model = tf.keras.models.Sequential()
+
+  # Add the feature layer (the list of features and how they are represented)
+  # to the model.
+  model.add(feature_layer)
+
+  # Funnel the regression value through a sigmoid function.
+  model.add(tf.keras.layers.Dense(units=1, input_shape=(1,),
+                                  activation=tf.sigmoid),)
+
+  # Call the compile method to construct the layers into a model that
+  # TensorFlow can execute.  Notice that we're using a different loss
+  # function for classification than for regression.    
+  model.compile(optimizer=tf.keras.optimizers.RMSprop(lr=my_learning_rate),                                                   
+                loss=tf.keras.losses.BinaryCrossentropy(),
+                metrics=my_metrics)
+
+  return model    
+
+#From Google Machine Learning Crash Course
+def train_model(model, dataset, epochs, label_name,
+                batch_size=None, shuffle=True):
+  """Feed a dataset into the model in order to train it."""
+
+  # The x parameter of tf.keras.Model.fit can be a list of arrays, where
+  # each array contains the data for one feature.  Here, we're passing
+  # every column in the dataset. Note that the feature_layer will filter
+  # away most of those columns, leaving only the desired columns and their
+  # representations as features.
+  features = {name:np.array(value) for name, value in dataset.items()}
+  label = np.array(features.pop(label_name)) 
+  history = model.fit(x=features, y=label, batch_size=batch_size,
+                      epochs=epochs, shuffle=shuffle)
+  
+  # The list of epochs is stored separately from the rest of history.
+  epochs = history.epoch
+
+  # Isolate the classification metric for each epoch.
+  hist = pd.DataFrame(history.history)
+
+  return epochs, hist  
+
+def create_binary_label():
+    df2 = pd.read_pickle('../data/2YStockDFRatio.pkl')
+    
+    label_price = df2[df2.columns[-2:]]
+    df2.drop(['Date: 2020-08-03 Close','Date: 2020-08-10 Close','2020-08-10 Price/Volume','2020-08-03 Price/Volume'],inplace=True,axis=1)
+    
+    #we make the label column and join it to df2.
+    label_price['Gain %'] =  label_price.apply(lambda row: ((row.iloc[1] - row.iloc[0])/np.abs(row.iloc[0]))*100,axis=1)
+    label_price['label'] = label_price.apply(lambda row: (1 if (row.loc['Gain %'] >= 3) else 0),axis=1)
+
+    label_price.to_excel('ggwp.xlsx')
+    l_col = label_price['label']
+    print(l_col.shape)
+    print(df2.shape)
+    df = pd.concat([df2,l_col],axis =1)
+    df.to_excel('diditworkquestion.xlsx')
+    
+    
+def Logistic_process():
+    #svm_model = SVM_process()
+    
+    label = create_binary_label()
+    '''
+    learning_rate = 0.005
+    epochs = 64
+    batch_size = 32
+    classification_threshold = 0.5
+    METRICS = [
+      tf.keras.metrics.BinaryAccuracy(name='accuracy', 
+                                      threshold=classification_threshold),
+      tf.keras.metrics.Precision(thresholds=classification_threshold,
+                                 name='precision' 
+                                 ),
+      tf.keras.metrics.Recall(thresholds=classification_threshold,
+                              name="recall"),
+    ]
+    
+    logistic_model = create_logistic_model(learning_rate,feature_layer)
+    '''
+def LSTM_process():
+     #df = pd.read_pickle('../data/2YStockDFLowCriteria.pkl')
     #ticker_names = prepare_LSTM_data(df)
     #e.save_obj(ticker_names,'ticker_names')
     
@@ -291,5 +470,9 @@ def main():
 
     compare_LSTM_results(model,x_test,y_test,ticker_names)
     
+    
+   
+def main():
+   Logistic_process()
 if __name__ == '__main__':
     main()
