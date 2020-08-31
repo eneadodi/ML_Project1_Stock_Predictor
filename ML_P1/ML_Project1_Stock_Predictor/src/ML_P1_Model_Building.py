@@ -35,7 +35,7 @@ then this but for the purpose I think it's good enough.
 '''
 def compare_LSTM_results(model,x_test,y_test,ticker_names):
     df = pd.read_pickle('../data/Low_Criteria_Pre_price_v_scale.pkl')
-    df.to_excel('real_price.xlsx')
+    #df.to_excel('real_price.xlsx')
     vpw,ppw,cv = p.filtered_columns(df)
     p.print_full(ppw.head())
     
@@ -51,14 +51,15 @@ def compare_LSTM_results(model,x_test,y_test,ticker_names):
     #first I make new dataframe with only test values. Note log is already calculated.
     df4 = df.loc[ticker_names]
     
-    #then i split the last column:
+    #then i split the semi and last column:
+    semi_last_col = copy.deepcopy(df4.iloc[:,-2])
     last_col = copy.deepcopy(df4.iloc[:,-1])
     
     #then I run the predict.
     x_test = numpify_LSTM_data(x_test)
     y_test = numpify_LSTM_data(y_test)
 
-    predicted_stock_prices = model.predict(x_test)
+    predicted_stock_prices = model.predict(x_test,batch_size = 1)
     
     scaler2 = StandardScaler()
     
@@ -74,11 +75,38 @@ def compare_LSTM_results(model,x_test,y_test,ticker_names):
         df4.loc[:,column] = np.exp(df4[column])
     
     
-    compare_df = pd.concat([np.exp(last_col),df4.iloc[:,-1]],axis=1,sort=False)
-    compare_df.columns = ['Real Price','Predicted Price']
-    compare_df['Error %'] = compare_df.apply(lambda row: (np.abs((row.iloc[0]-row.iloc[1]))/np.abs((row.iloc[0]+row.iloc[1])/2))*100, axis=1)
-    compare_df.to_excel('LSTM_SPP_results.xlsx')
+    compare_df = pd.concat([np.exp(semi_last_col),np.exp(last_col),df4.iloc[:,-1]],axis=1,sort=False)
+    compare_df.columns = ['Previous Price', 'Real Next Price','Predicted Next Price']
+    compare_df['Error %'] = compare_df.apply(lambda row: (np.abs((row.iloc[1]-row.iloc[2]))/np.abs((row.iloc[1]+row.iloc[2])/2))*100, axis=1)
+    compare_df['Real % Change'] = compare_df.apply(lambda row: ((row.iloc[1] - row.iloc[0])/np.abs(row.iloc[0]))*100,axis=1)
+    compare_df['Predicted % Change'] = compare_df.apply(lambda row: ((row.iloc[2] - row.iloc[0])/np.abs(row.iloc[0]))*100,axis=1)
+    compare_df['Difference in % Change'] = compare_df.apply(lambda row: (row.loc['Real % Change'] - row.loc['Predicted % Change']),axis=1)
+    # to see if model predicted atleast 3 % increase when there was a 3% increase.
+    compare_df['Real Increase 3%'] = compare_df.apply(lambda row: (True if (row.loc['Real % Change'] >= 3.00) else False),axis=1)
+    compare_df['Predicted Increase 3%'] = compare_df.apply(lambda row: (True if  (row.loc['Predicted % Change'] >= 3.00) else False),axis=1)
     
+    #Could've done this as a if real and predicted increase 3% then True else false but I had implemented this before those two.
+    compare_df['Right Investment Prediction'] = compare_df.apply(lambda row: (True if ((row.loc['Real % Change'] >= 3.00) and (row.loc['Predicted % Change'] >= 3.00)) else False),axis=1)
+    
+    
+    compare_df.to_excel('LSTM_SPP_results2.xlsx')
+    
+    #Some statistics:
+    true_count_p = compare_df['Predicted Increase 3%'].sum()
+    true_count_r = compare_df['Real Increase 3%'].sum()
+    true_count_t = compare_df['Right Investment Prediction'].sum()
+    mean_error_pred = compare_df['Error %'].mean()
+    mean_perc_change = compare_df['Real % Change'].mean()
+    mean_p_perc_change = compare_df['Predicted % Change'].mean()
+    mean_diff_perc = compare_df['Difference in % Change'].mean()
+    
+    print('True count predicted 3% increase: ',true_count_p)
+    print('True count real 3% increase: ', true_count_r)
+    print('True count predicted and real 3% increase', true_count_t)
+    print('Mean error percentage between real and predicted',mean_error_pred)
+    print('Mean real % change: ',mean_perc_change)
+    print('Mean predicted % change: ', mean_p_perc_change)
+    print('Mean difference in % change: ',mean_diff_perc)
     
 '''From Google Machine Learning Crash Course'''
 def plot_the_loss_curve(epochs, mse):
@@ -91,7 +119,10 @@ def plot_the_loss_curve(epochs, mse):
   plt.plot(epochs, mse, label="Loss")
   plt.legend()
   plt.ylim([mse.min()*0.95, mse.max() * 1.03])
+  plt.savefig('LossCurve.png')
   plt.show()  
+  
+  
 
 
 def plot_test_results_to_real(real,predicted):
@@ -178,16 +209,15 @@ def create_LSTM_model(learning_rate,x_train):
     
     
     #layer 1
-    model.add(LSTM(units=60,return_sequences=True,input_shape=x_train.shape[1:]))
+    model.add(LSTM(units=64,return_sequences=True,input_shape=x_train.shape[1:]))
     model.add(Dropout(0.3))
     
     #layer 2
-    model.add(LSTM(units=60,return_sequences=True))
+    model.add(LSTM(units=64,return_sequences=True))
     model.add(Dropout(0.1))
     
-    
     #layer 3
-    model.add(LSTM(units=60,return_sequences=False))
+    model.add(LSTM(units=64,return_sequences=False))
     model.add(Dropout(0.2))
     
     
@@ -254,7 +284,7 @@ def main():
     print('ready to create model')
     model = create_LSTM_model(0.005,x_train)
     print('ready to train model')
-    epochs,mse,history = train_LSTM_model(model, x_train, y_train, 100, 20,v_split=0.2)
+    epochs,mse,history = train_LSTM_model(model, x_train, y_train, 64, 20,v_split=0.2)
     print('model trained.')
     list_of_metrics_to_plot = ['accuracy'] 
     plot_the_loss_curve(epochs, mse)

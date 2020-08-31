@@ -432,12 +432,16 @@ stock price X -> Y = ln(x) then using the Standard scalar of sklearn.
 '''
 def lognormal_scale_rows(df):
     #First transform all values to log.
+    print('length pre: ', df.shape)
     for column in df:
         df.loc[:,column] = np.log(df[column])
-    
+        for index, row in df.iterrows():
+            if np.isinf(row.iloc[column]) == True:
+                df.drop(df.loc[index],axis=0,inplace=True)
+    print('length post: ', df.shape)
     scaler = StandardScaler()
     df2 = pd.DataFrame(columns = df.columns,index=df.index,data=scaler.fit_transform(df.values.T).T)
-    return df2
+    return df2,scaler
 
 '''
 It made sense to scale ticker Income and Sales based on the Sector group that they belong in.
