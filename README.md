@@ -12,7 +12,6 @@ For the Summer of 2020 I decided to keep myself very busy with my fields of inte
 
 * Impletemented various algorithms from scratch (in C++ or Java) such as:
     * Djikstra's algorithm
-    * Kruskal's algorithm
     * BFS & DFS
     * Quicksort and Mergesort
  
@@ -55,7 +54,7 @@ This project is the second on the list: *A simple/fun ML project to have hands o
 
 The use of Artifical Intelligence for Stock Market Analysis/Prediction is a very big and competitive field. There are resources and websites which act as communities and API for developing your own algorithms and papers (such as [quandl](https://www.quandl.com/) and [quantopian](https://www.quantopian.com/)) however **my goal for this project is not to develop a industry standard algorithm, but rather have hands on experience with Machine Learning and the tools involved**
 
-I will be using TensorFlow, Pandas, Numpy, and Matplotlib for the development of the algorithm, as well as BeautifulSoup to scrape valuable information from stock analysis websites (such as [finviz](https://finviz.com/)). 
+I will be using TensorFlow, Pandas, Numpy, and Matplotlib for the development and analysis of the algorithm, as well as BeautifulSoup to scrape valuable information from stock analysis websites (such as [finviz](https://finviz.com/)). 
 **Big** thanks to Nicolas P. Rougier for [100 Numpy Exercises](https://github.com/rougier/numpy-100) and Alex Riley for [100 Pandas Exercises](https://github.com/ajcr/100-pandas-puzzles) which acted as tutorials for using Numpy and Pandas correctly for Machine Learning Projects.
 
 Information on my developed algorithm, such as features, representation, evaluation, failure scenarios, ideal outcomes, bias prevention, etc can be found on the Jupyter Notebook on this repository. 
